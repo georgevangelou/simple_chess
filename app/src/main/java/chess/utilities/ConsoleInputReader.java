@@ -13,7 +13,8 @@ import java.io.InputStreamReader;
 public class ConsoleInputReader {
     public String getUserInput() {
         try {
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            final InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+            final BufferedReader reader = new BufferedReader(inputStreamReader);
             return reader.readLine();
         } catch (final IOException ioException) {
             return "";
