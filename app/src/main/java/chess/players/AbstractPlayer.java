@@ -32,4 +32,8 @@ public abstract class AbstractPlayer {
     public PlayerColor getPlayerColor() {
         return playerColor;
     }
+
+    public boolean pieceBelongsToPlayer(final AbstractPiece piece) {
+        return this.getPieces().containsKey(piece.getId());
+    }
 }

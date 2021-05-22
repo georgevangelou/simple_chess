@@ -16,6 +16,11 @@ public class PlayerPiecesCreator {
     private final PlayerColor playerColor;
     private final Map<String, AbstractPiece> pieces = new HashMap<>();
 
+    /**
+     * Constructor which initializes all values on call.
+     *
+     * @param playerColor
+     */
     public PlayerPiecesCreator(final PlayerColor playerColor) {
         this.playerColor = playerColor;
         this.createPawns();
@@ -23,6 +28,9 @@ public class PlayerPiecesCreator {
     }
 
 
+    /**
+     * Only creates {@link Pawn}s.
+     */
     private void createPawns() {
         for (int x = 0; x < BoardDimensions.SIZE_X; x++) {
             int y = 1;
@@ -35,6 +43,9 @@ public class PlayerPiecesCreator {
         }
     }
 
+    /**
+     * Creates all {@link AbstractPiece}s except for {@link Pawn}s.
+     */
     private void createPiecesExceptFromPawns() {
         int y = 0;
         if (this.playerColor.equals(PlayerColor.black)) {

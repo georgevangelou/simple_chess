@@ -1,4 +1,4 @@
-package chess.utilities;
+package chess.resources.utilities;
 
 import java.util.UUID;
 

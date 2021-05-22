@@ -4,7 +4,7 @@ import chess.players.AbstractPlayer;
 import chess.players.HumanPlayer;
 import chess.players.PlayerColor;
 import chess.space.Board2D;
-import chess.utilities.BoardPrinter;
+import chess.visualization.console.BoardPrinter;
 import chess.utilities.HumanMoveReaderAndExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ChessGame {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChessGame.class);
-    private final AbstractPlayer player1;
-    private final AbstractPlayer player2;
+    private final AbstractPlayer playerWhite;
+    private final AbstractPlayer playerBlack;
     private final Board2D board;
     private final BoardPrinter boardPrinter;
     private AbstractPlayer playerNow;
@@ -24,31 +24,31 @@ public class ChessGame {
 
     public ChessGame() {
         this.board = new Board2D();
-        this.boardPrinter = new BoardPrinter(board);
 
         final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor = new HumanMoveReaderAndExecutor(this.getBoard());
-        player1 = new HumanPlayer(PlayerColor.white, humanMoveReaderAndExecutor);
-        player2 = new HumanPlayer(PlayerColor.black, humanMoveReaderAndExecutor);
-        playerNow = player1.getPlayerColor().equals(PlayerColor.white) ? player1 : player2; // If player1 is white, they start.
+        playerWhite = new HumanPlayer(PlayerColor.white, humanMoveReaderAndExecutor);
+        playerBlack = new HumanPlayer(PlayerColor.black, humanMoveReaderAndExecutor);
+        playerNow = playerWhite.getPlayerColor().equals(PlayerColor.white) ? playerWhite : playerBlack; // If player1 is white, they start.
 
-        this.board.fillBoardWithPieces(player1, player2);
+        this.board.fillBoardWithPieces(playerWhite, playerBlack);
+        this.boardPrinter = new BoardPrinter(this);
     }
 
 
     public void nextPlayersTurn() {
         LOGGER.info("Player [" + playerNow.getPlayerColor() + "] now plays:");
         playerNow.play();
-        playerNow = (playerNow == player2) ? player1 : player2; // Change player at the end of the turn.
+        playerNow = (playerNow == playerBlack) ? playerWhite : playerBlack; // Change player at the end of the turn.
     }
 
 
-    public AbstractPlayer getPlayer1() {
-        return player1;
+    public AbstractPlayer getPlayerWhite() {
+        return playerWhite;
     }
 
 
-    public AbstractPlayer getPlayer2() {
-        return player2;
+    public AbstractPlayer getPlayerBlack() {
+        return playerBlack;
     }
 
 

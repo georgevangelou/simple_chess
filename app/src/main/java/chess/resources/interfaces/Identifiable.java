@@ -1,6 +1,6 @@
 package chess.resources.interfaces;
 
-import chess.utilities.IdAutogenerator;
+import chess.resources.utilities.IdAutogenerator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.immutables.criteria.Criteria;
 import org.immutables.value.Value;
