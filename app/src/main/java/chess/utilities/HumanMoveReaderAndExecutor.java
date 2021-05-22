@@ -1,5 +1,7 @@
 package chess.utilities;
 
+import chess.execution.ChessGame;
+import chess.execution.MoveValidityChecker;
 import chess.execution.PieceToPoint2DMove;
 import chess.players.AbstractPlayer;
 import chess.resources.pieces.AbstractPiece;
@@ -17,19 +19,18 @@ public class HumanMoveReaderAndExecutor {
     private static final Logger LOGGER = LoggerFactory.getLogger(HumanMoveReaderAndExecutor.class);
     private final String DELIMITED = " ";
     private final Board2D board;
-    //    private final AbstractPlayer player;
     private final ConsoleInputReader consoleInputReader;
+    private final MoveValidityChecker moveValidityChecker;
 
-    public HumanMoveReaderAndExecutor(final Board2D board) {
-        Preconditions.checkNotNull(board);
-//        Preconditions.checkNotNull(player);
+    public HumanMoveReaderAndExecutor(final ChessGame chessGame) {
+        Preconditions.checkNotNull(chessGame);
 
-        this.board = board;
-//        this.player = player;
+        this.board = chessGame.getBoard();
         this.consoleInputReader = new ConsoleInputReader();
+        this.moveValidityChecker = new MoveValidityChecker(chessGame);
     }
 
-    private PieceToPoint2DMove parsePointsAndMovePiece(final String userInput, final AbstractPlayer player) {
+    private PieceToPoint2DMove parseAndInspectMove(final String userInput, final AbstractPlayer player) {
         Preconditions.checkNotNull(userInput);
 
         if (!userInput.contains(DELIMITED)) {
@@ -47,24 +48,31 @@ public class HumanMoveReaderAndExecutor {
         if (pieceChosen == null) {
             LOGGER.warn("No piece selected. Try again: ");
             return null;
-//        } else if (player.getPieces().containsKey(pieceChosen.getId())) {
-        } else if (true) {
-            pieceChosen.setPosition(targetPoint);
-            return PieceToPoint2DMove.builder()
-                    .setTargetPoint(targetPoint)
-                    .setPiece(pieceChosen)
-                    .build();
-        } else {
-            LOGGER.info("Piece [" + pieceChosen.getId() + "], pieces [" + player.getPieces().keySet() + "]");
-
-            LOGGER.warn("Wrong piece. Try again: ");
+        } else if (!player.getPieces().containsKey(pieceChosen.getId())) {
+            LOGGER.warn("Wrong piece selected. Try again: ");
             return null;
+
         }
+
+        final PieceToPoint2DMove pieceToPoint2DMove = PieceToPoint2DMove.builder()
+                .setTargetPoint(targetPoint)
+                .setPiece(pieceChosen)
+                .build();
+
+        return this.moveValidityChecker.isMoveValid(pieceToPoint2DMove) ? pieceToPoint2DMove : null;
     }
 
     public void readExecuteMove(final AbstractPlayer player) {
-        while (this.parsePointsAndMovePiece(consoleInputReader.getUserInput(), player) == null) {
-//            LOGGER.warn("Please retry... ");
-        }
+        PieceToPoint2DMove pieceToPoint2DMove;
+        do {
+            LOGGER.info("Play: ");
+            final String userInput = consoleInputReader.getUserInput();
+            pieceToPoint2DMove = this.parseAndInspectMove(userInput, player);
+//            if (pieceToPoint2DMove == null) {
+//                LOGGER.info("Please try again: ");
+//            }
+        } while (pieceToPoint2DMove == null);
+
+        pieceToPoint2DMove.getPiece().setPosition(pieceToPoint2DMove.getTargetPoint());
     }
 }

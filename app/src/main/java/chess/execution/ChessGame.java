@@ -26,7 +26,8 @@ public class ChessGame {
     public ChessGame() {
         this.board = new Board2D();
 
-        final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor = new HumanMoveReaderAndExecutor(this.getBoard());
+        // TODO: Passing 'this' as a parameter while 'this' is not initialized yet, is bad.
+        final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor = new HumanMoveReaderAndExecutor(this);
         playerWhite = new HumanPlayer(PlayerColor.white, humanMoveReaderAndExecutor);
         playerBlack = new HumanPlayer(PlayerColor.black, humanMoveReaderAndExecutor);
         playerNow = playerWhite.getPlayerColor().equals(PlayerColor.white) ? playerWhite : playerBlack; // If player1 is white, they start.
