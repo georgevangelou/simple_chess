@@ -51,6 +51,7 @@ public interface Point2D extends Serializable {
     }
 
     public static Point2D from(final String str) {
+
         return builder()
                 .setX(Integer.parseInt(str.split(DELIMITER)[0]))
                 .setY(Integer.parseInt(str.split(DELIMITER)[1]))
