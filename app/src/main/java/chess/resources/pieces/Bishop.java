@@ -25,13 +25,12 @@ public final class Bishop extends AbstractPiece {
         Preconditions.checkNotNull(game);
 
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        for (int i = -BoardDimensions.SIZE_X; i < BoardDimensions.SIZE_X; i++) {
-            final int x = getPosition().getX() + i;
-            final int y = getPosition().getY() + i;
+        for (int i = 0; i < BoardDimensions.SIZE_X; i++) {
             final Point2D point1 = Point2D.builder().setX(getPosition().getX() + i).setY(getPosition().getY() + i).build();
             final Point2D point2 = Point2D.builder().setX(getPosition().getX() + i).setY(getPosition().getY() - i).build();
             final Point2D point3 = Point2D.builder().setX(getPosition().getX() - i).setY(getPosition().getY() + i).build();
             final Point2D point4 = Point2D.builder().setX(getPosition().getX() - i).setY(getPosition().getY() - i).build();
+
             if (game.getBoard().isWithinBoard(point1)) {
                 accessiblePositions.add(point1);
             }
