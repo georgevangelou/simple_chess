@@ -38,7 +38,7 @@ public class BoardPrinter {
                 if (piece != null) {
                     final String pieceVisualRepresentationNormal = piece.getVisualRepresentation();
                     final String pieceVisualRepresentationDependingOnPlayer =
-                            this.chessGame.getPlayerWhite().pieceBelongsToPlayer(piece) ?
+                            this.chessGame.getPlayerWhite().pieceBelongsToPlayer(piece.getId()) ?
                                     pieceVisualRepresentationNormal.toUpperCase() :
                                     pieceVisualRepresentationNormal.toLowerCase();
                     stringBuilder.append(pieceVisualRepresentationDependingOnPlayer);
