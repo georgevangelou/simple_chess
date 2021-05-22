@@ -3,9 +3,10 @@ package chess.execution;
 import chess.players.AbstractPlayer;
 import chess.players.HumanPlayer;
 import chess.players.PlayerColor;
+import chess.resources.pieces.AbstractPiece;
 import chess.space.Board2D;
-import chess.visualization.console.BoardPrinter;
 import chess.utilities.HumanMoveReaderAndExecutor;
+import chess.visualization.console.BoardPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,5 +60,18 @@ public class ChessGame {
 
     public BoardPrinter getBoardPrinter() {
         return boardPrinter;
+    }
+
+
+    /**
+     * @param pieceId matching a {@link AbstractPiece#getId()}
+     * @return which {@link AbstractPlayer} owns this {@link AbstractPiece}
+     */
+    public AbstractPlayer getPlayerOwningPiece(final String pieceId) {
+        if (this.playerWhite.pieceBelongsToPlayer(pieceId)) {
+            return this.playerWhite;
+        } else {
+            return this.playerBlack;
+        }
     }
 }
