@@ -4,6 +4,7 @@ import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
 import chess.space.Point2D;
+import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,8 @@ public final class Knight extends AbstractPiece {
 
     @Override
     public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
+        Preconditions.checkNotNull(game);
+
         final List<Point2D> accessiblePositions = new ArrayList<>();
         for (int x = -2; x <= 2; x++) {
             for (int y = -2; y <= 2; y++) {
