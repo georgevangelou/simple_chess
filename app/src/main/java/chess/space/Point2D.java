@@ -76,7 +76,7 @@ public interface Point2D extends Serializable {
      */
     @Value.Default
     @JsonIgnore
-    public default boolean isEqual(
+    public default boolean isEquivalent(
             final Point2D anotherPoint
     ) {
         Objects.requireNonNull(anotherPoint);

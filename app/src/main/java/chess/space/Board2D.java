@@ -43,7 +43,7 @@ public class Board2D {
         Preconditions.checkNotNull(point);
 
         for (final AbstractPiece piece : this.idToPiece.values()) {
-            if (piece.getPosition().isEqual(point)) {
+            if (piece.getPosition().isEquivalent(point)) {
                 return piece;
             }
         }
