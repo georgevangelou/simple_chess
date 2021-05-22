@@ -38,7 +38,7 @@ public class ChessGame {
 
 
     public void nextPlayersTurn() {
-        LOGGER.info("Player [" + playerNow.getPlayerColor() + "] now plays:");
+        LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays");
         playerNow.play();
         playerNow = (playerNow == playerBlack) ? playerWhite : playerBlack; // Change player at the end of the turn.
     }

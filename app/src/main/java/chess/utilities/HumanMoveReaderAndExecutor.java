@@ -65,7 +65,7 @@ public class HumanMoveReaderAndExecutor {
     public void readExecuteMove(final AbstractPlayer player) {
         PieceToPoint2DMove pieceToPoint2DMove;
         do {
-            LOGGER.info("Play: ");
+            LOGGER.info("Please input your move (e.g. 3,4 5,5):");
             final String userInput = consoleInputReader.getUserInput();
             pieceToPoint2DMove = this.parseAndInspectMove(userInput, player);
 //            if (pieceToPoint2DMove == null) {

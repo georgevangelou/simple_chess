@@ -14,4 +14,9 @@ public class ComputerPlayer extends AbstractPlayer {
     public void play() {
 
     }
+
+    @Override
+    public String getType() {
+        return "COMPUTER";
+    }
 }

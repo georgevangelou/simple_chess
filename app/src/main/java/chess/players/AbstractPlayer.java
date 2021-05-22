@@ -23,15 +23,22 @@ public abstract class AbstractPlayer {
         this.pieces = playerPiecesCreator.getPieces();
     }
 
+
     public abstract void play();
+
 
     public Map<String, AbstractPiece> getPieces() {
         return this.pieces;
     }
 
+
     public PlayerColor getPlayerColor() {
         return playerColor;
     }
+
+
+    public abstract String getType();
+
 
     public boolean pieceBelongsToPlayer(final String pieceId) {
         return this.getPieces().containsKey(pieceId);
