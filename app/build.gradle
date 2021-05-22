@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'evangelou.george'
+version '1.0-SNAPSHOT'
+
+ext {
+    versions = [
+            AkkaVersion    : "2.6.9",
+            ScalaBinary    : "2.13",
+            slf4j          : "1.7.30",
+            log4j          : "2.13.3",
+            immutables     : "2.8.2",
+            plantUml       : "1.2020.17",
+            junit          : "4.12",
+            guava          : "29.0-jre",
+            jacksonDatatype: "2.9.9"
+
+    ]
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13'
+    implementation 'com.google.guava:guava:29.0-jre'
+
+    // Logging
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:' + versions.log4j
+    implementation 'org.apache.logging.log4j:log4j-core:' + versions.log4j
+
+    // Immutables
+    annotationProcessor 'org.immutables:value:' + versions.immutables
+    testAnnotationProcessor 'org.immutables:value:' + versions.immutables
+    testCompile 'org.immutables:criteria-mongo:' + versions.immutables
+    implementation 'org.immutables:value:' + versions.immutables
+    implementation 'org.immutables:criteria-mongo:' + versions.immutables
+}
+
+application {
+    mainClass = 'chess.execution.App'
+}
