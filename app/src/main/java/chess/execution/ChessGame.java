@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class ChessGame  {
+public class ChessGame implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChessGame.class);
     private final Player playerWhite;
     private final Player playerBlack;

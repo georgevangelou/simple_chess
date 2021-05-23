@@ -5,14 +5,18 @@ import chess.players.Player;
 import chess.resources.pieces.Piece;
 import chess.space.Point2D;
 import com.google.common.base.Preconditions;
+import org.apache.commons.lang.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class MoveValidityChecker {
+public class MoveValidityChecker implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(MoveValidityChecker.class);
     private final ChessGame chessGame;
 
@@ -25,11 +29,12 @@ public class MoveValidityChecker {
     public boolean isMoveValid(final PieceToPoint2DMove move) {
         Preconditions.checkNotNull(move);
 
-        return (pointIsInsideTheBoard(move) &&
-                pointIsWithinReachOfPiece(move) &&
-                pointIsIsNotOccupiedBySamePlayersPiece(move) &&
-                pathIsNotBlockedAndPieceIsNotKnight() &&
-                kingWillNotBeInDangerAfterMove()
+        // The following must be executed in this order
+        return (pointIsInsideTheBoard(move)   // TODO: Remove this. Each piece will be responsible to return points within the board
+                && pointIsWithinReachOfPiece(move)
+                && pointIsIsNotOccupiedBySamePlayersPiece(move)
+//                && pathIsNotBlockedAndPieceIsNotKnight()
+                && kingWillNotBeInDangerAfterMove(move)
         );
     }
 
@@ -68,20 +73,41 @@ public class MoveValidityChecker {
     private boolean pointIsIsNotOccupiedBySamePlayersPiece(final PieceToPoint2DMove pieceToPoint2DMove) {
         Preconditions.checkNotNull(pieceToPoint2DMove);
 
-        final Player player1 = this.chessGame.getPlayerOwningPiece(pieceToPoint2DMove.getPiece().getId());
+        final Player playerNow = this.chessGame.getPlayerNow();
+        // TODO: The following Precondition can be removed
+        Preconditions.checkState(playerNow.getId().equals(this.chessGame.getPlayerOwningPiece(pieceToPoint2DMove.getPiece().getId()).getId()));
+
         final Piece piece = this.chessGame.getBoard().getPiece(pieceToPoint2DMove.getTargetPoint());
         if (piece != null) {
-            final Player player2 = this.chessGame.getPlayerOwningPiece(piece.getId());
-            if (player1 == player2) {
+            final Player otherPlayer = this.chessGame.getPlayerOwningPiece(piece.getId());
+            if (playerNow == otherPlayer) {
                 LOGGER.warn("INVALID MOVE: Target occupied by the same player.");
             }
-            return player1 != player2;
+            return playerNow != otherPlayer;
         }
         return true;
     }
 
 
-    private boolean kingWillNotBeInDangerAfterMove() {
+    private boolean kingWillNotBeInDangerAfterMove(final PieceToPoint2DMove pieceToPoint2DMove) {
+        Preconditions.checkNotNull(pieceToPoint2DMove);
+
+        //TODO: Temporarily create a copy of the game so that the move can be done temporarily
+        final ChessGame tempChessGame = (ChessGame) SerializationUtils.clone(this.chessGame);
+        final Player playerNow = tempChessGame.getPlayerNow();
+        final Piece tempPiece = tempChessGame.getBoard().getPiece(pieceToPoint2DMove.getPiece().getPosition());
+        // TODO: The following Precondition can be removed
+        Preconditions.checkState(playerNow.getId().equals(tempChessGame.getPlayerOwningPiece(tempPiece.getId()).getId()));
+
+        tempPiece.setPosition(pieceToPoint2DMove.getTargetPoint());
+        final Piece king = playerNow.getKing();
+        final Collection<Piece> enemyPieces = tempChessGame.getPlayerResting().getPieces().values();
+        for (final Piece enemyPiece : enemyPieces) {
+            final Collection<Point2D> tilesThatThisPieceCanAttack = enemyPiece.getAccessiblePositionsIgnoringCollisions(this.chessGame);
+            if (tilesThatThisPieceCanAttack.contains(king.getPosition())) {
+                return false;
+            }
+        }
         return true;
     }
 

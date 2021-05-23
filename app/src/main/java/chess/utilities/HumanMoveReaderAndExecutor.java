@@ -11,11 +11,13 @@ import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
+
 /**
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class HumanMoveReaderAndExecutor {
+public class HumanMoveReaderAndExecutor implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(HumanMoveReaderAndExecutor.class);
     private final String DELIMITED = " ";
     private final ChessGame chessGame;

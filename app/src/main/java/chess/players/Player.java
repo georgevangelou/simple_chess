@@ -7,6 +7,7 @@ import chess.resources.pieces.Piece;
 import chess.resources.utilities.IdAutogenerator;
 import com.google.common.base.Preconditions;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public abstract class Player implements Identifiable {
+public abstract class Player implements Identifiable, Serializable {
     private final Map<String, Piece> pieces;
     private final String id;
     private final PlayerColor playerColor;
