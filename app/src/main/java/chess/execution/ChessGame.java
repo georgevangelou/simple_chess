@@ -85,7 +85,7 @@ public class ChessGame {
      *
      * @return
      */
-    public boolean isGameFinished() {
+    public boolean isFinished() {
         return false;
     }
 }
