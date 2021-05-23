@@ -52,4 +52,14 @@ public abstract class AbstractPlayer {
         }
         return points;
     }
+
+
+    /**
+     * Destroy an {@link AbstractPiece} belonging to this {@link AbstractPlayer}.
+     *
+     * @param pieceId {@link AbstractPiece#getId()}.
+     */
+    public void destroyPiece(final String pieceId) {
+        this.getPieces().remove(pieceId);
+    }
 }
