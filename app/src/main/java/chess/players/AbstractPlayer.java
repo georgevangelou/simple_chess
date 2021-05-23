@@ -56,6 +56,7 @@ public abstract class AbstractPlayer {
 
     /**
      * Destroy an {@link AbstractPiece} belonging to this {@link AbstractPlayer}.
+     * This {@link AbstractPiece} must also be removed from {@link chess.space.Board2D} explicitly.
      *
      * @param pieceId {@link AbstractPiece#getId()}.
      */

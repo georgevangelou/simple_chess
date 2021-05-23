@@ -73,7 +73,7 @@ public class MoveValidityChecker {
         if (piece != null) {
             final AbstractPlayer player2 = this.chessGame.getPlayerOwningPiece(piece.getId());
             if (player1 == player2) {
-                LOGGER.warn("INVALID MOVE: Point is of the same player.");
+                LOGGER.warn("INVALID MOVE: Target occupied by the same player.");
             }
             return player1 != player2;
         }

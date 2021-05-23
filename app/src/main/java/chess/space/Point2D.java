@@ -21,7 +21,7 @@ import java.util.Objects;
 public interface Point2D extends Serializable {
     final String DELIMITER = ",";
 
-    
+
     public int getX();
 
 
