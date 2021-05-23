@@ -4,6 +4,7 @@ import chess.resources.immutables.configuration.ImmutablesConfiguration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.base.Preconditions;
 import org.immutables.value.Value;
 
 import java.io.Serializable;
@@ -20,54 +21,12 @@ import java.util.Objects;
 public interface Point2D extends Serializable {
     final String DELIMITER = ",";
 
-    /**
-     * Returns true if objects a,b are equal.
-     *
-     * @param a objects
-     * @param b objects
-     * @return a equal elements with b
-     */
-    public static boolean areEqual(
-            final Point2D a,
-            final Point2D b
-    ) {
-        Objects.requireNonNull(a);
-        Objects.requireNonNull(b);
-
-        return (a.getX() == b.getX() &&
-                a.getY() == b.getY()
-        );
-    }
-
-    /**
-     * @return a new {@link Point} at (0,0,0)
-     */
-    public static Point2D createZeroPoint() {
-        final Point2D zeroPoint = Point2D.builder()
-                .setX(0)
-                .setY(0)
-                .build();
-        return zeroPoint;
-    }
-
-    public static Point2D from(final String str) {
-
-        return builder()
-                .setX(Integer.parseInt(str.split(DELIMITER)[0]))
-                .setY(Integer.parseInt(str.split(DELIMITER)[1]))
-                .build();
-    }
-
-    /**
-     * @return
-     */
-    public static ImmutablePoint2D.Builder builder() {
-        return ImmutablePoint2D.builder();
-    }
-
+    
     public int getX();
 
+
     public int getY();
+
 
     /**
      * Returns true if objects a,anotherPoint are equal.
@@ -85,5 +44,19 @@ public interface Point2D extends Serializable {
         return (this.getX() == anotherPoint.getX() &&
                 this.getY() == anotherPoint.getY()
         );
+    }
+
+
+    public static Point2D from(final String str) {
+        Preconditions.checkNotNull(str);
+        return builder()
+                .setX(Integer.parseInt(str.split(DELIMITER)[0]))
+                .setY(Integer.parseInt(str.split(DELIMITER)[1]))
+                .build();
+    }
+
+
+    public static ImmutablePoint2D.Builder builder() {
+        return ImmutablePoint2D.builder();
     }
 }
