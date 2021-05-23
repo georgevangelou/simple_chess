@@ -11,16 +11,17 @@ import chess.visualization.console.BoardPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
+
 /**
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class ChessGame {
+public class ChessGame  {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChessGame.class);
     private final Player playerWhite;
     private final Player playerBlack;
     private final Board2D board;
-    private final BoardPrinter boardPrinter;
     private Player playerNow;
 
 
@@ -34,7 +35,6 @@ public class ChessGame {
         playerNow = playerWhite.getPlayerColor().equals(PlayerColor.white) ? playerWhite : playerBlack; // If player1 is white, they start.
 
         this.board.fillBoardWithPieces(playerWhite, playerBlack);
-        this.boardPrinter = new BoardPrinter(this);
     }
 
 
@@ -47,22 +47,27 @@ public class ChessGame {
 
 
     public Player getPlayerWhite() {
-        return playerWhite;
+        return this.playerWhite;
     }
 
 
     public Player getPlayerBlack() {
-        return playerBlack;
+        return this.playerBlack;
+    }
+
+
+    public Player getPlayerNow() {
+        return this.playerNow;
+    }
+
+
+    public Player getPlayerResting() {
+        return (this.playerNow == this.playerBlack) ? this.playerWhite : this.playerBlack;
     }
 
 
     public Board2D getBoard() {
         return board;
-    }
-
-
-    public BoardPrinter getBoardPrinter() {
-        return boardPrinter;
     }
 
 

@@ -15,6 +15,7 @@ import java.util.Map;
 public class PlayerPiecesCreator {
     private final PlayerColor playerColor;
     private final Map<String, Piece> pieces = new HashMap<>();
+    private King king;
 
     /**
      * Constructor which initializes all values on call.
@@ -74,6 +75,7 @@ public class PlayerPiecesCreator {
         {
             final Point2D position = Point2D.builder().setX(4).setY(y).build();
             final King piece = new King(position);
+            this.king = piece;
             pieces.put(piece.getId(), piece);
         }
         {
@@ -95,5 +97,10 @@ public class PlayerPiecesCreator {
 
     public Map<String, Piece> getPieces() {
         return this.pieces;
+    }
+
+
+    public King getKing() {
+        return this.king;
     }
 }
