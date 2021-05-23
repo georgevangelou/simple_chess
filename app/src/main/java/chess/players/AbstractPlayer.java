@@ -43,4 +43,13 @@ public abstract class AbstractPlayer {
     public boolean pieceBelongsToPlayer(final String pieceId) {
         return this.getPieces().containsKey(pieceId);
     }
+
+
+    public int getCurrentPoints() {
+        int points = 0;
+        for (final AbstractPiece piece : this.getPieces().values()) {
+            points += piece.getValue();
+        }
+        return points;
+    }
 }
