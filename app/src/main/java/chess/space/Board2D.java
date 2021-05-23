@@ -74,4 +74,14 @@ public class Board2D {
         );
     }
 
+
+    /**
+     * Destroy an {@link AbstractPiece} placed on this {@link Board2D}.
+     * This {@link AbstractPiece} must also be removed from {@link AbstractPlayer} explicitly.
+     *
+     * @param pieceId {@link AbstractPiece#getId()}.
+     */
+    public void removePiece(final String pieceId) {
+        this.idToPiece.remove(pieceId);
+    }
 }

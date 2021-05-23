@@ -18,17 +18,19 @@ import org.slf4j.LoggerFactory;
 public class HumanMoveReaderAndExecutor {
     private static final Logger LOGGER = LoggerFactory.getLogger(HumanMoveReaderAndExecutor.class);
     private final String DELIMITED = " ";
-    private final Board2D board;
+    private final ChessGame chessGame;
     private final ConsoleInputReader consoleInputReader;
     private final MoveValidityChecker moveValidityChecker;
+
 
     public HumanMoveReaderAndExecutor(final ChessGame chessGame) {
         Preconditions.checkNotNull(chessGame);
 
-        this.board = chessGame.getBoard();
+        this.chessGame = chessGame;
         this.consoleInputReader = new ConsoleInputReader();
         this.moveValidityChecker = new MoveValidityChecker(chessGame);
     }
+
 
     private PieceToPoint2DMove parseAndInspectMove(final String userInput, final AbstractPlayer player) {
         Preconditions.checkNotNull(userInput);
@@ -52,7 +54,7 @@ public class HumanMoveReaderAndExecutor {
         final Point2D startPoint = Point2D.from(startPointString);
         final Point2D targetPoint = Point2D.from(targetPointString);
 
-        final AbstractPiece pieceChosen = this.board.getPiece(startPoint);
+        final AbstractPiece pieceChosen = this.chessGame.getBoard().getPiece(startPoint);
         if (pieceChosen == null) {
             LOGGER.warn("ERROR: No piece selected. Try again: ");
             return null;
@@ -70,6 +72,7 @@ public class HumanMoveReaderAndExecutor {
         return this.moveValidityChecker.isMoveValid(pieceToPoint2DMove) ? pieceToPoint2DMove : null;
     }
 
+
     public void readExecuteMove(final AbstractPlayer player) {
         PieceToPoint2DMove pieceToPoint2DMove = null;
         do {
@@ -78,6 +81,25 @@ public class HumanMoveReaderAndExecutor {
             pieceToPoint2DMove = this.parseAndInspectMove(userInput, player);
         } while (pieceToPoint2DMove == null);
 
+        destroyPieceIfPreexistentInPosition(pieceToPoint2DMove.getTargetPoint());
         pieceToPoint2DMove.getPiece().setPosition(pieceToPoint2DMove.getTargetPoint());
+    }
+
+
+    /**
+     * If an {@link AbstractPiece} resides at the {@link Point2D} of interest, remove it from {@link AbstractPlayer} and {@link Board2D}.
+     *
+     * @param point2D
+     */
+    private void destroyPieceIfPreexistentInPosition(final Point2D point2D) {
+        Preconditions.checkNotNull(point2D);
+
+        final AbstractPiece preexistingPiece = this.chessGame.getBoard().getPiece(point2D);
+        if (preexistingPiece != null) {
+            this.chessGame.getBoard().removePiece(preexistingPiece.getId());
+            this.chessGame.getPlayerOwningPiece(preexistingPiece.getId()).destroyPiece(preexistingPiece.getId());
+            LOGGER.info("PIECE CAPTURED: " + preexistingPiece.getName() + " was captured.");
+            LOGGER.info("POINTS: White: " + chessGame.getPlayerWhite().getCurrentPoints() + ", Black: " + chessGame.getPlayerBlack().getCurrentPoints());
+        }
     }
 }
