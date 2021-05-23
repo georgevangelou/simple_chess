@@ -73,7 +73,7 @@ public class HumanMoveReaderAndExecutor {
     }
 
 
-    public void readExecuteMove(final AbstractPlayer player) {
+    public long readExecuteMove(final AbstractPlayer player) {
         PieceToPoint2DMove pieceToPoint2DMove = null;
         do {
             LOGGER.info("Please input your move (e.g. 3,4 5,5):");
@@ -81,8 +81,9 @@ public class HumanMoveReaderAndExecutor {
             pieceToPoint2DMove = this.parseAndInspectMove(userInput, player);
         } while (pieceToPoint2DMove == null);
 
-        destroyPieceIfPreexistentInPosition(pieceToPoint2DMove.getTargetPoint());
+        final long changeInPoints = destroyPieceIfPreexistentInPosition(pieceToPoint2DMove.getTargetPoint());
         pieceToPoint2DMove.getPiece().setPosition(pieceToPoint2DMove.getTargetPoint());
+        return changeInPoints;
     }
 
 
@@ -91,7 +92,7 @@ public class HumanMoveReaderAndExecutor {
      *
      * @param point2D
      */
-    private void destroyPieceIfPreexistentInPosition(final Point2D point2D) {
+    private long destroyPieceIfPreexistentInPosition(final Point2D point2D) {
         Preconditions.checkNotNull(point2D);
 
         final AbstractPiece preexistingPiece = this.chessGame.getBoard().getPiece(point2D);
@@ -100,6 +101,8 @@ public class HumanMoveReaderAndExecutor {
             this.chessGame.getPlayerOwningPiece(preexistingPiece.getId()).destroyPiece(preexistingPiece.getId());
             LOGGER.info("PIECE CAPTURED: " + preexistingPiece.getName() + " was captured.");
             LOGGER.info("POINTS: White: " + chessGame.getPlayerWhite().getCurrentPoints() + ", Black: " + chessGame.getPlayerBlack().getCurrentPoints());
+            return preexistingPiece.getValue();
         }
+        return 0;
     }
 }
