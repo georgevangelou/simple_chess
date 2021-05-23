@@ -4,6 +4,7 @@ import chess.players.AbstractPlayer;
 import chess.players.HumanPlayer;
 import chess.players.PlayerColor;
 import chess.resources.pieces.AbstractPiece;
+import chess.resources.pieces.King;
 import chess.space.Board2D;
 import chess.utilities.HumanMoveReaderAndExecutor;
 import chess.visualization.console.BoardPrinter;
@@ -39,6 +40,7 @@ public class ChessGame {
 
     public void nextPlayersTurn() {
         LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays");
+
         playerNow.play();
         playerNow = (playerNow == playerBlack) ? playerWhite : playerBlack; // Change player at the end of the turn.
     }
@@ -74,5 +76,16 @@ public class ChessGame {
         } else {
             return this.playerBlack;
         }
+    }
+
+
+    /**
+     * TODO: Check if one of the {@link King}s is in check and cannot escape its doom.
+     * TODO: Check if there is a stalemate.
+     *
+     * @return
+     */
+    public boolean isGameFinished() {
+        return false;
     }
 }

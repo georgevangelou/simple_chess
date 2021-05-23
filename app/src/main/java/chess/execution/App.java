@@ -12,10 +12,11 @@ public class App {
     public static void main(String[] args) {
         final ChessGame game = new ChessGame();
 
-        while (true) {
+        while (game.isFinished()) {
             LOGGER.info(game.getBoardPrinter().printBoard());
             game.nextPlayersTurn();
         }
+        LOGGER.info("The game has ended");
     }
 
 
