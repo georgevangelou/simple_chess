@@ -13,7 +13,7 @@ import java.util.List;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public final class Queen extends AbstractPiece {
+public final class Queen extends Piece {
 
     public Queen(final Point2D position) {
         super("Queen", ValuesOfPieces.QUEEN, StringVisualRepresentationOfPieces.QUEEN, position);

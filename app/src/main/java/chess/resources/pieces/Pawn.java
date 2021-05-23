@@ -3,7 +3,7 @@ package chess.resources.pieces;
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
-import chess.players.AbstractPlayer;
+import chess.players.Player;
 import chess.players.PlayerColor;
 import chess.space.Point2D;
 import com.google.common.base.Preconditions;
@@ -15,7 +15,7 @@ import java.util.List;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public final class Pawn extends AbstractPiece {
+public final class Pawn extends Piece {
 
     public Pawn(final Point2D position) {
         super("Pawn", ValuesOfPieces.PAWN, StringVisualRepresentationOfPieces.PAWN, position);
@@ -29,7 +29,7 @@ public final class Pawn extends AbstractPiece {
         // TODO: +2 if at y=1/y=length-2
         // TODO: x+-1 if able to attack
 
-        final AbstractPlayer player = game.getPlayerOwningPiece(this.getId());
+        final Player player = game.getPlayerOwningPiece(this.getId());
         final List<Point2D> accessiblePositions = new ArrayList<>();
 
         // Different players' pawns move in different direction.

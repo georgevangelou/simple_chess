@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class HumanPlayer extends AbstractPlayer {
+public class HumanPlayer extends Player {
     private static final Logger LOGGER = LoggerFactory.getLogger(HumanPlayer.class);
     private final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor;
 

@@ -1,8 +1,8 @@
 package chess.execution;
 
 import chess.constants.BoardDimensions;
-import chess.players.AbstractPlayer;
-import chess.resources.pieces.AbstractPiece;
+import chess.players.Player;
+import chess.resources.pieces.Piece;
 import chess.space.Point2D;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
@@ -54,7 +54,7 @@ public class MoveValidityChecker {
     private boolean pointIsWithinReachOfPiece(final PieceToPoint2DMove pieceToPoint2DMove) {
         Preconditions.checkNotNull(pieceToPoint2DMove);
 
-        final AbstractPiece piece = pieceToPoint2DMove.getPiece();
+        final Piece piece = pieceToPoint2DMove.getPiece();
         for (final Point2D point2D : piece.getAccessiblePositionsIgnoringCollisions(chessGame)) {
             if (point2D.isEquivalent(pieceToPoint2DMove.getTargetPoint())) {
                 return true;
@@ -68,10 +68,10 @@ public class MoveValidityChecker {
     private boolean pointIsIsNotOccupiedBySamePlayersPiece(final PieceToPoint2DMove pieceToPoint2DMove) {
         Preconditions.checkNotNull(pieceToPoint2DMove);
 
-        final AbstractPlayer player1 = this.chessGame.getPlayerOwningPiece(pieceToPoint2DMove.getPiece().getId());
-        final AbstractPiece piece = this.chessGame.getBoard().getPiece(pieceToPoint2DMove.getTargetPoint());
+        final Player player1 = this.chessGame.getPlayerOwningPiece(pieceToPoint2DMove.getPiece().getId());
+        final Piece piece = this.chessGame.getBoard().getPiece(pieceToPoint2DMove.getTargetPoint());
         if (piece != null) {
-            final AbstractPlayer player2 = this.chessGame.getPlayerOwningPiece(piece.getId());
+            final Player player2 = this.chessGame.getPlayerOwningPiece(piece.getId());
             if (player1 == player2) {
                 LOGGER.warn("INVALID MOVE: Target occupied by the same player.");
             }

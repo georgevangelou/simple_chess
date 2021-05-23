@@ -3,8 +3,8 @@ package chess.utilities;
 import chess.execution.ChessGame;
 import chess.execution.MoveValidityChecker;
 import chess.execution.PieceToPoint2DMove;
-import chess.players.AbstractPlayer;
-import chess.resources.pieces.AbstractPiece;
+import chess.players.Player;
+import chess.resources.pieces.Piece;
 import chess.space.Board2D;
 import chess.space.Point2D;
 import com.google.common.base.Preconditions;
@@ -32,7 +32,7 @@ public class HumanMoveReaderAndExecutor {
     }
 
 
-    private PieceToPoint2DMove parseAndInspectMove(final String userInput, final AbstractPlayer player) {
+    private PieceToPoint2DMove parseAndInspectMove(final String userInput, final Player player) {
         Preconditions.checkNotNull(userInput);
 
         if (!userInput.contains(DELIMITED)) {
@@ -54,7 +54,7 @@ public class HumanMoveReaderAndExecutor {
         final Point2D startPoint = Point2D.from(startPointString);
         final Point2D targetPoint = Point2D.from(targetPointString);
 
-        final AbstractPiece pieceChosen = this.chessGame.getBoard().getPiece(startPoint);
+        final Piece pieceChosen = this.chessGame.getBoard().getPiece(startPoint);
         if (pieceChosen == null) {
             LOGGER.warn("ERROR: No piece selected. Try again: ");
             return null;
@@ -73,7 +73,7 @@ public class HumanMoveReaderAndExecutor {
     }
 
 
-    public long readExecuteMove(final AbstractPlayer player) {
+    public long readExecuteMove(final Player player) {
         PieceToPoint2DMove pieceToPoint2DMove = null;
         do {
             LOGGER.info("Please input your move (e.g. 3,4 5,5):");
@@ -88,14 +88,14 @@ public class HumanMoveReaderAndExecutor {
 
 
     /**
-     * If an {@link AbstractPiece} resides at the {@link Point2D} of interest, remove it from {@link AbstractPlayer} and {@link Board2D}.
+     * If an {@link Piece} resides at the {@link Point2D} of interest, remove it from {@link Player} and {@link Board2D}.
      *
      * @param point2D
      */
     private long destroyPieceIfPreexistentInPosition(final Point2D point2D) {
         Preconditions.checkNotNull(point2D);
 
-        final AbstractPiece preexistingPiece = this.chessGame.getBoard().getPiece(point2D);
+        final Piece preexistingPiece = this.chessGame.getBoard().getPiece(point2D);
         if (preexistingPiece != null) {
             this.chessGame.getBoard().removePiece(preexistingPiece.getId());
             this.chessGame.getPlayerOwningPiece(preexistingPiece.getId()).destroyPiece(preexistingPiece.getId());

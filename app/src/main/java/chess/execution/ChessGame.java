@@ -1,10 +1,10 @@
 package chess.execution;
 
-import chess.players.AbstractPlayer;
 import chess.players.HumanPlayer;
+import chess.players.Player;
 import chess.players.PlayerColor;
-import chess.resources.pieces.AbstractPiece;
 import chess.resources.pieces.King;
+import chess.resources.pieces.Piece;
 import chess.space.Board2D;
 import chess.utilities.HumanMoveReaderAndExecutor;
 import chess.visualization.console.BoardPrinter;
@@ -17,11 +17,11 @@ import org.slf4j.LoggerFactory;
  */
 public class ChessGame {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChessGame.class);
-    private final AbstractPlayer playerWhite;
-    private final AbstractPlayer playerBlack;
+    private final Player playerWhite;
+    private final Player playerBlack;
     private final Board2D board;
     private final BoardPrinter boardPrinter;
-    private AbstractPlayer playerNow;
+    private Player playerNow;
 
 
     public ChessGame() {
@@ -46,12 +46,12 @@ public class ChessGame {
     }
 
 
-    public AbstractPlayer getPlayerWhite() {
+    public Player getPlayerWhite() {
         return playerWhite;
     }
 
 
-    public AbstractPlayer getPlayerBlack() {
+    public Player getPlayerBlack() {
         return playerBlack;
     }
 
@@ -67,10 +67,10 @@ public class ChessGame {
 
 
     /**
-     * @param pieceId matching a {@link AbstractPiece#getId()}
-     * @return which {@link AbstractPlayer} owns this {@link AbstractPiece}
+     * @param pieceId matching a {@link Piece#getId()}
+     * @return which {@link Player} owns this {@link Piece}
      */
-    public AbstractPlayer getPlayerOwningPiece(final String pieceId) {
+    public Player getPlayerOwningPiece(final String pieceId) {
         if (this.playerWhite.pieceBelongsToPlayer(pieceId)) {
             return this.playerWhite;
         } else {

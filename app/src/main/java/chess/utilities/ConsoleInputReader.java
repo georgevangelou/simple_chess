@@ -1,6 +1,5 @@
 package chess.utilities;
 
-import chess.players.HumanPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +15,7 @@ import java.io.InputStreamReader;
  */
 public class ConsoleInputReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleInputReader.class);
+
     public String getUserInput() {
         try {
             final InputStreamReader inputStreamReader = new InputStreamReader(System.in);

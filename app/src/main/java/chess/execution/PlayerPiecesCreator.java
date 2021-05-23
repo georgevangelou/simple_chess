@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class PlayerPiecesCreator {
     private final PlayerColor playerColor;
-    private final Map<String, AbstractPiece> pieces = new HashMap<>();
+    private final Map<String, Piece> pieces = new HashMap<>();
 
     /**
      * Constructor which initializes all values on call.
@@ -44,7 +44,7 @@ public class PlayerPiecesCreator {
     }
 
     /**
-     * Creates all {@link AbstractPiece}s except for {@link Pawn}s.
+     * Creates all {@link Piece}s except for {@link Pawn}s.
      */
     private void createPiecesExceptFromPawns() {
         int y = 0;
@@ -93,7 +93,7 @@ public class PlayerPiecesCreator {
         }
     }
 
-    public Map<String, AbstractPiece> getPieces() {
+    public Map<String, Piece> getPieces() {
         return this.pieces;
     }
 }

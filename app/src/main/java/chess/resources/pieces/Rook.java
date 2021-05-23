@@ -13,7 +13,7 @@ import java.util.List;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public final class Rook extends AbstractPiece {
+public final class Rook extends Piece {
 
     public Rook(final Point2D position) {
         super("Rook", ValuesOfPieces.ROOK, StringVisualRepresentationOfPieces.ROOK, position);
@@ -43,7 +43,7 @@ public final class Rook extends AbstractPiece {
                 }
             }
         }
-            accessiblePositions.remove(this.getPosition());
+        accessiblePositions.remove(this.getPosition());
         return List.copyOf(accessiblePositions);
     }
 }
