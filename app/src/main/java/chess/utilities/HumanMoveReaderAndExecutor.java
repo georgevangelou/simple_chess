@@ -11,6 +11,8 @@ import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
+
 /**
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
@@ -40,19 +42,20 @@ public class HumanMoveReaderAndExecutor {
             return null;
         }
 
-        final String startPointString;
-        final String targetPointString;
+        final Point2D startPoint;
+        final Point2D targetPoint;
         try {
             final String[] splitInput = userInput.split(DELIMITED);
-            startPointString = splitInput[0];
-            targetPointString = splitInput[1];
+            final String startPointString = splitInput[0];
+            final String targetPointString = splitInput[1];
+
+            startPoint = Point2D.from(startPointString);
+            targetPoint = Point2D.from(targetPointString);
         } catch (final Exception e) {
             LOGGER.warn("ERROR: Invalid user input");
             return null;
         }
 
-        final Point2D startPoint = Point2D.from(startPointString);
-        final Point2D targetPoint = Point2D.from(targetPointString);
 
         final Piece pieceChosen = this.chessGame.getBoard().getPiece(startPoint);
         if (pieceChosen == null) {
