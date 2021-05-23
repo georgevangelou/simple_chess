@@ -5,6 +5,6 @@ package chess.players;
  * Created on: 2021-05-19
  */
 public enum PlayerColor {
-    white,
-    black
+    white, // Is positioned at the top
+    black // Is positioned at the bottom
 }

@@ -22,7 +22,12 @@ public class HumanPlayer extends AbstractPlayer {
 
     @Override
     public void play() {
-        LOGGER.info("Please input your move (e.g. 3,4 5,5):");
         humanMoveReaderAndExecutor.readExecuteMove(this);
+    }
+
+
+    @Override
+    public String getType() {
+        return "HUMAN";
     }
 }

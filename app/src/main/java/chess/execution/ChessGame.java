@@ -3,9 +3,10 @@ package chess.execution;
 import chess.players.AbstractPlayer;
 import chess.players.HumanPlayer;
 import chess.players.PlayerColor;
+import chess.resources.pieces.AbstractPiece;
 import chess.space.Board2D;
-import chess.utilities.BoardPrinter;
 import chess.utilities.HumanMoveReaderAndExecutor;
+import chess.visualization.console.BoardPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +16,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ChessGame {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChessGame.class);
-    private final AbstractPlayer player1;
-    private final AbstractPlayer player2;
+    private final AbstractPlayer playerWhite;
+    private final AbstractPlayer playerBlack;
     private final Board2D board;
     private final BoardPrinter boardPrinter;
     private AbstractPlayer playerNow;
@@ -24,31 +25,32 @@ public class ChessGame {
 
     public ChessGame() {
         this.board = new Board2D();
-        this.boardPrinter = new BoardPrinter(board);
 
-        final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor = new HumanMoveReaderAndExecutor(this.getBoard());
-        player1 = new HumanPlayer(PlayerColor.white, humanMoveReaderAndExecutor);
-        player2 = new HumanPlayer(PlayerColor.black, humanMoveReaderAndExecutor);
-        playerNow = player1.getPlayerColor().equals(PlayerColor.white) ? player1 : player2; // If player1 is white, they start.
+        // TODO: Passing 'this' as a parameter while 'this' is not initialized yet, is bad.
+        final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor = new HumanMoveReaderAndExecutor(this);
+        playerWhite = new HumanPlayer(PlayerColor.white, humanMoveReaderAndExecutor);
+        playerBlack = new HumanPlayer(PlayerColor.black, humanMoveReaderAndExecutor);
+        playerNow = playerWhite.getPlayerColor().equals(PlayerColor.white) ? playerWhite : playerBlack; // If player1 is white, they start.
 
-        this.board.fillBoardWithPieces(player1, player2);
+        this.board.fillBoardWithPieces(playerWhite, playerBlack);
+        this.boardPrinter = new BoardPrinter(this);
     }
 
 
     public void nextPlayersTurn() {
-        LOGGER.info("Player [" + playerNow.getPlayerColor() + "] now plays:");
+        LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays");
         playerNow.play();
-        playerNow = (playerNow == player2) ? player1 : player2; // Change player at the end of the turn.
+        playerNow = (playerNow == playerBlack) ? playerWhite : playerBlack; // Change player at the end of the turn.
     }
 
 
-    public AbstractPlayer getPlayer1() {
-        return player1;
+    public AbstractPlayer getPlayerWhite() {
+        return playerWhite;
     }
 
 
-    public AbstractPlayer getPlayer2() {
-        return player2;
+    public AbstractPlayer getPlayerBlack() {
+        return playerBlack;
     }
 
 
@@ -59,5 +61,18 @@ public class ChessGame {
 
     public BoardPrinter getBoardPrinter() {
         return boardPrinter;
+    }
+
+
+    /**
+     * @param pieceId matching a {@link AbstractPiece#getId()}
+     * @return which {@link AbstractPlayer} owns this {@link AbstractPiece}
+     */
+    public AbstractPlayer getPlayerOwningPiece(final String pieceId) {
+        if (this.playerWhite.pieceBelongsToPlayer(pieceId)) {
+            return this.playerWhite;
+        } else {
+            return this.playerBlack;
+        }
     }
 }

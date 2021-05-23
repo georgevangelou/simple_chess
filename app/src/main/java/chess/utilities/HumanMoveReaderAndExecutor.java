@@ -1,5 +1,7 @@
 package chess.utilities;
 
+import chess.execution.ChessGame;
+import chess.execution.MoveValidityChecker;
 import chess.execution.PieceToPoint2DMove;
 import chess.players.AbstractPlayer;
 import chess.resources.pieces.AbstractPiece;
@@ -17,54 +19,65 @@ public class HumanMoveReaderAndExecutor {
     private static final Logger LOGGER = LoggerFactory.getLogger(HumanMoveReaderAndExecutor.class);
     private final String DELIMITED = " ";
     private final Board2D board;
-    //    private final AbstractPlayer player;
     private final ConsoleInputReader consoleInputReader;
+    private final MoveValidityChecker moveValidityChecker;
 
-    public HumanMoveReaderAndExecutor(final Board2D board) {
-        Preconditions.checkNotNull(board);
-//        Preconditions.checkNotNull(player);
+    public HumanMoveReaderAndExecutor(final ChessGame chessGame) {
+        Preconditions.checkNotNull(chessGame);
 
-        this.board = board;
-//        this.player = player;
+        this.board = chessGame.getBoard();
         this.consoleInputReader = new ConsoleInputReader();
+        this.moveValidityChecker = new MoveValidityChecker(chessGame);
     }
 
-    private PieceToPoint2DMove parsePointsAndMovePiece(final String userInput, final AbstractPlayer player) {
+    private PieceToPoint2DMove parseAndInspectMove(final String userInput, final AbstractPlayer player) {
         Preconditions.checkNotNull(userInput);
 
         if (!userInput.contains(DELIMITED)) {
+            LOGGER.warn("ERROR: Invalid user input");
             return null;
         }
 
-        final String[] splitInput = userInput.split(DELIMITED);
-        final String startPointString = splitInput[0];
-        final String targetPointString = splitInput[1];
+        final String startPointString;
+        final String targetPointString;
+        try {
+            final String[] splitInput = userInput.split(DELIMITED);
+            startPointString = splitInput[0];
+            targetPointString = splitInput[1];
+        } catch (final Exception e) {
+            LOGGER.warn("ERROR: Invalid user input");
+            return null;
+        }
 
         final Point2D startPoint = Point2D.from(startPointString);
         final Point2D targetPoint = Point2D.from(targetPointString);
 
         final AbstractPiece pieceChosen = this.board.getPiece(startPoint);
         if (pieceChosen == null) {
-            LOGGER.warn("No piece selected. Try again: ");
+            LOGGER.warn("ERROR: No piece selected. Try again: ");
             return null;
-//        } else if (player.getPieces().containsKey(pieceChosen.getId())) {
-        } else if (true) {
-            pieceChosen.setPosition(targetPoint);
-            return PieceToPoint2DMove.builder()
-                    .setTargetPoint(targetPoint)
-                    .setPiece(pieceChosen)
-                    .build();
-        } else {
-            LOGGER.info("Piece [" + pieceChosen.getId() + "], pieces [" + player.getPieces().keySet() + "]");
+        } else if (!player.getPieces().containsKey(pieceChosen.getId())) {
+            LOGGER.warn("ERROR: Wrong player's piece selected. Try again: ");
+            return null;
 
-            LOGGER.warn("Wrong piece. Try again: ");
-            return null;
         }
+
+        final PieceToPoint2DMove pieceToPoint2DMove = PieceToPoint2DMove.builder()
+                .setTargetPoint(targetPoint)
+                .setPiece(pieceChosen)
+                .build();
+
+        return this.moveValidityChecker.isMoveValid(pieceToPoint2DMove) ? pieceToPoint2DMove : null;
     }
 
     public void readExecuteMove(final AbstractPlayer player) {
-        while (this.parsePointsAndMovePiece(consoleInputReader.getUserInput(), player) == null) {
-//            LOGGER.warn("Please retry... ");
-        }
+        PieceToPoint2DMove pieceToPoint2DMove = null;
+        do {
+            LOGGER.info("Please input your move (e.g. 3,4 5,5):");
+            final String userInput = consoleInputReader.getUserInput();
+            pieceToPoint2DMove = this.parseAndInspectMove(userInput, player);
+        } while (pieceToPoint2DMove == null);
+
+        pieceToPoint2DMove.getPiece().setPosition(pieceToPoint2DMove.getTargetPoint());
     }
 }

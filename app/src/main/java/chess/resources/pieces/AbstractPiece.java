@@ -4,6 +4,7 @@ import chess.execution.ChessGame;
 import chess.resources.interfaces.Identifiable;
 import chess.resources.interfaces.Movable;
 import chess.resources.interfaces.Named;
+import chess.resources.utilities.IdAutogenerator;
 import chess.space.Point2D;
 import com.google.common.base.Preconditions;
 
@@ -13,8 +14,9 @@ import java.util.List;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public abstract class AbstractPiece implements Named, Identifiable, Movable {
-    private final  String name;
+public abstract class AbstractPiece implements Identifiable, Named, Movable {
+    private final String id;
+    private final String name;
     private final long value;
     private final String visualRepresentation;
     private Point2D position;
@@ -24,6 +26,7 @@ public abstract class AbstractPiece implements Named, Identifiable, Movable {
         Preconditions.checkNotNull(visualRepresentation);
         Preconditions.checkNotNull(position);
 
+        this.id = IdAutogenerator.generateId();
         this.name = name;
         this.value = value;
         this.visualRepresentation = visualRepresentation;
@@ -34,6 +37,13 @@ public abstract class AbstractPiece implements Named, Identifiable, Movable {
     protected AbstractPiece(final String name, final long value, final Point2D position) {
         this(name, value, "X", position);
     }
+
+
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
 
     public String getName() {
         return this.name;

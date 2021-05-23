@@ -35,13 +35,25 @@ public class Board2D {
     }
 
 
+    /**
+     * @param point a {@link Point2D} of {@link Board2D}
+     * @return {@link AbstractPiece} residing in {@link Point2D} of {@link Board2D}, or null if none resides there
+     */
     public AbstractPiece getPiece(final Point2D point) {
+        Preconditions.checkNotNull(point);
+
         for (final AbstractPiece piece : this.idToPiece.values()) {
-            if (piece.getPosition().isEqual(point)) {
+            if (piece.getPosition().isEquivalent(point)) {
                 return piece;
             }
         }
         return null;
+    }
+
+
+    public AbstractPiece getPiece(int x, int y) {
+        final Point2D pointOnBoard = Point2D.builder().setX(x).setY(y).build();
+        return this.getPiece(pointOnBoard);
     }
 
 
