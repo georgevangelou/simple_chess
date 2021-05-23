@@ -47,7 +47,7 @@ public interface Point2D extends Serializable {
     }
 
 
-    public static Point2D from(final String str) {
+    public static Point2D from(final String str) throws NumberFormatException {
         Preconditions.checkNotNull(str);
         return builder()
                 .setX(Integer.parseInt(str.split(DELIMITER)[0]))
