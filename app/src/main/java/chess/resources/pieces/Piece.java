@@ -5,7 +5,7 @@ import chess.resources.interfaces.Identifiable;
 import chess.resources.interfaces.Movable;
 import chess.resources.interfaces.Named;
 import chess.resources.utilities.IdAutogenerator;
-import chess.space.Point2D;
+import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 
 import java.io.Serializable;

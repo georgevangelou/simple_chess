@@ -5,11 +5,11 @@ import chess.resources.interfaces.Identifiable;
 import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
 import chess.resources.utilities.IdAutogenerator;
+import chess.space.environment.Board2D;
 import com.google.common.base.Preconditions;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author George Evangelou - email: gevangelou@hotmail.com
@@ -75,7 +75,7 @@ public abstract class Player implements Identifiable, Serializable {
 
     /**
      * Destroy an {@link Piece} belonging to this {@link Player}.
-     * This {@link Piece} must also be removed from {@link chess.space.Board2D} explicitly.
+     * This {@link Piece} must also be removed from {@link Board2D} explicitly.
      *
      * @param pieceId {@link Piece#getId()}.
      */

@@ -3,7 +3,7 @@ package chess.execution;
 import chess.constants.BoardDimensions;
 import chess.players.PlayerColor;
 import chess.resources.pieces.*;
-import chess.space.Point2D;
+import chess.space.environment.Point2D;
 
 import java.util.HashMap;
 import java.util.Map;

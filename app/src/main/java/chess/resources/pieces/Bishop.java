@@ -4,7 +4,7 @@ import chess.constants.BoardDimensions;
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
-import chess.space.Point2D;
+import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;

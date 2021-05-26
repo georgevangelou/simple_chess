@@ -3,7 +3,7 @@ package chess.execution;
 import chess.constants.BoardDimensions;
 import chess.players.Player;
 import chess.resources.pieces.Piece;
-import chess.space.Point2D;
+import chess.space.environment.Point2D;
 import chess.utilities.KingIsSafeChecker;
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang.SerializationUtils;
@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 /**
  * @author George Evangelou - email: gevangelou@hotmail.com

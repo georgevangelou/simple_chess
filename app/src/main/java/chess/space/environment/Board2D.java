@@ -1,4 +1,4 @@
-package chess.space;
+package chess.space.environment;
 
 import chess.constants.BoardDimensions;
 import chess.players.Player;

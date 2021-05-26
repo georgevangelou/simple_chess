@@ -1,6 +1,7 @@
-package chess.space;
+package chess.space.environment;
 
 import chess.resources.immutables.configuration.ImmutablesConfiguration;
+import chess.space.ImmutablePoint2D;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -11,6 +12,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
+ * Similar functionality with java.awt.geom.{@link java.awt.geom.Point2D}, but it is immutable.
+ *
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */

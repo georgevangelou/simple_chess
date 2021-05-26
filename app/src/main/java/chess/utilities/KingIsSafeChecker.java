@@ -3,7 +3,7 @@ package chess.utilities;
 import chess.execution.ChessGame;
 import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
-import chess.space.Point2D;
+import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 
 import java.util.Collection;
