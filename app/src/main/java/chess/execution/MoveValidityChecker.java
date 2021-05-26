@@ -103,7 +103,7 @@ public class MoveValidityChecker implements Serializable {
         final Piece king = playerNow.getKing();
         final Collection<Piece> enemyPieces = tempChessGame.getPlayerResting().getPieces().values();
         for (final Piece enemyPiece : enemyPieces) {
-            final Collection<Point2D> tilesThatThisPieceCanAttack = enemyPiece.getAccessiblePositionsIgnoringCollisions(this.chessGame);
+            final Collection<Point2D> tilesThatThisPieceCanAttack = enemyPiece.getAccessiblePositionsIgnoringCollisions(tempChessGame);
             if (tilesThatThisPieceCanAttack.contains(king.getPosition())) {
                 return false;
             }
