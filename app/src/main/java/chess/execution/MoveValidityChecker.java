@@ -4,6 +4,7 @@ import chess.constants.BoardDimensions;
 import chess.players.Player;
 import chess.resources.pieces.Piece;
 import chess.space.Point2D;
+import chess.utilities.KingIsSafeChecker;
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang.SerializationUtils;
 import org.slf4j.Logger;
@@ -92,23 +93,15 @@ public class MoveValidityChecker implements Serializable {
     private boolean kingWillNotBeInDangerAfterMove(final PieceToPoint2DMove pieceToPoint2DMove) {
         Preconditions.checkNotNull(pieceToPoint2DMove);
 
-        //TODO: Temporarily create a copy of the game so that the move can be done temporarily
+        // Temporarily create a copy of the game so that the move can be done without affecting the actual board
         final ChessGame tempChessGame = (ChessGame) SerializationUtils.clone(this.chessGame);
-        final Player playerNow = tempChessGame.getPlayerNow();
-        final Piece tempPiece = tempChessGame.getBoard().getPiece(pieceToPoint2DMove.getPiece().getPosition());
-        // TODO: The following Precondition can be removed
-        Preconditions.checkState(playerNow.getId().equals(tempChessGame.getPlayerOwningPiece(tempPiece.getId()).getId()));
+        final Player tempPlayerNow = tempChessGame.getPlayerNow();
+        final Piece tempPieceWhichMayBeMoved = tempChessGame.getBoard().getPiece(pieceToPoint2DMove.getPiece().getPosition());
+        // The following Precondition can be removed. It is jusy for double-checking.
+        Preconditions.checkState(tempPlayerNow.getId().equals(tempChessGame.getPlayerOwningPiece(tempPieceWhichMayBeMoved.getId()).getId()));
 
-        tempPiece.setPosition(pieceToPoint2DMove.getTargetPoint());
-        final Piece king = playerNow.getKing();
-        final Collection<Piece> enemyPieces = tempChessGame.getPlayerResting().getPieces().values();
-        for (final Piece enemyPiece : enemyPieces) {
-            final Collection<Point2D> tilesThatThisPieceCanAttack = enemyPiece.getAccessiblePositionsIgnoringCollisions(tempChessGame);
-            if (tilesThatThisPieceCanAttack.contains(king.getPosition())) {
-                return false;
-            }
-        }
-        return true;
+        tempPieceWhichMayBeMoved.setPosition(pieceToPoint2DMove.getTargetPoint());
+        return new KingIsSafeChecker().isKingSafe(tempChessGame, tempPlayerNow.getKing());
     }
 
 
