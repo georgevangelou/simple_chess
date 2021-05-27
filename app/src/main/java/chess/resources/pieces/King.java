@@ -3,7 +3,10 @@ package chess.resources.pieces;
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
-import chess.space.Point2D;
+import chess.space.environment.Point2D;
+import chess.space.movement.DiagonallyAvailableMovesFinder;
+import chess.space.movement.HorizontallylAvailableMovesFinder;
+import chess.space.movement.VerticallyAvailableMovesFinder;
 import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
@@ -20,21 +23,27 @@ public final class King extends Piece {
     }
 
     @Override
-    public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
+    public List<Point2D> getLawfulMoves(final ChessGame game) {
         Preconditions.checkNotNull(game);
 
+        final HorizontallylAvailableMovesFinder leftMover = new HorizontallylAvailableMovesFinder(game, this, 1, HorizontallylAvailableMovesFinder.Direction.toLeft);
+        final HorizontallylAvailableMovesFinder rightMover = new HorizontallylAvailableMovesFinder(game, this, 1, HorizontallylAvailableMovesFinder.Direction.toRight);
+        final VerticallyAvailableMovesFinder downMover = new VerticallyAvailableMovesFinder(game, this, 1, VerticallyAvailableMovesFinder.Direction.toBottom);
+        final VerticallyAvailableMovesFinder upMover = new VerticallyAvailableMovesFinder(game, this, 1, VerticallyAvailableMovesFinder.Direction.toTop);
+        final DiagonallyAvailableMovesFinder topLeftMovesFinder = new DiagonallyAvailableMovesFinder(game, this, 1, DiagonallyAvailableMovesFinder.Direction.toTopLeft);
+        final DiagonallyAvailableMovesFinder topRightMovesFinder = new DiagonallyAvailableMovesFinder(game, this, 1, DiagonallyAvailableMovesFinder.Direction.toTopRight);
+        final DiagonallyAvailableMovesFinder bottomLeftMovesFinder = new DiagonallyAvailableMovesFinder(game, this, 1, DiagonallyAvailableMovesFinder.Direction.toBottomLeft);
+        final DiagonallyAvailableMovesFinder bottomRightMovesFinder = new DiagonallyAvailableMovesFinder(game, this, 1, DiagonallyAvailableMovesFinder.Direction.toBottomRight);
+
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        for (int x = -1; x <= 1; x++) {
-            for (int y = -1; y <= 1; y++) {
-                final Point2D point = Point2D.builder()
-                        .setX(this.getPosition().getX() + x)
-                        .setY(this.getPosition().getY() + y)
-                        .build();
-                if (game.getBoard().isWithinBoard(point) && (!point.isEquivalent(this.getPosition()))) {
-                    accessiblePositions.add(point);
-                }
-            }
-        }
+        accessiblePositions.addAll(leftMover.getAvailableMoves());
+        accessiblePositions.addAll(rightMover.getAvailableMoves());
+        accessiblePositions.addAll(downMover.getAvailableMoves());
+        accessiblePositions.addAll(upMover.getAvailableMoves());
+        accessiblePositions.addAll(topLeftMovesFinder.getAvailableMoves());
+        accessiblePositions.addAll(topRightMovesFinder.getAvailableMoves());
+        accessiblePositions.addAll(bottomLeftMovesFinder.getAvailableMoves());
+        accessiblePositions.addAll(bottomRightMovesFinder.getAvailableMoves());
         return List.copyOf(accessiblePositions);
     }
 }

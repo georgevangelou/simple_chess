@@ -5,8 +5,7 @@ import chess.execution.MoveValidityChecker;
 import chess.execution.PieceToPoint2DMove;
 import chess.players.Player;
 import chess.resources.pieces.Piece;
-import chess.space.Board2D;
-import chess.space.Point2D;
+import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,7 @@ import java.io.Serializable;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class HumanMoveReaderAndExecutor {
+public class HumanMoveReaderAndExecutor implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(HumanMoveReaderAndExecutor.class);
     private final String DELIMITED = " ";
     private final ChessGame chessGame;
@@ -84,28 +83,9 @@ public class HumanMoveReaderAndExecutor {
             pieceToPoint2DMove = this.parseAndInspectMove(userInput, player);
         } while (pieceToPoint2DMove == null);
 
-        final long changeInPoints = destroyPieceIfPreexistentInPosition(pieceToPoint2DMove.getTargetPoint());
+        final PieceDestroyer pieceDestroyer = new PieceDestroyer(this.chessGame);
+        final long changeInPoints = pieceDestroyer.destroyPieceIfExistsInPosition(pieceToPoint2DMove, false);
         pieceToPoint2DMove.getPiece().setPosition(pieceToPoint2DMove.getTargetPoint());
         return changeInPoints;
-    }
-
-
-    /**
-     * If an {@link Piece} resides at the {@link Point2D} of interest, remove it from {@link Player} and {@link Board2D}.
-     *
-     * @param point2D
-     */
-    private long destroyPieceIfPreexistentInPosition(final Point2D point2D) {
-        Preconditions.checkNotNull(point2D);
-
-        final Piece preexistingPiece = this.chessGame.getBoard().getPiece(point2D);
-        if (preexistingPiece != null) {
-            this.chessGame.getBoard().removePiece(preexistingPiece.getId());
-            this.chessGame.getPlayerOwningPiece(preexistingPiece.getId()).destroyPiece(preexistingPiece.getId());
-            LOGGER.info("PIECE CAPTURED: " + preexistingPiece.getName() + " was captured.");
-            LOGGER.info("POINTS: White: " + chessGame.getPlayerWhite().getCurrentPoints() + ", Black: " + chessGame.getPlayerBlack().getCurrentPoints());
-            return preexistingPiece.getValue();
-        }
-        return 0;
     }
 }

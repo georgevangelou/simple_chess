@@ -1,10 +1,14 @@
 package chess.resources.pieces;
 
-import chess.constants.BoardDimensions;
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
-import chess.space.Point2D;
+import chess.space.environment.Board2D;
+import chess.space.environment.Point2D;
+import chess.space.movement.DiagonallyAvailableMovesFinder;
+import chess.space.movement.HorizontallylAvailableMovesFinder;
+import chess.space.movement.VerticallyAvailableMovesFinder;
+import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,43 +25,27 @@ public final class Queen extends Piece {
 
 
     @Override
-    public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
+    public List<Point2D> getLawfulMoves(final ChessGame game) {
+        Preconditions.checkNotNull(game);
+
+        final HorizontallylAvailableMovesFinder leftMover = new HorizontallylAvailableMovesFinder(game, this, Board2D.LENGTH, HorizontallylAvailableMovesFinder.Direction.toLeft);
+        final HorizontallylAvailableMovesFinder rightMover = new HorizontallylAvailableMovesFinder(game, this, Board2D.LENGTH, HorizontallylAvailableMovesFinder.Direction.toRight);
+        final VerticallyAvailableMovesFinder downMover = new VerticallyAvailableMovesFinder(game, this, Board2D.LENGTH, VerticallyAvailableMovesFinder.Direction.toBottom);
+        final VerticallyAvailableMovesFinder upMover = new VerticallyAvailableMovesFinder(game, this, Board2D.LENGTH, VerticallyAvailableMovesFinder.Direction.toTop);
+        final DiagonallyAvailableMovesFinder topLeftMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toTopLeft);
+        final DiagonallyAvailableMovesFinder topRightMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toTopRight);
+        final DiagonallyAvailableMovesFinder bottomLeftMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toBottomLeft);
+        final DiagonallyAvailableMovesFinder bottomRightMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toBottomRight);
+
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        for (int i = 0; i < BoardDimensions.SIZE_X; i++) {
-            for (int j = -1; j <= 1; j += 2) {
-                // Diagonal movement
-                for (int k = -1; k <= 1; k += 2) {
-                    {
-                        final int x = getPosition().getX() + j * i;
-                        final int y = getPosition().getY() + k * i;
-                        final Point2D point = Point2D.builder().setX(x).setY(y).build();
-                        if (game.getBoard().isWithinBoard(point)) {
-                            accessiblePositions.add(point);
-                        }
-                    }
-                }
-                // Vertical movement (x axis)
-                {
-                    final int x = getPosition().getX() + j * i;
-                    final int y = getPosition().getY();
-                    final Point2D point = Point2D.builder().setX(x).setY(y).build();
-                    if (game.getBoard().isWithinBoard(point)) {
-                        accessiblePositions.add(point);
-                    }
-                }
-                // Vertical movement (y axis)
-                {
-                    final int x = getPosition().getX();
-                    final int y = getPosition().getY() + j * i;
-                    final Point2D point = Point2D.builder().setX(x).setY(y).build();
-                    if (game.getBoard().isWithinBoard(point)) {
-                        accessiblePositions.add(point);
-                    }
-                }
-            }
-        }
-        accessiblePositions.remove(this.getPosition());
+        accessiblePositions.addAll(leftMover.getAvailableMoves());
+        accessiblePositions.addAll(rightMover.getAvailableMoves());
+        accessiblePositions.addAll(downMover.getAvailableMoves());
+        accessiblePositions.addAll(upMover.getAvailableMoves());
+        accessiblePositions.addAll(topLeftMovesFinder.getAvailableMoves());
+        accessiblePositions.addAll(topRightMovesFinder.getAvailableMoves());
+        accessiblePositions.addAll(bottomLeftMovesFinder.getAvailableMoves());
+        accessiblePositions.addAll(bottomRightMovesFinder.getAvailableMoves());
         return List.copyOf(accessiblePositions);
     }
-
 }

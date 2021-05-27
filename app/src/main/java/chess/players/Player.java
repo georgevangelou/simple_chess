@@ -1,20 +1,27 @@
 package chess.players;
 
+import chess.execution.ChessGame;
+import chess.execution.PieceToPoint2DMove;
 import chess.execution.PlayerPiecesCreator;
 import chess.resources.interfaces.Identifiable;
 import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
 import chess.resources.utilities.IdAutogenerator;
+import chess.space.environment.Board2D;
+import chess.space.environment.Point2D;
+import chess.utilities.KingIsSafeChecker;
 import com.google.common.base.Preconditions;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public abstract class Player implements Identifiable {
+public abstract class Player implements Identifiable, Serializable {
     private final Map<String, Piece> pieces;
     private final String id;
     private final PlayerColor playerColor;
@@ -37,7 +44,7 @@ public abstract class Player implements Identifiable {
     }
 
 
-    public abstract void play();
+    public abstract void play(final ChessGame chessGame);
 
 
     public Map<String, Piece> getPieces() {
@@ -45,8 +52,31 @@ public abstract class Player implements Identifiable {
     }
 
 
+    public List<PieceToPoint2DMove> getPossibleMoves(final ChessGame chessGame) {
+        Preconditions.checkNotNull(chessGame);
+
+        final List<PieceToPoint2DMove> possibleMoves = new ArrayList<>();
+        for (final Piece piece : this.getPieces().values()) {
+            for (final Point2D point : piece.getLawfulMoves(chessGame)) {
+                possibleMoves.add(PieceToPoint2DMove.builder()
+                        .setPiece(piece)
+                        .setTargetPoint(point)
+                        .build()
+                );
+            }
+        }
+        return possibleMoves;
+    }
+
+
     public King getKing() {
         return this.king;
+    }
+
+
+    public boolean isKingSafe(final ChessGame chessGame) {
+        Preconditions.checkNotNull(chessGame);
+        return new KingIsSafeChecker(true).isKingSafe(chessGame, this.king);
     }
 
 
@@ -74,13 +104,11 @@ public abstract class Player implements Identifiable {
 
     /**
      * Destroy an {@link Piece} belonging to this {@link Player}.
-     * This {@link Piece} must also be removed from {@link chess.space.Board2D} explicitly.
+     * This {@link Piece} must also be removed from {@link Board2D} explicitly.
      *
      * @param pieceId {@link Piece#getId()}.
      */
     public void destroyPiece(final String pieceId) {
         this.getPieces().remove(pieceId);
     }
-
-
 }

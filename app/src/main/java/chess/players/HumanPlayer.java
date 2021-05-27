@@ -1,5 +1,6 @@
 package chess.players;
 
+import chess.execution.ChessGame;
 import chess.utilities.HumanMoveReaderAndExecutor;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
@@ -21,7 +22,8 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    public void play() {
+    public void play(final ChessGame chessGame) {
+        Preconditions.checkNotNull(chessGame);
         humanMoveReaderAndExecutor.readExecuteMove(this);
     }
 

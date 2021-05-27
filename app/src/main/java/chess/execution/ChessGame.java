@@ -5,24 +5,27 @@ import chess.players.Player;
 import chess.players.PlayerColor;
 import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
-import chess.space.Board2D;
+import chess.space.environment.Board2D;
 import chess.utilities.HumanMoveReaderAndExecutor;
-import chess.visualization.console.BoardPrinter;
+import chess.utilities.KingIsSafeChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
 /**
+ * Captures the state of a Chess game instance.
+ *
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class ChessGame  {
+public class ChessGame implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChessGame.class);
     private final Player playerWhite;
     private final Player playerBlack;
     private final Board2D board;
     private Player playerNow;
+    private boolean isFinished = false;
 
 
     public ChessGame() {
@@ -39,10 +42,22 @@ public class ChessGame  {
 
 
     public void nextPlayersTurn() {
-        LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays");
+        LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays.");
 
-        playerNow.play();
-        playerNow = (playerNow == playerBlack) ? playerWhite : playerBlack; // Change player at the end of the turn.
+        if (!playerNow.isKingSafe(this)) {
+            LOGGER.warn("CHECK: The King of Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") is threatened!");
+            for (final PieceToPoint2DMove move : playerNow.getPossibleMoves(this)) {
+                if (new KingIsSafeChecker(true).willKingBeSafeAfterMove(this, move)) {
+                    break;
+                }
+            }
+            endGame(getPlayerNotPlayingNow());
+        } else if (playerNow.getPossibleMoves(this).size() == 0) {
+            endGame(null);
+        } else {
+            playerNow.play(this);
+            playerNow = (playerNow == playerBlack) ? playerWhite : playerBlack; // Change player at the end of the turn.
+        }
     }
 
 
@@ -61,7 +76,7 @@ public class ChessGame  {
     }
 
 
-    public Player getPlayerResting() {
+    public Player getPlayerNotPlayingNow() {
         return (this.playerNow == this.playerBlack) ? this.playerWhite : this.playerBlack;
     }
 
@@ -85,12 +100,21 @@ public class ChessGame  {
 
 
     /**
-     * TODO: Check if one of the {@link King}s is in check and cannot escape its doom.
      * TODO: Check if there is a stalemate.
      *
      * @return
      */
     public boolean isFinished() {
-        return false;
+        return this.isFinished;
+    }
+
+
+    private void endGame(final Player playerWon) {
+        if (playerWon==null) {
+            LOGGER.warn("GAME ENDED: Stalemate.");
+            return;
+        }
+        LOGGER.warn("GAME ENDED:  Player " + playerWon.getPlayerColor() + " (" + playerWon.getType() + ") won!");
+        this.isFinished = true;
     }
 }

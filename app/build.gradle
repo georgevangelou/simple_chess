@@ -16,7 +16,9 @@ ext {
             plantUml       : "1.2020.17",
             junit          : "4.12",
             guava          : "29.0-jre",
-            jacksonDatatype: "2.9.9"
+            jacksonDatatype: "2.9.9",
+            gson           : "2.8.2",
+            apacheCommons : "2.6"
 
     ]
 }
@@ -41,6 +43,13 @@ dependencies {
     testCompile 'org.immutables:criteria-mongo:' + versions.immutables
     implementation 'org.immutables:value:' + versions.immutables
     implementation 'org.immutables:criteria-mongo:' + versions.immutables
+
+    //GSON
+//    implementation 'com.google.code.gson:gson:' + versions.gson
+
+    // Apache Commons Lang
+    implementation 'commons-lang:commons-lang:' + versions.apacheCommons
+
 }
 
 application {

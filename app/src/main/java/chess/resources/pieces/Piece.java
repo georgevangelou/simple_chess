@@ -5,16 +5,17 @@ import chess.resources.interfaces.Identifiable;
 import chess.resources.interfaces.Movable;
 import chess.resources.interfaces.Named;
 import chess.resources.utilities.IdAutogenerator;
-import chess.space.Point2D;
+import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public abstract class Piece implements Identifiable, Named, Movable {
+public abstract class Piece implements Identifiable, Named, Movable, Serializable {
     private final String id;
     private final String name;
     private final long value;
@@ -70,5 +71,5 @@ public abstract class Piece implements Identifiable, Named, Movable {
     }
 
 
-    public abstract List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game);
+    public abstract List<Point2D> getLawfulMoves(final ChessGame game);
 }
