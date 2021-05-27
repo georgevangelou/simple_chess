@@ -84,7 +84,7 @@ public class HumanMoveReaderAndExecutor implements Serializable {
         } while (pieceToPoint2DMove == null);
 
         final PieceDestroyer pieceDestroyer = new PieceDestroyer(this.chessGame);
-        final long changeInPoints = pieceDestroyer.destroyPieceIfPreexistentInPosition(pieceToPoint2DMove, false);
+        final long changeInPoints = pieceDestroyer.destroyPieceIfExistsInPosition(pieceToPoint2DMove, false);
         pieceToPoint2DMove.getPiece().setPosition(pieceToPoint2DMove.getTargetPoint());
         return changeInPoints;
     }

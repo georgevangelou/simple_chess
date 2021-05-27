@@ -1,16 +1,20 @@
 package chess.players;
 
 import chess.execution.ChessGame;
+import chess.execution.PieceToPoint2DMove;
 import chess.execution.PlayerPiecesCreator;
 import chess.resources.interfaces.Identifiable;
 import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
 import chess.resources.utilities.IdAutogenerator;
 import chess.space.environment.Board2D;
+import chess.space.environment.Point2D;
 import chess.utilities.KingIsSafeChecker;
 import com.google.common.base.Preconditions;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,6 +52,23 @@ public abstract class Player implements Identifiable, Serializable {
     }
 
 
+    public List<PieceToPoint2DMove> getPossibleMoves(final ChessGame chessGame) {
+        Preconditions.checkNotNull(chessGame);
+
+        final List<PieceToPoint2DMove> possibleMoves = new ArrayList<>();
+        for (final Piece piece : this.getPieces().values()) {
+            for (final Point2D point : piece.getLawfulMoves(chessGame)) {
+                possibleMoves.add(PieceToPoint2DMove.builder()
+                        .setPiece(piece)
+                        .setTargetPoint(point)
+                        .build()
+                );
+            }
+        }
+        return possibleMoves;
+    }
+
+
     public King getKing() {
         return this.king;
     }
@@ -55,7 +76,7 @@ public abstract class Player implements Identifiable, Serializable {
 
     public boolean isKingSafe(final ChessGame chessGame) {
         Preconditions.checkNotNull(chessGame);
-        return new KingIsSafeChecker().isKingSafe(chessGame, this.king);
+        return new KingIsSafeChecker(true).isKingSafe(chessGame, this.king);
     }
 
 

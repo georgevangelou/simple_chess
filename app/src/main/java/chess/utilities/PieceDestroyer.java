@@ -29,7 +29,7 @@ public class PieceDestroyer {
      *
      * @param pieceToPoint2DMove
      */
-    public long destroyPieceIfPreexistentInPosition(final PieceToPoint2DMove pieceToPoint2DMove, final boolean isScenarioHypothetical) {
+    public long destroyPieceIfExistsInPosition(final PieceToPoint2DMove pieceToPoint2DMove, final boolean isScenarioHypothetical) {
         Preconditions.checkNotNull(pieceToPoint2DMove);
 
         final Piece preexistingPiece = this.chessGame.getBoard().getPiece(pieceToPoint2DMove.getTargetPoint());
