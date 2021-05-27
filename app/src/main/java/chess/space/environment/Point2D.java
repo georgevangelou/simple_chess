@@ -1,7 +1,6 @@
 package chess.space.environment;
 
 import chess.resources.immutables.configuration.ImmutablesConfiguration;
-import chess.space.ImmutablePoint2D;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -56,6 +55,12 @@ public interface Point2D extends Serializable {
                 .setX(Integer.parseInt(str.split(DELIMITER)[0]))
                 .setY(Integer.parseInt(str.split(DELIMITER)[1]))
                 .build();
+    }
+
+
+    public static ImmutablePoint2D.Builder from(final Point2D point2D){
+        Preconditions.checkNotNull(point2D);
+        return builder().from(point2D);
     }
 
 
