@@ -18,7 +18,7 @@ import java.util.List;
 public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
     private final Direction direction;
 
-    protected VerticallyAvailableMovesFinder(final ChessGame chessGame, final Piece piece, final int maxSteps, final Direction direction) {
+    public VerticallyAvailableMovesFinder(final ChessGame chessGame, final Piece piece, final int maxSteps, final Direction direction) {
         super(chessGame, piece, maxSteps);
         Preconditions.checkNotNull(direction);
         Preconditions.checkNotNull(piece);
@@ -26,7 +26,7 @@ public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
     }
 
 
-    enum Direction {
+    public enum Direction {
         toTop(-1),
         toBottom(1);
 
@@ -39,8 +39,8 @@ public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
 
 
     @Override
-    public List<PieceToPoint2DMove> getAvailableMoves() {
-        final List<PieceToPoint2DMove> availableMoves = new ArrayList<>();
+    public List<Point2D> getAvailableMoves() {
+        final List<Point2D> availableMoves = new ArrayList<>();
 
         final Point2D currentPosition = this.piece.getPosition();
 
@@ -57,13 +57,15 @@ public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
 
                 // If position contains piece which is of the enemy player, it is lawful move.
                 if (!playerOwningPieceAtTargetPosition.getId().equals(playerOwningPieceTryingToMove.getId())) {
-                    availableMoves.add(PieceToPoint2DMove.builder().setPiece(this.piece).setTargetPoint(newPosition).build());
+//                    availableMoves.add(PieceToPoint2DMove.builder().setPiece(this.piece).setTargetPoint(newPosition).build());
+                    availableMoves.add(newPosition);
                 }
                 // If position contains piece, no more positions of same type should be added.
                 break;
             } else {
                 // If target position contains no piece, add it as lawful move.
-                availableMoves.add(PieceToPoint2DMove.builder().setPiece(this.piece).setTargetPoint(newPosition).build());
+//                availableMoves.add(PieceToPoint2DMove.builder().setPiece(this.piece).setTargetPoint(newPosition).build());
+                availableMoves.add(newPosition);
             }
         }
         return availableMoves;

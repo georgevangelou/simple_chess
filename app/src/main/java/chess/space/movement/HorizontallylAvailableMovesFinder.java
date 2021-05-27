@@ -1,7 +1,6 @@
 package chess.space.movement;
 
 import chess.execution.ChessGame;
-import chess.execution.PieceToPoint2DMove;
 import chess.players.Player;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;
@@ -18,7 +17,7 @@ import java.util.List;
 public class HorizontallylAvailableMovesFinder extends AvailableMovesFinder {
     private final Direction direction;
 
-    protected HorizontallylAvailableMovesFinder(final ChessGame chessGame, final Piece piece, final int maxSteps, final Direction direction) {
+    public HorizontallylAvailableMovesFinder(final ChessGame chessGame, final Piece piece, final int maxSteps, final Direction direction) {
         super(chessGame, piece, maxSteps);
         Preconditions.checkNotNull(direction);
         Preconditions.checkNotNull(piece);
@@ -26,9 +25,9 @@ public class HorizontallylAvailableMovesFinder extends AvailableMovesFinder {
     }
 
 
-    enum Direction {
-        toTop(-1),
-        toBottom(1);
+    public enum Direction {
+        toLeft(-1),
+        toRight(1);
 
         public final int movementModifier;
 
@@ -39,8 +38,8 @@ public class HorizontallylAvailableMovesFinder extends AvailableMovesFinder {
 
 
     @Override
-    public List<PieceToPoint2DMove> getAvailableMoves() {
-        final List<PieceToPoint2DMove> availableMoves = new ArrayList<>();
+    public List<Point2D> getAvailableMoves() {
+        final List<Point2D> availableMoves = new ArrayList<>();
 
         final Point2D currentPosition = this.piece.getPosition();
 
@@ -57,13 +56,14 @@ public class HorizontallylAvailableMovesFinder extends AvailableMovesFinder {
 
                 // If position contains piece which is of the enemy player, it is lawful move.
                 if (!playerOwningPieceAtTargetPosition.getId().equals(playerOwningPieceTryingToMove.getId())) {
-                    availableMoves.add(PieceToPoint2DMove.builder().setPiece(this.piece).setTargetPoint(newPosition).build());
+//                    availableMoves.add(PieceToPoint2DMove.builder().setPiece(this.piece).setTargetPoint(newPosition).build());
+                    availableMoves.add(newPosition);
                 }
                 // If position contains piece, no more positions of same type should be added.
                 break;
             } else {
                 // If target position contains no piece, add it as lawful move.
-                availableMoves.add(PieceToPoint2DMove.builder().setPiece(this.piece).setTargetPoint(newPosition).build());
+                availableMoves.add(newPosition);
             }
         }
         return availableMoves;

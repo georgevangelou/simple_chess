@@ -29,5 +29,5 @@ public abstract class AvailableMovesFinder {
     }
 
 
-    public abstract List<PieceToPoint2DMove> getAvailableMoves();
+    public abstract List<Point2D> getAvailableMoves();
 }
