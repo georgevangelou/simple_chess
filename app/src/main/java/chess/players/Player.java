@@ -1,20 +1,23 @@
 package chess.players;
 
+import chess.execution.ChessGame;
 import chess.execution.PlayerPiecesCreator;
 import chess.resources.interfaces.Identifiable;
 import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
 import chess.resources.utilities.IdAutogenerator;
+import chess.space.environment.Board2D;
+import chess.utilities.KingIsSafeChecker;
 import com.google.common.base.Preconditions;
 
+import java.io.Serializable;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public abstract class Player implements Identifiable {
+public abstract class Player implements Identifiable, Serializable {
     private final Map<String, Piece> pieces;
     private final String id;
     private final PlayerColor playerColor;
@@ -50,6 +53,12 @@ public abstract class Player implements Identifiable {
     }
 
 
+    public boolean isKingSafe(final ChessGame chessGame) {
+        Preconditions.checkNotNull(chessGame);
+        return new KingIsSafeChecker().isKingSafe(chessGame, this.king);
+    }
+
+
     public PlayerColor getPlayerColor() {
         return playerColor;
     }
@@ -74,13 +83,11 @@ public abstract class Player implements Identifiable {
 
     /**
      * Destroy an {@link Piece} belonging to this {@link Player}.
-     * This {@link Piece} must also be removed from {@link chess.space.Board2D} explicitly.
+     * This {@link Piece} must also be removed from {@link Board2D} explicitly.
      *
      * @param pieceId {@link Piece#getId()}.
      */
     public void destroyPiece(final String pieceId) {
         this.getPieces().remove(pieceId);
     }
-
-
 }

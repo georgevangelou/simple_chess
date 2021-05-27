@@ -5,19 +5,20 @@ import chess.players.Player;
 import chess.players.PlayerColor;
 import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
-import chess.space.Board2D;
+import chess.space.environment.Board2D;
 import chess.utilities.HumanMoveReaderAndExecutor;
-import chess.visualization.console.BoardPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
 /**
+ * Captures the state of a Chess game instance.
+ *
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class ChessGame  {
+public class ChessGame implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChessGame.class);
     private final Player playerWhite;
     private final Player playerBlack;
@@ -39,8 +40,11 @@ public class ChessGame  {
 
 
     public void nextPlayersTurn() {
-        LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays");
+        LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays.");
 
+        if (!playerNow.isKingSafe(this)) {
+            LOGGER.warn("CHECK: The King of Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") is threatened!");
+        }
         playerNow.play();
         playerNow = (playerNow == playerBlack) ? playerWhite : playerBlack; // Change player at the end of the turn.
     }

@@ -1,4 +1,4 @@
-package chess.space;
+package chess.space.environment;
 
 import chess.resources.immutables.configuration.ImmutablesConfiguration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
+ * Similar functionality with java.awt.geom.{@link java.awt.geom.Point2D}, but it is immutable.
+ *
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
@@ -53,6 +55,12 @@ public interface Point2D extends Serializable {
                 .setX(Integer.parseInt(str.split(DELIMITER)[0]))
                 .setY(Integer.parseInt(str.split(DELIMITER)[1]))
                 .build();
+    }
+
+
+    public static ImmutablePoint2D.Builder from(final Point2D point2D) {
+        Preconditions.checkNotNull(point2D);
+        return builder().from(point2D);
     }
 
 

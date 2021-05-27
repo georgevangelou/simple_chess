@@ -1,10 +1,10 @@
-package chess.space;
+package chess.space.environment;
 
-import chess.constants.BoardDimensions;
 import chess.players.Player;
 import chess.resources.pieces.Piece;
 import com.google.common.base.Preconditions;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +12,8 @@ import java.util.Map;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class Board2D {
+public class Board2D implements Serializable {
+    public static final int LENGTH = 8;
     private final Map<String, Piece> idToPiece;
 
 
@@ -58,20 +59,16 @@ public class Board2D {
     }
 
 
-    public long getSizeX() {
-        return BoardDimensions.SIZE_X;
-    }
-
-    public long getSizeY() {
-        return BoardDimensions.SIZE_Y;
+    public int getLength() {
+        return LENGTH;
     }
 
 
     public boolean isWithinBoard(final Point2D point) {
         return !((point.getX() < 0) ||
-                (point.getX() > this.getSizeX() - 1) ||
+                (point.getX() > this.getLength() - 1) ||
                 (point.getY() < 0) ||
-                (point.getY() > this.getSizeY() - 1)
+                (point.getY() > this.getLength() - 1)
         );
     }
 

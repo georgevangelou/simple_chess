@@ -27,13 +27,13 @@ public class BoardPrinter {
     public String printBoard() {
         final StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("\n").append("-").append(SPACING);
-        for (int x = 0; x < this.chessGame.getBoard().getSizeX(); x++) {
+        for (int x = 0; x < this.chessGame.getBoard().getLength(); x++) {
             stringBuilder.append(x).append(SPACING);
         }
         stringBuilder.append("\n");
-        for (int y = 0; y < this.chessGame.getBoard().getSizeX(); y++) {
+        for (int y = 0; y < this.chessGame.getBoard().getLength(); y++) {
             stringBuilder.append(y).append(SPACING);
-            for (int x = 0; x < this.chessGame.getBoard().getSizeX(); x++) {
+            for (int x = 0; x < this.chessGame.getBoard().getLength(); x++) {
                 final Piece piece = this.chessGame.getBoard().getPiece(x, y);
                 if (piece != null) {
                     final String pieceVisualRepresentationNormal = piece.getVisualRepresentation();

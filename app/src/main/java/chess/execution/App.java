@@ -7,6 +7,10 @@ import chess.visualization.console.BoardPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author George Evangelou - email: gevangelou@hotmail.com
+ * Created on: 2021-05-19
+ */
 public class App {
     private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 
@@ -20,6 +24,4 @@ public class App {
         }
         LOGGER.info("The game has ended");
     }
-
-
 }

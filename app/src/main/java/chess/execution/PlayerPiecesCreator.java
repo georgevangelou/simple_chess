@@ -1,9 +1,9 @@
 package chess.execution;
 
-import chess.constants.BoardDimensions;
 import chess.players.PlayerColor;
 import chess.resources.pieces.*;
-import chess.space.Point2D;
+import chess.space.environment.Board2D;
+import chess.space.environment.Point2D;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,10 +33,10 @@ public class PlayerPiecesCreator {
      * Only creates {@link Pawn}s.
      */
     private void createPawns() {
-        for (int x = 0; x < BoardDimensions.SIZE_X; x++) {
+        for (int x = 0; x < Board2D.LENGTH; x++) {
             int y = 1;
             if (this.playerColor.equals(PlayerColor.black)) {
-                y = BoardDimensions.SIZE_Y - 2;
+                y = Board2D.LENGTH - 2;
             }
             final Point2D position = Point2D.builder().setX(x).setY(y).build();
             final Pawn pawn = new Pawn(position);
@@ -50,7 +50,7 @@ public class PlayerPiecesCreator {
     private void createPiecesExceptFromPawns() {
         int y = 0;
         if (this.playerColor.equals(PlayerColor.black)) {
-            y = BoardDimensions.SIZE_Y - 1;
+            y = Board2D.LENGTH - 1;
         }
         {
             final Point2D position = Point2D.builder().setX(0).setY(y).build();

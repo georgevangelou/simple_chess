@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 
 /**
  * Reade input from console.
@@ -13,7 +14,7 @@ import java.io.InputStreamReader;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class ConsoleInputReader {
+public class ConsoleInputReader implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleInputReader.class);
 
     public String getUserInput() {

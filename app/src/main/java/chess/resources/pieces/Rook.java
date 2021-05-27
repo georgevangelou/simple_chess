@@ -1,10 +1,13 @@
 package chess.resources.pieces;
 
-import chess.constants.BoardDimensions;
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
-import chess.space.Point2D;
+import chess.space.environment.Board2D;
+import chess.space.environment.Point2D;
+import chess.space.movement.HorizontallylAvailableMovesFinder;
+import chess.space.movement.VerticallyAvailableMovesFinder;
+import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,29 +24,19 @@ public final class Rook extends Piece {
 
 
     @Override
-    public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
+    public List<Point2D> getLawfulMoves(final ChessGame game) {
+        Preconditions.checkNotNull(game);
+
+        final HorizontallylAvailableMovesFinder leftMover = new HorizontallylAvailableMovesFinder(game, this, Board2D.LENGTH, HorizontallylAvailableMovesFinder.Direction.toLeft);
+        final HorizontallylAvailableMovesFinder rightMover = new HorizontallylAvailableMovesFinder(game, this, Board2D.LENGTH, HorizontallylAvailableMovesFinder.Direction.toRight);
+        final VerticallyAvailableMovesFinder downMover = new VerticallyAvailableMovesFinder(game, this, Board2D.LENGTH, VerticallyAvailableMovesFinder.Direction.toBottom);
+        final VerticallyAvailableMovesFinder upMover = new VerticallyAvailableMovesFinder(game, this, Board2D.LENGTH, VerticallyAvailableMovesFinder.Direction.toTop);
+
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        for (int i = 1 - BoardDimensions.SIZE_X; i < BoardDimensions.SIZE_X; i++) {
-            {
-                final Point2D point = Point2D.builder()
-                        .setX(i)
-                        .setY(this.getPosition().getY())
-                        .build();
-                if (game.getBoard().isWithinBoard(point)) {
-                    accessiblePositions.add(point);
-                }
-            }
-            {
-                final Point2D point = Point2D.builder()
-                        .setX(this.getPosition().getX())
-                        .setY(i)
-                        .build();
-                if (game.getBoard().isWithinBoard(point)) {
-                    accessiblePositions.add(point);
-                }
-            }
-        }
-        accessiblePositions.remove(this.getPosition());
+        accessiblePositions.addAll(leftMover.getAvailableMoves());
+        accessiblePositions.addAll(rightMover.getAvailableMoves());
+        accessiblePositions.addAll(downMover.getAvailableMoves());
+        accessiblePositions.addAll(upMover.getAvailableMoves());
         return List.copyOf(accessiblePositions);
     }
 }
