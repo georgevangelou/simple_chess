@@ -5,7 +5,9 @@ import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
 import chess.players.Player;
 import chess.players.PlayerColor;
+import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
+import chess.space.movement.VerticallyAvailableMovesFinder;
 import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
@@ -25,34 +27,24 @@ public final class Pawn extends Piece {
     @Override
     public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
         Preconditions.checkNotNull(game);
-        // TODO: Implement how to chose y+1 or y-1 depending on the player
-        // TODO: +2 if at y=1/y=length-2
         // TODO: x+-1 if able to attack
 
-        final Player player = game.getPlayerOwningPiece(this.getId());
-        final List<Point2D> accessiblePositions = new ArrayList<>();
+        final Player playerOwningPiece = game.getPlayerOwningPiece(this.getId());
 
         // Different players' pawns move in different direction.
-        int moveModifier = 1;
-        if (player.getPlayerColor().equals(PlayerColor.black)) {
-            moveModifier = -1;
+        VerticallyAvailableMovesFinder.Direction direction = VerticallyAvailableMovesFinder.Direction.toBottom;
+        int yInitial = 1;
+        if (playerOwningPiece.getPlayerColor().equals(PlayerColor.black)) {
+            direction = VerticallyAvailableMovesFinder.Direction.toTop;
+            yInitial = 6;
         }
 
-        final Point2D singleMove = Point2D.builder()
-                .setX(this.getPosition().getX())
-                .setY(this.getPosition().getY() + moveModifier)
-                .build();
-        if (game.getBoard().isWithinBoard(singleMove)) {
-            accessiblePositions.add(singleMove);
+        int maxSteps = 1;
+        if (this.getPosition().getY() == yInitial) {
+            maxSteps = 2;
         }
 
-        if (this.getPosition().getY() == 1) {
-            final Point2D doubleMove = Point2D.builder()
-                    .setX(this.getPosition().getX())
-                    .setY(this.getPosition().getY() + 2 * moveModifier)
-                    .build();
-            accessiblePositions.add(doubleMove);
-        }
-        return List.copyOf(accessiblePositions);
+        final VerticallyAvailableMovesFinder moveFinder = new VerticallyAvailableMovesFinder(game, this, maxSteps, direction);
+        return List.copyOf(new ArrayList<>(moveFinder.getAvailableMoves()));
     }
 }

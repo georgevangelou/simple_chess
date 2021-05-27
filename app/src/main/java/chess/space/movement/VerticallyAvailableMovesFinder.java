@@ -1,12 +1,12 @@
 package chess.space.movement;
 
 import chess.execution.ChessGame;
-import chess.execution.PieceToPoint2DMove;
 import chess.players.Player;
 import chess.resources.pieces.Piece;
-import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.List;
  * Created on: 2021-05-26
  */
 public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerticallyAvailableMovesFinder.class);
     private final Direction direction;
 
     public VerticallyAvailableMovesFinder(final ChessGame chessGame, final Piece piece, final int maxSteps, final Direction direction) {
@@ -48,7 +49,7 @@ public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
         final int sign = this.direction.movementModifier;
 
         // Find possible positions in the vertical pathway
-        for (int i = firstStep; sign * i < Board2D.LENGTH; i += this.direction.movementModifier) {
+        for (int i = firstStep; sign * i <= this.maxSteps; i += this.direction.movementModifier) {
             final Point2D newPosition = Point2D.from(currentPosition).setY(currentPosition.getY() + i).build();
             final Piece pieceAtTargetPosition = this.chessGame.getBoard().getPiece(newPosition);
             if (pieceAtTargetPosition != null) {
@@ -57,14 +58,12 @@ public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
 
                 // If position contains piece which is of the enemy player, it is lawful move.
                 if (!playerOwningPieceAtTargetPosition.getId().equals(playerOwningPieceTryingToMove.getId())) {
-//                    availableMoves.add(PieceToPoint2DMove.builder().setPiece(this.piece).setTargetPoint(newPosition).build());
                     availableMoves.add(newPosition);
                 }
                 // If position contains piece, no more positions of same type should be added.
                 break;
             } else {
                 // If target position contains no piece, add it as lawful move.
-//                availableMoves.add(PieceToPoint2DMove.builder().setPiece(this.piece).setTargetPoint(newPosition).build());
                 availableMoves.add(newPosition);
             }
         }
