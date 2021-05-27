@@ -40,8 +40,11 @@ public class ChessGame implements Serializable {
 
 
     public void nextPlayersTurn() {
-        LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays");
+        LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays.");
 
+        if (!playerNow.isKingSafe(this)) {
+            LOGGER.warn("CHECK: The King of Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") is threatened!");
+        }
         playerNow.play();
         playerNow = (playerNow == playerBlack) ? playerWhite : playerBlack; // Change player at the end of the turn.
     }

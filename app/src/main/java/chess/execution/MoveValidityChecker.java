@@ -30,10 +30,8 @@ public class MoveValidityChecker implements Serializable {
         Preconditions.checkNotNull(move);
 
         // The following must be executed in this order
-        return (pointIsInsideTheBoard(move)   // TODO: Remove this. Each piece will be responsible to return points within the board
-                && pointIsWithinReachOfPiece(move)
-                && pointIsIsNotOccupiedBySamePlayersPiece(move)
-//                && pathIsNotBlockedAndPieceIsNotKnight()
+        return (pointIsWithinReachOfPiece(move)
+//                && pointIsIsNotOccupiedBySamePlayersPiece(move)
                 && kingWillNotBeInDangerAfterMove(move)
         );
     }
@@ -100,7 +98,11 @@ public class MoveValidityChecker implements Serializable {
         Preconditions.checkState(tempPlayerNow.getId().equals(tempChessGame.getPlayerOwningPiece(tempPieceWhichMayBeMoved.getId()).getId()));
 
         tempPieceWhichMayBeMoved.setPosition(pieceToPoint2DMove.getTargetPoint());
-        return new KingIsSafeChecker().isKingSafe(tempChessGame, tempPlayerNow.getKing());
+        final boolean kingWillBeSafeAftermove = new KingIsSafeChecker().isKingSafe(tempChessGame, tempPlayerNow.getKing());
+        if (!kingWillBeSafeAftermove) {
+            LOGGER.warn("INVALID MOVE: King would be in check after move!");
+        }
+        return kingWillBeSafeAftermove;
     }
 
 

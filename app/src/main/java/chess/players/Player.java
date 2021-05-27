@@ -1,11 +1,13 @@
 package chess.players;
 
+import chess.execution.ChessGame;
 import chess.execution.PlayerPiecesCreator;
 import chess.resources.interfaces.Identifiable;
 import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
 import chess.resources.utilities.IdAutogenerator;
 import chess.space.environment.Board2D;
+import chess.utilities.KingIsSafeChecker;
 import com.google.common.base.Preconditions;
 
 import java.io.Serializable;
@@ -51,6 +53,12 @@ public abstract class Player implements Identifiable, Serializable {
     }
 
 
+    public boolean isKingSafe(final ChessGame chessGame) {
+        Preconditions.checkNotNull(chessGame);
+        return new KingIsSafeChecker().isKingSafe(chessGame, this.king);
+    }
+
+
     public PlayerColor getPlayerColor() {
         return playerColor;
     }
@@ -82,6 +90,4 @@ public abstract class Player implements Identifiable, Serializable {
     public void destroyPiece(final String pieceId) {
         this.getPieces().remove(pieceId);
     }
-
-
 }
