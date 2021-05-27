@@ -1,9 +1,9 @@
 package chess.resources.pieces;
 
-import chess.constants.BoardDimensions;
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
+import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public final class Queen extends Piece {
     @Override
     public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        for (int i = 0; i < BoardDimensions.SIZE_X; i++) {
+        for (int i = 0; i < Board2D.LENGTH; i++) {
             for (int j = -1; j <= 1; j += 2) {
                 // Diagonal movement
                 for (int k = -1; k <= 1; k += 2) {

@@ -1,8 +1,8 @@
 package chess.execution;
 
-import chess.constants.BoardDimensions;
 import chess.players.Player;
 import chess.resources.pieces.Piece;
+import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
 import chess.utilities.KingIsSafeChecker;
 import com.google.common.base.Preconditions;
@@ -44,7 +44,7 @@ public class MoveValidityChecker implements Serializable {
 
         final int x = move.getTargetPoint().getX();
         final int y = move.getTargetPoint().getY();
-        if (!(0 <= x && x < BoardDimensions.SIZE_X && 0 <= y && y < BoardDimensions.SIZE_Y)) {
+        if (!(0 <= x && x < Board2D.LENGTH && 0 <= y && y < Board2D.LENGTH)) {
             LOGGER.warn("INVALID MOVE: Chosen point is out of bounds: [x,y]=[" + x + "," + y + "]");
             return false;
         }

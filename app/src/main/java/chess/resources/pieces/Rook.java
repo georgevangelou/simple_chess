@@ -1,10 +1,11 @@
 package chess.resources.pieces;
 
-import chess.constants.BoardDimensions;
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
+import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
+import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,9 @@ public final class Rook extends Piece {
 
     @Override
     public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
+        Preconditions.checkNotNull(game);
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        for (int i = 1 - BoardDimensions.SIZE_X; i < BoardDimensions.SIZE_X; i++) {
+        for (int i = 1 - Board2D.LENGTH; i < Board2D.LENGTH; i++) {
             {
                 final Point2D point = Point2D.builder()
                         .setX(i)

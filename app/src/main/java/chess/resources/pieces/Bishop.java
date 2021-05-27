@@ -1,9 +1,9 @@
 package chess.resources.pieces;
 
-import chess.constants.BoardDimensions;
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
+import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 
@@ -25,7 +25,7 @@ public final class Bishop extends Piece {
         Preconditions.checkNotNull(game);
 
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        for (int i = 0; i < BoardDimensions.SIZE_X; i++) {
+        for (int i = 0; i < Board2D.LENGTH; i++) {
             final Point2D point1 = Point2D.builder().setX(getPosition().getX() + i).setY(getPosition().getY() + i).build();
             final Point2D point2 = Point2D.builder().setX(getPosition().getX() + i).setY(getPosition().getY() - i).build();
             final Point2D point3 = Point2D.builder().setX(getPosition().getX() - i).setY(getPosition().getY() + i).build();

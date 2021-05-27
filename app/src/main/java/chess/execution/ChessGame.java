@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 
 /**
+ * Captures the state of a Chess game instance.
+ *
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */

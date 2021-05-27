@@ -1,10 +1,10 @@
 package chess.space.movement;
 
-import chess.constants.BoardDimensions;
 import chess.execution.ChessGame;
 import chess.execution.PieceToPoint2DMove;
 import chess.players.Player;
 import chess.resources.pieces.Piece;
+import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 
@@ -48,7 +48,7 @@ public class HorizontallylAvailableMovesFinder extends AvailableMovesFinder {
         final int sign = this.direction.movementModifier;
 
         // Find possible positions in the vertical pathway
-        for (int i = firstStep; sign * i < BoardDimensions.SIZE_X; i += this.direction.movementModifier) {
+        for (int i = firstStep; sign * i < Board2D.LENGTH; i += this.direction.movementModifier) {
             final Point2D newPosition = Point2D.from(currentPosition).setX(currentPosition.getX() + i).build();
             final Piece pieceAtTargetPosition = this.chessGame.getBoard().getPiece(newPosition);
             if (pieceAtTargetPosition != null) {
