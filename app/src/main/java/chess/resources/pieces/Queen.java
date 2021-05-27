@@ -48,5 +48,4 @@ public final class Queen extends Piece {
         accessiblePositions.addAll(bottomRightMovesFinder.getAvailableMoves());
         return List.copyOf(accessiblePositions);
     }
-
 }
