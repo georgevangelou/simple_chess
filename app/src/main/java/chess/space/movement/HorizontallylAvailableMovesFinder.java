@@ -50,6 +50,8 @@ public class HorizontallylAvailableMovesFinder extends AvailableMovesFinder {
         for (int i = firstStep; sign * i < Board2D.LENGTH; i += this.direction.movementModifier) {
             final Point2D newPosition = Point2D.from(currentPosition).setX(currentPosition.getX() + i).build();
             final Piece pieceAtTargetPosition = this.chessGame.getBoard().getPiece(newPosition);
+
+            // Check if another piece is placed at the point currently under investigation.
             if (pieceAtTargetPosition != null) {
                 final Player playerOwningPieceTryingToMove = this.chessGame.getPlayerOwningPiece(this.piece.getId());
                 final Player playerOwningPieceAtTargetPosition = this.chessGame.getPlayerOwningPiece(pieceAtTargetPosition.getId());

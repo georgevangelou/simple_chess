@@ -52,6 +52,8 @@ public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
         for (int i = firstStep; sign * i <= this.maxSteps; i += this.direction.movementModifier) {
             final Point2D newPosition = Point2D.from(currentPosition).setY(currentPosition.getY() + i).build();
             final Piece pieceAtTargetPosition = this.chessGame.getBoard().getPiece(newPosition);
+
+            // Check if another piece is placed at the point currently under investigation.
             if (pieceAtTargetPosition != null) {
                 final Player playerOwningPieceTryingToMove = this.chessGame.getPlayerOwningPiece(this.piece.getId());
                 final Player playerOwningPieceAtTargetPosition = this.chessGame.getPlayerOwningPiece(pieceAtTargetPosition.getId());
