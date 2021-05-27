@@ -1,7 +1,6 @@
 package chess.space.movement;
 
 import chess.execution.ChessGame;
-import chess.execution.PieceToPoint2DMove;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;

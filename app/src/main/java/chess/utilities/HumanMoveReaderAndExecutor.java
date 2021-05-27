@@ -87,7 +87,4 @@ public class HumanMoveReaderAndExecutor implements Serializable {
         pieceToPoint2DMove.getPiece().setPosition(pieceToPoint2DMove.getTargetPoint());
         return changeInPoints;
     }
-
-
-
 }

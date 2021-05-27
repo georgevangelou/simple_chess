@@ -5,7 +5,6 @@ import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
 import chess.players.Player;
 import chess.players.PlayerColor;
-import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
 import chess.space.movement.VerticallyAvailableMovesFinder;
 import com.google.common.base.Preconditions;
