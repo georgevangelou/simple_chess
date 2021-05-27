@@ -44,7 +44,7 @@ public abstract class Player implements Identifiable, Serializable {
     }
 
 
-    public abstract void play();
+    public abstract void play(final ChessGame chessGame);
 
 
     public Map<String, Piece> getPieces() {

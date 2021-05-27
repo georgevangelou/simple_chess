@@ -55,7 +55,7 @@ public class ChessGame implements Serializable {
         } else if (playerNow.getPossibleMoves(this).size() == 0) {
             endGame(null);
         } else {
-            playerNow.play();
+            playerNow.play(this);
             playerNow = (playerNow == playerBlack) ? playerWhite : playerBlack; // Change player at the end of the turn.
         }
     }
