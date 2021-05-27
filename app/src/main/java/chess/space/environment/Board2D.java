@@ -59,7 +59,7 @@ public class Board2D implements Serializable {
     }
 
 
-    public long getLength() {
+    public int getLength() {
         return LENGTH;
     }
 
