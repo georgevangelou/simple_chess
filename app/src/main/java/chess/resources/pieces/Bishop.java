@@ -5,6 +5,7 @@ import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
 import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
+import chess.space.movement.DiagonallyAvailableMovesFinder;
 import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
@@ -24,26 +25,16 @@ public final class Bishop extends Piece {
     public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
         Preconditions.checkNotNull(game);
 
-        final List<Point2D> accessiblePositions = new ArrayList<>();
-        for (int i = 0; i < Board2D.LENGTH; i++) {
-            final Point2D point1 = Point2D.builder().setX(getPosition().getX() + i).setY(getPosition().getY() + i).build();
-            final Point2D point2 = Point2D.builder().setX(getPosition().getX() + i).setY(getPosition().getY() - i).build();
-            final Point2D point3 = Point2D.builder().setX(getPosition().getX() - i).setY(getPosition().getY() + i).build();
-            final Point2D point4 = Point2D.builder().setX(getPosition().getX() - i).setY(getPosition().getY() - i).build();
+        final DiagonallyAvailableMovesFinder topLeftMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toTopLeft);
+        final DiagonallyAvailableMovesFinder topRightMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toTopRight);
+        final DiagonallyAvailableMovesFinder bottomLeftMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toBottomLeft);
+        final DiagonallyAvailableMovesFinder bottomRightMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toBottomRight);
 
-            if (game.getBoard().isWithinBoard(point1)) {
-                accessiblePositions.add(point1);
-            }
-            if (game.getBoard().isWithinBoard(point2)) {
-                accessiblePositions.add(point2);
-            }
-            if (game.getBoard().isWithinBoard(point3)) {
-                accessiblePositions.add(point3);
-            }
-            if (game.getBoard().isWithinBoard(point4)) {
-                accessiblePositions.add(point4);
-            }
-        }
+        final List<Point2D> accessiblePositions = new ArrayList<>();
+        accessiblePositions.addAll(topLeftMovesFinder.getAvailableMoves());
+        accessiblePositions.addAll(topRightMovesFinder.getAvailableMoves());
+        accessiblePositions.addAll(bottomLeftMovesFinder.getAvailableMoves());
+        accessiblePositions.addAll(bottomRightMovesFinder.getAvailableMoves());
         return List.copyOf(accessiblePositions);
     }
 }
