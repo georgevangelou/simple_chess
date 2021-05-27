@@ -14,14 +14,14 @@ import java.util.List;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public abstract class AbstractPiece implements Identifiable, Named, Movable {
+public abstract class Piece implements Identifiable, Named, Movable {
     private final String id;
     private final String name;
     private final long value;
     private final String visualRepresentation;
     private Point2D position;
 
-    protected AbstractPiece(final String name, final long value, final String visualRepresentation, final Point2D position) {
+    protected Piece(final String name, final long value, final String visualRepresentation, final Point2D position) {
         Preconditions.checkNotNull(name);
         Preconditions.checkNotNull(visualRepresentation);
         Preconditions.checkNotNull(position);
@@ -34,7 +34,7 @@ public abstract class AbstractPiece implements Identifiable, Named, Movable {
     }
 
 
-    protected AbstractPiece(final String name, final long value, final Point2D position) {
+    protected Piece(final String name, final long value, final Point2D position) {
         this(name, value, "X", position);
     }
 

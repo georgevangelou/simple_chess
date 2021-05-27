@@ -1,7 +1,7 @@
 package chess.execution;
 
 import chess.resources.immutables.configuration.ImmutablesConfiguration;
-import chess.resources.pieces.AbstractPiece;
+import chess.resources.pieces.Piece;
 import chess.space.Point2D;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -21,7 +21,7 @@ public interface PieceToPoint2DMove extends Serializable {
 
     public Point2D getTargetPoint();
 
-    public AbstractPiece getPiece();
+    public Piece getPiece();
 
     public static ImmutablePieceToPoint2DMove.Builder builder() {
         return ImmutablePieceToPoint2DMove.builder();

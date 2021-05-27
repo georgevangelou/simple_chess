@@ -13,7 +13,7 @@ import java.util.List;
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public final class Queen extends AbstractPiece {
+public final class Queen extends Piece {
 
     public Queen(final Point2D position) {
         super("Queen", ValuesOfPieces.QUEEN, StringVisualRepresentationOfPieces.QUEEN, position);
@@ -23,49 +23,40 @@ public final class Queen extends AbstractPiece {
     @Override
     public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        for (int i = -BoardDimensions.SIZE_X; i < BoardDimensions.SIZE_X; i++) {
-            {
-                final int x = getPosition().getX() + i;
-                final int y = getPosition().getY() + i;
-                final Point2D point = Point2D.builder().setX(x).setY(y).build();
-                if (game.getBoard().isWithinBoard(point)) {
-                    accessiblePositions.add(point);
+        for (int i = 0; i < BoardDimensions.SIZE_X; i++) {
+            for (int j = -1; j <= 1; j += 2) {
+                // Diagonal movement
+                for (int k = -1; k <= 1; k += 2) {
+                    {
+                        final int x = getPosition().getX() + j * i;
+                        final int y = getPosition().getY() + k * i;
+                        final Point2D point = Point2D.builder().setX(x).setY(y).build();
+                        if (game.getBoard().isWithinBoard(point)) {
+                            accessiblePositions.add(point);
+                        }
+                    }
+                }
+                // Vertical movement (x axis)
+                {
+                    final int x = getPosition().getX() + j * i;
+                    final int y = getPosition().getY();
+                    final Point2D point = Point2D.builder().setX(x).setY(y).build();
+                    if (game.getBoard().isWithinBoard(point)) {
+                        accessiblePositions.add(point);
+                    }
+                }
+                // Vertical movement (y axis)
+                {
+                    final int x = getPosition().getX();
+                    final int y = getPosition().getY() + j * i;
+                    final Point2D point = Point2D.builder().setX(x).setY(y).build();
+                    if (game.getBoard().isWithinBoard(point)) {
+                        accessiblePositions.add(point);
+                    }
                 }
             }
-            {
-                final int x = getPosition().getX() + i;
-                final int y = getPosition().getY() + i;
-                final Point2D point = Point2D.builder().setX(x).setY(y).build();
-                if (game.getBoard().isWithinBoard(point)) {
-                    accessiblePositions.add(point);
-                }
-            }
         }
-
-        for (int x = 0; x < BoardDimensions.SIZE_X; x++) {
-            if (x != this.getPosition().getX()) {
-                continue;
-            }
-            final Point2D point = Point2D.builder()
-                    .setX(x)
-                    .setY(this.getPosition().getY())
-                    .build();
-            if (game.getBoard().isWithinBoard(point)) {
-                accessiblePositions.add(point);
-            }
-        }
-        for (int y = 0; y < BoardDimensions.SIZE_Y; y++) {
-            if (y != this.getPosition().getY()) {
-                continue;
-            }
-            final Point2D point = Point2D.builder()
-                    .setX(this.getPosition().getX())
-                    .setY(y)
-                    .build();
-            if (game.getBoard().isWithinBoard(point)) {
-                accessiblePositions.add(point);
-            }
-        }
+        accessiblePositions.remove(this.getPosition());
         return List.copyOf(accessiblePositions);
     }
 

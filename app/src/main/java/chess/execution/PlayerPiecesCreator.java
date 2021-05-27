@@ -14,7 +14,8 @@ import java.util.Map;
  */
 public class PlayerPiecesCreator {
     private final PlayerColor playerColor;
-    private final Map<String, AbstractPiece> pieces = new HashMap<>();
+    private final Map<String, Piece> pieces = new HashMap<>();
+    private King king;
 
     /**
      * Constructor which initializes all values on call.
@@ -44,7 +45,7 @@ public class PlayerPiecesCreator {
     }
 
     /**
-     * Creates all {@link AbstractPiece}s except for {@link Pawn}s.
+     * Creates all {@link Piece}s except for {@link Pawn}s.
      */
     private void createPiecesExceptFromPawns() {
         int y = 0;
@@ -74,6 +75,7 @@ public class PlayerPiecesCreator {
         {
             final Point2D position = Point2D.builder().setX(4).setY(y).build();
             final King piece = new King(position);
+            this.king = piece;
             pieces.put(piece.getId(), piece);
         }
         {
@@ -93,7 +95,12 @@ public class PlayerPiecesCreator {
         }
     }
 
-    public Map<String, AbstractPiece> getPieces() {
+    public Map<String, Piece> getPieces() {
         return this.pieces;
+    }
+
+
+    public King getKing() {
+        return this.king;
     }
 }

@@ -1,7 +1,7 @@
 package chess.visualization.console;
 
 import chess.execution.ChessGame;
-import chess.resources.pieces.AbstractPiece;
+import chess.resources.pieces.Piece;
 
 /**
  * Prints the current board state in console.
@@ -34,7 +34,7 @@ public class BoardPrinter {
         for (int y = 0; y < this.chessGame.getBoard().getSizeX(); y++) {
             stringBuilder.append(y).append(SPACING);
             for (int x = 0; x < this.chessGame.getBoard().getSizeX(); x++) {
-                final AbstractPiece piece = this.chessGame.getBoard().getPiece(x, y);
+                final Piece piece = this.chessGame.getBoard().getPiece(x, y);
                 if (piece != null) {
                     final String pieceVisualRepresentationNormal = piece.getVisualRepresentation();
                     final String pieceVisualRepresentationDependingOnPlayer =

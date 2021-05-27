@@ -1,8 +1,8 @@
 package chess.space;
 
 import chess.constants.BoardDimensions;
-import chess.players.AbstractPlayer;
-import chess.resources.pieces.AbstractPiece;
+import chess.players.Player;
+import chess.resources.pieces.Piece;
 import com.google.common.base.Preconditions;
 
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.Map;
  * Created on: 2021-05-19
  */
 public class Board2D {
-    private final Map<String, AbstractPiece> idToPiece;
+    private final Map<String, Piece> idToPiece;
 
 
     public Board2D() {
@@ -23,10 +23,11 @@ public class Board2D {
 
     /**
      * Must be called in order to fill this {@link Board2D} with the players' pieces.
+     *
      * @param player1
      * @param player2
      */
-    public void fillBoardWithPieces(final AbstractPlayer player1, final AbstractPlayer player2) {
+    public void fillBoardWithPieces(final Player player1, final Player player2) {
         Preconditions.checkNotNull(player1);
         Preconditions.checkNotNull(player2);
 
@@ -37,12 +38,12 @@ public class Board2D {
 
     /**
      * @param point a {@link Point2D} of {@link Board2D}
-     * @return {@link AbstractPiece} residing in {@link Point2D} of {@link Board2D}, or null if none resides there
+     * @return {@link Piece} residing in {@link Point2D} of {@link Board2D}, or null if none resides there
      */
-    public AbstractPiece getPiece(final Point2D point) {
+    public Piece getPiece(final Point2D point) {
         Preconditions.checkNotNull(point);
 
-        for (final AbstractPiece piece : this.idToPiece.values()) {
+        for (final Piece piece : this.idToPiece.values()) {
             if (piece.getPosition().isEquivalent(point)) {
                 return piece;
             }
@@ -51,7 +52,7 @@ public class Board2D {
     }
 
 
-    public AbstractPiece getPiece(int x, int y) {
+    public Piece getPiece(int x, int y) {
         final Point2D pointOnBoard = Point2D.builder().setX(x).setY(y).build();
         return this.getPiece(pointOnBoard);
     }
@@ -74,4 +75,14 @@ public class Board2D {
         );
     }
 
+
+    /**
+     * Destroy an {@link Piece} placed on this {@link Board2D}.
+     * This {@link Piece} must also be removed from {@link Player} explicitly.
+     *
+     * @param pieceId {@link Piece#getId()}.
+     */
+    public void removePiece(final String pieceId) {
+        this.idToPiece.remove(pieceId);
+    }
 }

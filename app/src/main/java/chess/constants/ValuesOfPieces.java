@@ -5,7 +5,7 @@ package chess.constants;
  * Created on: 2021-05-19
  */
 public class ValuesOfPieces {
-    public static final int KING = 100000000;
+    public static final int KING = 0;
     public static final int QUEEN = 9;
     public static final int ROOK = 5;
     public static final int BISHOP = 3;
