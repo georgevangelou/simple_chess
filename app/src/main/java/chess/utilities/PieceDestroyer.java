@@ -1,7 +1,6 @@
 package chess.utilities;
 
 import chess.execution.ChessGame;
-import chess.execution.MoveValidityChecker;
 import chess.execution.PieceToPoint2DMove;
 import chess.players.Player;
 import chess.resources.pieces.Piece;

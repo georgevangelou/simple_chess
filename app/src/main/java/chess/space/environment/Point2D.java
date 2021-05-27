@@ -58,7 +58,7 @@ public interface Point2D extends Serializable {
     }
 
 
-    public static ImmutablePoint2D.Builder from(final Point2D point2D){
+    public static ImmutablePoint2D.Builder from(final Point2D point2D) {
         Preconditions.checkNotNull(point2D);
         return builder().from(point2D);
     }
