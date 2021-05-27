@@ -71,5 +71,5 @@ public abstract class Piece implements Identifiable, Named, Movable, Serializabl
     }
 
 
-    public abstract List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game);
+    public abstract List<Point2D> getLawfulMoves(final ChessGame game);
 }

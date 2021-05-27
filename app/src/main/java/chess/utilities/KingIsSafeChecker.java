@@ -1,6 +1,7 @@
 package chess.utilities;
 
 import chess.execution.ChessGame;
+import chess.players.Player;
 import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Point2D;
@@ -17,9 +18,11 @@ public class KingIsSafeChecker {
         Preconditions.checkNotNull(chessGame);
         Preconditions.checkNotNull(king);
 
-        final Collection<Piece> enemyPieces = chessGame.getPlayerResting().getPieces().values();
+        final Player thisPlayer = chessGame.getPlayerOwningPiece(king.getId());
+        final Player enemyPlayer = (thisPlayer == chessGame.getPlayerBlack()) ? chessGame.getPlayerWhite() : chessGame.getPlayerBlack();
+        final Collection<Piece> enemyPieces = enemyPlayer.getPieces().values();
         for (final Piece enemyPiece : enemyPieces) {
-            final Collection<Point2D> tilesThatThisPieceCanAttack = enemyPiece.getAccessiblePositionsIgnoringCollisions(chessGame);
+            final Collection<Point2D> tilesThatThisPieceCanAttack = enemyPiece.getLawfulMoves(chessGame);
             if (tilesThatThisPieceCanAttack.contains(king.getPosition())) {
                 return false;
             }

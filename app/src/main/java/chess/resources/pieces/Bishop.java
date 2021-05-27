@@ -22,7 +22,7 @@ public final class Bishop extends Piece {
     }
 
     @Override
-    public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
+    public List<Point2D> getLawfulMoves(final ChessGame game) {
         Preconditions.checkNotNull(game);
 
         final DiagonallyAvailableMovesFinder topLeftMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toTopLeft);

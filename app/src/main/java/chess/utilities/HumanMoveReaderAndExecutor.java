@@ -5,7 +5,6 @@ import chess.execution.MoveValidityChecker;
 import chess.execution.PieceToPoint2DMove;
 import chess.players.Player;
 import chess.resources.pieces.Piece;
-import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
@@ -83,30 +82,12 @@ public class HumanMoveReaderAndExecutor implements Serializable {
             pieceToPoint2DMove = this.parseAndInspectMove(userInput, player);
         } while (pieceToPoint2DMove == null);
 
-        final long changeInPoints = destroyPieceIfPreexistentInPosition(pieceToPoint2DMove);
+        final PieceDestroyer pieceDestroyer = new PieceDestroyer(this.chessGame);
+        final long changeInPoints = pieceDestroyer.destroyPieceIfPreexistentInPosition(pieceToPoint2DMove, false);
         pieceToPoint2DMove.getPiece().setPosition(pieceToPoint2DMove.getTargetPoint());
         return changeInPoints;
     }
 
 
-    /**
-     * If an {@link Piece} resides at the {@link Point2D} of interest, remove it from {@link Player} and {@link Board2D}.
-     *
-     * @param pieceToPoint2DMove
-     */
-    private long destroyPieceIfPreexistentInPosition(final PieceToPoint2DMove pieceToPoint2DMove) {
-        Preconditions.checkNotNull(pieceToPoint2DMove);
 
-        final Piece preexistingPiece = this.chessGame.getBoard().getPiece(pieceToPoint2DMove.getTargetPoint());
-        if (preexistingPiece != null) {
-            this.chessGame.getBoard().removePiece(preexistingPiece.getId());
-            final Player playerWhosePieceWasTheKiller = this.chessGame.getPlayerOwningPiece(pieceToPoint2DMove.getPiece().getId());
-            final Player playerWhosePieceWasDestroyed = this.chessGame.getPlayerOwningPiece(preexistingPiece.getId());
-            playerWhosePieceWasDestroyed.destroyPiece(preexistingPiece.getId());
-            LOGGER.warn("PIECE CAPTURED: " + preexistingPiece.getName() + " [" + playerWhosePieceWasDestroyed.getPlayerColor() + "] was captured by " + pieceToPoint2DMove.getPiece().getName() + " [" + playerWhosePieceWasTheKiller.getPlayerColor() + "].");
-            LOGGER.info("POINTS: White: " + chessGame.getPlayerWhite().getCurrentPoints() + ", Black: " + chessGame.getPlayerBlack().getCurrentPoints());
-            return preexistingPiece.getValue();
-        }
-        return 0;
-    }
 }

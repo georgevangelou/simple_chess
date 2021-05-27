@@ -25,7 +25,7 @@ public final class Queen extends Piece {
 
 
     @Override
-    public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
+    public List<Point2D> getLawfulMoves(final ChessGame game) {
         Preconditions.checkNotNull(game);
 
         final HorizontallylAvailableMovesFinder leftMover = new HorizontallylAvailableMovesFinder(game, this, Board2D.LENGTH, HorizontallylAvailableMovesFinder.Direction.toLeft);

@@ -25,7 +25,7 @@ public final class Pawn extends Piece {
 
 
     @Override
-    public List<Point2D> getAccessiblePositionsIgnoringCollisions(final ChessGame game) {
+    public List<Point2D> getLawfulMoves(final ChessGame game) {
         Preconditions.checkNotNull(game);
         // TODO: x+-1 if able to attack
 

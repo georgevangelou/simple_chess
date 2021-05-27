@@ -5,6 +5,7 @@ import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
 import chess.utilities.KingIsSafeChecker;
+import chess.utilities.PieceDestroyer;
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang.SerializationUtils;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class MoveValidityChecker implements Serializable {
         // The following must be executed in this order
         return (pointIsWithinReachOfPiece(move)
 //                && pointIsIsNotOccupiedBySamePlayersPiece(move)
-                && kingWillNotBeInDangerAfterMove(move)
+                && kingWillBeSafeAfterMove(move)
         );
     }
 
@@ -58,7 +59,7 @@ public class MoveValidityChecker implements Serializable {
         Preconditions.checkNotNull(pieceToPoint2DMove);
 
         final Piece piece = pieceToPoint2DMove.getPiece();
-        for (final Point2D point2D : piece.getAccessiblePositionsIgnoringCollisions(chessGame)) {
+        for (final Point2D point2D : piece.getLawfulMoves(chessGame)) {
             if (point2D.isEquivalent(pieceToPoint2DMove.getTargetPoint())) {
                 return true;
             }
@@ -87,17 +88,24 @@ public class MoveValidityChecker implements Serializable {
     }
 
 
-    private boolean kingWillNotBeInDangerAfterMove(final PieceToPoint2DMove pieceToPoint2DMove) {
+    private boolean kingWillBeSafeAfterMove(final PieceToPoint2DMove pieceToPoint2DMove) {
         Preconditions.checkNotNull(pieceToPoint2DMove);
 
         // Temporarily create a copy of the game so that the move can be done without affecting the actual board
         final ChessGame tempChessGame = (ChessGame) SerializationUtils.clone(this.chessGame);
         final Player tempPlayerNow = tempChessGame.getPlayerNow();
         final Piece tempPieceWhichMayBeMoved = tempChessGame.getBoard().getPiece(pieceToPoint2DMove.getPiece().getPosition());
+        final PieceToPoint2DMove tempMove = PieceToPoint2DMove.builder()
+                .setPiece(tempPieceWhichMayBeMoved)
+                .setTargetPoint(pieceToPoint2DMove.getTargetPoint())
+                .build();
+
         // The following Precondition can be removed. It is jusy for double-checking.
         Preconditions.checkState(tempPlayerNow.getId().equals(tempChessGame.getPlayerOwningPiece(tempPieceWhichMayBeMoved.getId()).getId()));
 
-        tempPieceWhichMayBeMoved.setPosition(pieceToPoint2DMove.getTargetPoint());
+        final PieceDestroyer pieceDestroyer = new PieceDestroyer(tempChessGame);
+        pieceDestroyer.destroyPieceIfPreexistentInPosition(tempMove, true);
+        tempPieceWhichMayBeMoved.setPosition(tempMove.getTargetPoint());
         final boolean kingWillBeSafeAftermove = new KingIsSafeChecker().isKingSafe(tempChessGame, tempPlayerNow.getKing());
         if (!kingWillBeSafeAftermove) {
             LOGGER.warn("INVALID MOVE: King would be in check after move!");
