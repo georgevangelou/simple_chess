@@ -42,20 +42,36 @@ public class ChessGame implements Serializable {
     public void nextPlayersTurn() {
         LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays.");
 
-        if (!playerNow.isKingSafe(this)) {
+        if (playerNow.getPossibleMoves(this).size() == 0) {
+            // Stalemate
+            endGame(null);
+        } else if (!playerNow.isKingSafe(this)) {
+            // King is in check
             LOGGER.warn("CHECK: The King of Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") is threatened!");
+            boolean moveThatSavesKingExists = false;
             for (final PieceToPoint2DMove move : playerNow.getPossibleMoves(this)) {
                 if (new KingIsSafeChecker(true).willKingBeSafeAfterMove(this, move)) {
-                    break;
+                    moveThatSavesKingExists = true;
                 }
             }
-            endGame(getPlayerNotPlayingNow());
-        } else if (playerNow.getPossibleMoves(this).size() == 0) {
-            endGame(null);
+            if (!moveThatSavesKingExists) {
+                // King cannot escape check. Game ends.
+                endGame(getPlayerNotPlayingNow());
+            } else {
+                // King can escape check. Game continues.
+                playerNow.play(this);
+                changePlayer();
+            }
         } else {
+            // King is not in check.
             playerNow.play(this);
-            playerNow = (playerNow == playerBlack) ? playerWhite : playerBlack; // Change player at the end of the turn.
+            changePlayer();
         }
+    }
+
+
+    public void changePlayer() {
+        playerNow = (playerNow == playerBlack) ? playerWhite : playerBlack; // Change player at the end of the turn.
     }
 
 
@@ -107,12 +123,12 @@ public class ChessGame implements Serializable {
     }
 
 
-    private void endGame(final Player playerWon) {
-        if (playerWon==null) {
+    private void endGame(final Player winner) {
+        if (winner == null) {
             LOGGER.warn("GAME ENDED: Stalemate.");
             return;
         }
-        LOGGER.warn("GAME ENDED:  Player " + playerWon.getPlayerColor() + " (" + playerWon.getType() + ") won!");
+        LOGGER.warn("GAME ENDED:  Player " + winner.getPlayerColor() + " (" + winner.getType() + ") won!");
         this.isFinished = true;
     }
 }
