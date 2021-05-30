@@ -44,8 +44,8 @@ public final class Pawn extends Piece {
             maxSteps = 2;
         }
 
-        DiagonallyAvailableMovesFinder.Direction directionRight = playerIsBlack ? DiagonallyAvailableMovesFinder.Direction.toTopRight : DiagonallyAvailableMovesFinder.Direction.toBottomRight;
-        DiagonallyAvailableMovesFinder.Direction directionLeft = playerIsBlack ? DiagonallyAvailableMovesFinder.Direction.toTopLeft : DiagonallyAvailableMovesFinder.Direction.toBottomLeft;
+        final DiagonallyAvailableMovesFinder.Direction directionRight = playerIsBlack ? DiagonallyAvailableMovesFinder.Direction.toTopRight : DiagonallyAvailableMovesFinder.Direction.toBottomRight;
+        final DiagonallyAvailableMovesFinder.Direction directionLeft = playerIsBlack ? DiagonallyAvailableMovesFinder.Direction.toTopLeft : DiagonallyAvailableMovesFinder.Direction.toBottomLeft;
 
         final VerticallyAvailableMovesFinder verticalMoveFinder = new VerticallyAvailableMovesFinder(game, this, maxSteps, direction);
         final DiagonallyAvailableMovesFinder rightDiagonalMovesFinderForAttacks = new DiagonallyAvailableMovesFinder(game, this, 1, directionRight);
@@ -54,15 +54,25 @@ public final class Pawn extends Piece {
 
         // VerticallyAvailableMovesFinder may return position containing enemy piece, but Pawn cannot attach vertically.
         //  Thus, any such case must be removed.
-        final List<Point2D> lawfulVerticalPositionsForThisPawnWithoutPositionsContainingOtherPiece =
+        final List<Point2D> verticalPositionsForThisPawnWithoutPositionsContainingOtherPiece =
                 verticalMoveFinder.getAvailableMoves()
-                        .stream().filter(a -> (game.getBoard().getPiece(a)==null))
+                        .stream().filter(a -> (game.getBoard().getPiece(a) == null))
+                        .collect(Collectors.toList());
+
+        final List<Point2D> rightDiagonalPositionsForThisPawnOnlyWithPositionsContainingOtherPiece =
+                rightDiagonalMovesFinderForAttacks.getAvailableMoves()
+                        .stream().filter(a -> (game.getBoard().getPiece(a) != null))
+                        .collect(Collectors.toList());
+
+        final List<Point2D> leftDiagonalPositionsForThisPawnOnlyWithPositionsContainingOtherPiece =
+                leftDiagonalMovesFinderForAttacks.getAvailableMoves()
+                        .stream().filter(a -> (game.getBoard().getPiece(a) != null))
                         .collect(Collectors.toList());
 
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        accessiblePositions.addAll(lawfulVerticalPositionsForThisPawnWithoutPositionsContainingOtherPiece);
-        accessiblePositions.addAll(rightDiagonalMovesFinderForAttacks.getAvailableMoves());
-        accessiblePositions.addAll(leftDiagonalMovesFinderForAttacks.getAvailableMoves());
+        accessiblePositions.addAll(verticalPositionsForThisPawnWithoutPositionsContainingOtherPiece);
+        accessiblePositions.addAll(rightDiagonalPositionsForThisPawnOnlyWithPositionsContainingOtherPiece);
+        accessiblePositions.addAll(leftDiagonalPositionsForThisPawnOnlyWithPositionsContainingOtherPiece);
         return List.copyOf(accessiblePositions);
     }
 }

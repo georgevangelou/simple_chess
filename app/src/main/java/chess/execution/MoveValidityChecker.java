@@ -4,7 +4,6 @@ import chess.players.Player;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
-import chess.utilities.KingIsSafeChecker;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

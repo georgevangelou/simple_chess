@@ -47,7 +47,7 @@ public class HorizontallylAvailableMovesFinder extends AvailableMovesFinder {
         final int sign = this.direction.movementModifier;
 
         // Find possible positions in the vertical pathway
-        for (int i = firstStep; sign * i < Board2D.LENGTH; i += this.direction.movementModifier) {
+        for (int i = firstStep; sign * i < this.maxSteps; i += this.direction.movementModifier) {
             final Point2D newPosition = Point2D.from(currentPosition).setX(currentPosition.getX() + i).build();
             final Piece pieceAtTargetPosition = this.chessGame.getBoard().getPiece(newPosition);
 
@@ -58,7 +58,6 @@ public class HorizontallylAvailableMovesFinder extends AvailableMovesFinder {
 
                 // If position contains piece which is of the enemy player, it is lawful move.
                 if (!playerOwningPieceAtTargetPosition.getId().equals(playerOwningPieceTryingToMove.getId())) {
-//                    availableMoves.add(PieceToPoint2DMove.builder().setPiece(this.piece).setTargetPoint(newPosition).build());
                     availableMoves.add(newPosition);
                 }
                 // If position contains piece, no more positions of same type should be added.
