@@ -52,10 +52,7 @@ public class ChessGame implements Serializable {
     public void nextPlayersTurn() {
         LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays.");
 
-        if (playerNow.getPossibleMoves(this).size() == 0) {
-            // Stalemate
-            endGame(null);
-        } else if (!playerNow.isKingSafe(this)) {
+        if (!playerNow.isKingSafe(this)) {
             // King is in check
             LOGGER.warn("CHECK: The King of Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") is threatened!");
             boolean moveThatSavesKingExists = false;
@@ -72,6 +69,9 @@ public class ChessGame implements Serializable {
                 playerNow.play(this);
                 changePlayer();
             }
+        } else if (playerNow.getPossibleMoves(this).size() == 0) {
+            // Stalemate
+            endGame(null);
         } else {
             // King is not in check.
             playerNow.play(this);
