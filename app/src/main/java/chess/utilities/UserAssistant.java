@@ -1,6 +1,5 @@
 package chess.utilities;
 
-import chess.players.HumanPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,13 +24,13 @@ public class UserAssistant {
 
                 If the move is lawful, then it will be immediately executed. Otherwise,
                 an error message with provide information on what went wrong (e.g. invalid input, unlawful move. etc.)
-                
+                                
                 White player: UPPERCASE LETTERS
                 Black player: lowercase letters
-                
+                                
                 King:   'K'   Queen:  'Q'   Rook: 'R'
                 Knight: 'N'   Bishop: 'B'   Pawn: 'P'
-                
+                                
                 ----------------------------------------------------------------------------------------------------------------""");
     }
 }

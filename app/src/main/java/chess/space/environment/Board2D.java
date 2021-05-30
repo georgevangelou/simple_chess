@@ -1,6 +1,7 @@
 package chess.space.environment;
 
 import chess.players.Player;
+import chess.resources.immutables.Point2D;
 import chess.resources.pieces.Piece;
 import com.google.common.base.Preconditions;
 

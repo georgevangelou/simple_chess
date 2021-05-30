@@ -1,6 +1,8 @@
 package chess.execution;
 
+import chess.logic.KingIsSafeChecker;
 import chess.players.*;
+import chess.resources.immutables.PieceToPoint2DMove;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;
 import chess.utilities.HumanMoveReaderAndExecutor;

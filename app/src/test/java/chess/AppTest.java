@@ -3,9 +3,5 @@
  */
 package chess;
 
-import chess.execution.App;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 public class AppTest {
 }

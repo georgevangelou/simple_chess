@@ -2,8 +2,8 @@ package chess.space.movement;
 
 import chess.execution.ChessGame;
 import chess.players.Player;
+import chess.resources.immutables.Point2D;
 import chess.resources.pieces.Piece;
-import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
