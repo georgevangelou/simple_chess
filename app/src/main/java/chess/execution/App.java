@@ -3,6 +3,7 @@
  */
 package chess.execution;
 
+import chess.players.PlayerType;
 import chess.visualization.console.BoardPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,7 @@ public class App {
     private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
-        final ChessGame game = new ChessGame();
+        final ChessGame game = new ChessGame(PlayerType.human, PlayerType.human);
         final BoardPrinter boardPrinter = new BoardPrinter(game);
 
         while (!game.isFinished()) {

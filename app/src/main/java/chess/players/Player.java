@@ -85,7 +85,7 @@ public abstract class Player implements Identifiable, Serializable {
     }
 
 
-    public abstract String getType();
+    public abstract PlayerType getType();
 
 
     public boolean pieceBelongsToPlayer(final String pieceId) {

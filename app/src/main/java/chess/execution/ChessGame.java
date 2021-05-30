@@ -1,18 +1,17 @@
 package chess.execution;
 
-import chess.players.HumanPlayer;
-import chess.players.Player;
-import chess.players.PlayerColor;
+import chess.players.*;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;
 import chess.utilities.HumanMoveReaderAndExecutor;
+import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
 /**
- * Captures the state of a Chess game instance.
+ * Implements a Chess instance.
  *
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
@@ -26,15 +25,24 @@ public class ChessGame implements Serializable {
     private boolean isFinished = false;
 
 
-    public ChessGame() {
+    public ChessGame(final PlayerType playerWhiteType, final PlayerType playerBlackType) {
+        Preconditions.checkNotNull(playerWhiteType);
+        Preconditions.checkNotNull(playerBlackType);
+
         this.board = new Board2D();
 
         // TODO: Passing 'this' as a parameter while 'this' is not initialized yet, is bad.
         final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor = new HumanMoveReaderAndExecutor(this);
-        playerWhite = new HumanPlayer(PlayerColor.white, humanMoveReaderAndExecutor);
-        playerBlack = new HumanPlayer(PlayerColor.black, humanMoveReaderAndExecutor);
-        playerNow = playerWhite.getPlayerColor().equals(PlayerColor.white) ? playerWhite : playerBlack; // If player1 is white, they start.
 
+        playerWhite = playerWhiteType.equals(PlayerType.human) ?
+                new HumanPlayer(PlayerColor.white, humanMoveReaderAndExecutor) :
+                new ComputerPlayer(PlayerColor.white);
+
+        playerBlack = playerBlackType.equals(PlayerType.human) ?
+                new HumanPlayer(PlayerColor.black, humanMoveReaderAndExecutor) :
+                new ComputerPlayer(PlayerColor.black);
+
+        playerNow = playerWhite;
         this.board.fillBoardWithPieces(playerWhite, playerBlack);
     }
 

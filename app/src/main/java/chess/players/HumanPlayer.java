@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public class HumanPlayer extends Player {
     private static final Logger LOGGER = LoggerFactory.getLogger(HumanPlayer.class);
+    private static PlayerType playerType = PlayerType.human;
     private final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor;
 
     public HumanPlayer(final PlayerColor playerColor, final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor) {
@@ -29,7 +30,7 @@ public class HumanPlayer extends Player {
 
 
     @Override
-    public String getType() {
-        return "HUMAN";
+    public PlayerType getType() {
+        return playerType;
     }
 }
