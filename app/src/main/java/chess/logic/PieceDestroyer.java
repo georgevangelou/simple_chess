@@ -28,6 +28,7 @@ public class PieceDestroyer {
      * If an {@link Piece} resides at the {@link Point2D} of interest, remove it from {@link Player} and {@link Board2D}.
      *
      * @param pieceToPoint2DMove
+     * @param isScenarioHypothetical if true, logging is silenced
      */
     public long destroyPieceIfExistsInPosition(final PieceToPoint2DMove pieceToPoint2DMove, final boolean isScenarioHypothetical) {
         Preconditions.checkNotNull(pieceToPoint2DMove);
