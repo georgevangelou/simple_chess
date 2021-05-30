@@ -1,7 +1,5 @@
-package chess.utilities;
+package chess.execution;
 
-import chess.execution.ChessGame;
-import chess.execution.PieceToPoint2DMove;
 import chess.players.Player;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;

@@ -9,7 +9,7 @@ import chess.resources.pieces.Piece;
 import chess.resources.utilities.IdAutogenerator;
 import chess.space.environment.Board2D;
 import chess.space.environment.Point2D;
-import chess.utilities.KingIsSafeChecker;
+import chess.execution.KingIsSafeChecker;
 import com.google.common.base.Preconditions;
 
 import java.io.Serializable;

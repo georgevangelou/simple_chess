@@ -3,11 +3,9 @@ package chess.execution;
 import chess.players.HumanPlayer;
 import chess.players.Player;
 import chess.players.PlayerColor;
-import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;
 import chess.utilities.HumanMoveReaderAndExecutor;
-import chess.utilities.KingIsSafeChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
