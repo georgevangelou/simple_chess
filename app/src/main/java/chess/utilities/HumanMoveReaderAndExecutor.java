@@ -76,11 +76,17 @@ public class HumanMoveReaderAndExecutor implements Serializable {
 
 
     public long readExecuteMove(final Player player) {
+        final UserAssistant userAssistant = new UserAssistant();
         PieceToPoint2DMove pieceToPoint2DMove = null;
         do {
-            LOGGER.info("Please input your move (e.g. 3,4 5,5):");
+            final String HELP_COMMAND = "help";
+            LOGGER.info("Please input your move. For help, enter '" + HELP_COMMAND + "':");
             final String userInput = consoleInputReader.getUserInput();
-            pieceToPoint2DMove = this.parseAndInspectMove(userInput, player);
+            if (userInput.equalsIgnoreCase(HELP_COMMAND)) {
+                userAssistant.displayControls();
+            } else {
+                pieceToPoint2DMove = this.parseAndInspectMove(userInput, player);
+            }
         } while (pieceToPoint2DMove == null);
 
         final PieceDestroyer pieceDestroyer = new PieceDestroyer(this.chessGame);
