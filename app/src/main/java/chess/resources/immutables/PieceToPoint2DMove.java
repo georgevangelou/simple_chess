@@ -1,8 +1,7 @@
-package chess.execution;
+package chess.resources.immutables;
 
 import chess.resources.immutables.configuration.ImmutablesConfiguration;
 import chess.resources.pieces.Piece;
-import chess.space.environment.Point2D;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.immutables.value.Value;

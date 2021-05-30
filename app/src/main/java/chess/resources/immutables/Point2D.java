@@ -1,4 +1,4 @@
-package chess.space.environment;
+package chess.resources.immutables;
 
 import chess.resources.immutables.configuration.ImmutablesConfiguration;
 import com.fasterxml.jackson.annotation.JsonIgnore;

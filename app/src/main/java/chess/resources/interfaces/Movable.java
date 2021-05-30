@@ -1,6 +1,6 @@
 package chess.resources.interfaces;
 
-import chess.space.environment.Point2D;
+import chess.resources.immutables.Point2D;
 
 /**
  * @author George Evangelou - email: gevangelou@hotmail.com

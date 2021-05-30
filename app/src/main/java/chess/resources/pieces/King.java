@@ -3,7 +3,7 @@ package chess.resources.pieces;
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
 import chess.execution.ChessGame;
-import chess.space.environment.Point2D;
+import chess.resources.immutables.Point2D;
 import chess.space.movement.DiagonallyAvailableMovesFinder;
 import chess.space.movement.HorizontallylAvailableMovesFinder;
 import chess.space.movement.VerticallyAvailableMovesFinder;

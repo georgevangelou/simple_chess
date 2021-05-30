@@ -53,5 +53,5 @@ dependencies {
 }
 
 application {
-    mainClass = 'chess.execution.App'
+    mainClass = 'chess.execution.ChessGameApp'
 }

@@ -1,9 +1,11 @@
-package chess.execution;
+package chess.logic;
 
+import chess.execution.ChessGame;
 import chess.players.Player;
+import chess.resources.immutables.PieceToPoint2DMove;
+import chess.resources.immutables.Point2D;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;
-import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,7 @@ public class PieceDestroyer {
      * If an {@link Piece} resides at the {@link Point2D} of interest, remove it from {@link Player} and {@link Board2D}.
      *
      * @param pieceToPoint2DMove
+     * @param isScenarioHypothetical if true, logging is silenced
      */
     public long destroyPieceIfExistsInPosition(final PieceToPoint2DMove pieceToPoint2DMove, final boolean isScenarioHypothetical) {
         Preconditions.checkNotNull(pieceToPoint2DMove);

@@ -1,15 +1,15 @@
 package chess.players;
 
 import chess.execution.ChessGame;
-import chess.execution.PieceToPoint2DMove;
-import chess.execution.PlayerPiecesCreator;
+import chess.logic.KingIsSafeChecker;
+import chess.resources.immutables.PieceToPoint2DMove;
+import chess.resources.immutables.Point2D;
 import chess.resources.interfaces.Identifiable;
 import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
 import chess.resources.utilities.IdAutogenerator;
 import chess.space.environment.Board2D;
-import chess.space.environment.Point2D;
-import chess.execution.KingIsSafeChecker;
+import chess.utilities.PlayerPiecesCreator;
 import com.google.common.base.Preconditions;
 
 import java.io.Serializable;
@@ -85,7 +85,7 @@ public abstract class Player implements Identifiable, Serializable {
     }
 
 
-    public abstract String getType();
+    public abstract PlayerType getType();
 
 
     public boolean pieceBelongsToPlayer(final String pieceId) {

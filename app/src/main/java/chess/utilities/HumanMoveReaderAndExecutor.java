@@ -1,12 +1,12 @@
 package chess.utilities;
 
 import chess.execution.ChessGame;
-import chess.execution.MoveValidityChecker;
-import chess.execution.PieceDestroyer;
-import chess.execution.PieceToPoint2DMove;
+import chess.logic.MoveValidityChecker;
+import chess.logic.PieceDestroyer;
 import chess.players.Player;
+import chess.resources.immutables.PieceToPoint2DMove;
+import chess.resources.immutables.Point2D;
 import chess.resources.pieces.Piece;
-import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

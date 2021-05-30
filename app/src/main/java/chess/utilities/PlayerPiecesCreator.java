@@ -1,9 +1,9 @@
-package chess.execution;
+package chess.utilities;
 
 import chess.players.PlayerColor;
+import chess.resources.immutables.Point2D;
 import chess.resources.pieces.*;
 import chess.space.environment.Board2D;
-import chess.space.environment.Point2D;
 
 import java.util.HashMap;
 import java.util.Map;

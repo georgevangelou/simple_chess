@@ -1,9 +1,11 @@
-package chess.execution;
+package chess.logic;
 
+import chess.execution.ChessGame;
 import chess.players.Player;
+import chess.resources.immutables.PieceToPoint2DMove;
+import chess.resources.immutables.Point2D;
 import chess.resources.pieces.King;
 import chess.resources.pieces.Piece;
-import chess.space.environment.Point2D;
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang.SerializationUtils;
 import org.slf4j.Logger;
@@ -12,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 
 /**
+ * Methods to check if a {@link King} is safe under various game states.
+ *
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-26
  */
