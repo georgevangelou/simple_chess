@@ -9,13 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Creates a Player-vs-Player {@link ChessGame} as an application.
+ *
  * @author George Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class App {
-    private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
+public class ChessGameApp {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChessGameApp.class);
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         final ChessGame game = new ChessGame(PlayerType.human, PlayerType.human);
         final BoardPrinter boardPrinter = new BoardPrinter(game);
 
@@ -23,6 +25,6 @@ public class App {
             LOGGER.info(boardPrinter.printBoard());
             game.nextPlayersTurn();
         }
-        LOGGER.info("The game has ended");
+        LOGGER.info("The game has ended.");
     }
 }
