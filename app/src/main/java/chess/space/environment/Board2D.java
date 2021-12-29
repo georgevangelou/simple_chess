@@ -60,6 +60,11 @@ public class Board2D implements Serializable {
     }
 
 
+    public Map<String, Piece> getIdsPieces() {
+        return Map.copyOf(this.idToPiece);
+    }
+
+
     public int getLength() {
         return LENGTH;
     }
