@@ -4,9 +4,13 @@
 package chess.execution;
 
 import chess.players.PlayerType;
-import chess.visualization.console.BoardPrinter;
+import chess.visualization.BoardVisualizer;
+import chess.visualization.console.BoardVisualizerConsole;
+import chess.visualization.graphical.BoardVisualizerGraphical;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 /**
  * This is the main class. It creates a Player-vs-Player {@link ChessGame} as an application.
@@ -17,12 +21,29 @@ import org.slf4j.LoggerFactory;
 public class ChessGameApp {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChessGameApp.class);
 
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IOException {
+//        new ChessGameApp().consoleGame();
+        new ChessGameApp().graphicalGame();
+    }
+
+
+    public void consoleGame() {
         final ChessGame game = new ChessGame(PlayerType.human, PlayerType.human);
-        final BoardPrinter boardPrinter = new BoardPrinter(game);
+        final BoardVisualizer boardVisualizer = new BoardVisualizerConsole(game);
 
         while (!game.isFinished()) {
-            LOGGER.info(boardPrinter.printBoard());
+            boardVisualizer.showBoardView();
+            game.nextPlayersTurn();
+        }
+        LOGGER.info("The game has ended.");
+    }
+
+    public void graphicalGame() throws IOException {
+        final ChessGame game = new ChessGame(PlayerType.human, PlayerType.human);
+        final BoardVisualizer boardVisualizer = BoardVisualizerGraphical.createGraphicBoard(game);
+
+        while (!game.isFinished()) {
+            boardVisualizer.showBoardView();
             game.nextPlayersTurn();
         }
         LOGGER.info("The game has ended.");

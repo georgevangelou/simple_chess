@@ -2,6 +2,9 @@ package chess.visualization.console;
 
 import chess.execution.ChessGame;
 import chess.resources.pieces.Piece;
+import chess.visualization.BoardVisualizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Prints the current board state in console.
@@ -9,14 +12,15 @@ import chess.resources.pieces.Piece;
  * @author Georgios Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
-public class BoardPrinter {
+public class BoardVisualizerConsole implements BoardVisualizer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BoardVisualizerConsole.class);
     private final ChessGame chessGame;
     private final String REPRESENTATION_OF_EMPTY_BLOCK = "_";
     private final String SPACING = "   ";
     private final int SIZE_MULTIPLIER = 2;
 
 
-    public BoardPrinter(final ChessGame chessGame) {
+    public BoardVisualizerConsole(final ChessGame chessGame) {
         this.chessGame = chessGame;
     }
 
@@ -24,7 +28,7 @@ public class BoardPrinter {
     /**
      * @return current state of {@link this#chessGame}
      */
-    public String printBoard() {
+    public void showBoardView() {
         final StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("\n").append("-").append(SPACING);
         for (int x = 0; x < this.chessGame.getBoard().getLength(); x++) {
@@ -56,6 +60,6 @@ public class BoardPrinter {
                 stringBuilderResized.append(stringBuilder.charAt(i));
             }
         }
-        return stringBuilderResized.toString();
+        LOGGER.info(stringBuilderResized.toString());
     }
 }
