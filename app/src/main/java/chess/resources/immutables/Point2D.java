@@ -13,7 +13,7 @@ import java.util.Objects;
 /**
  * Similar functionality with java.awt.geom.{@link java.awt.geom.Point2D}, but it is immutable.
  *
- * @author George Evangelou - email: gevangelou@hotmail.com
+ * @author Georgios Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
 @ImmutablesConfiguration

@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author George Evangelou - email: gevangelou@hotmail.com
+ * @author Georgios Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
 public abstract class Piece implements Identifiable, Named, Movable, Serializable {

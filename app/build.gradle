@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-group 'evangelou.george'
+group 'evangelou.georgios'
 version '1.0-SNAPSHOT'
 
 ext {

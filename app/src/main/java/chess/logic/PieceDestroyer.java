@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author George Evangelou - email: gevangelou@hotmail.com
+ * @author Georgios Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-27
  */
 public class PieceDestroyer {

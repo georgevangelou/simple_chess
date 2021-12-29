@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * This is the main class. It creates a Player-vs-Player {@link ChessGame} as an application.
  *
- * @author George Evangelou - email: gevangelou@hotmail.com
+ * @author Georgios Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
 public class ChessGameApp {

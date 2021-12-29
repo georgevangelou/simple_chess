@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author George Evangelou - email: gevangelou@hotmail.com
+ * @author Georgios Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-26
  */
 public class HorizontallylAvailableMovesFinder extends AvailableMovesFinder {

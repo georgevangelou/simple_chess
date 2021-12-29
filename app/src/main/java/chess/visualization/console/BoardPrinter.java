@@ -6,7 +6,7 @@ import chess.resources.pieces.Piece;
 /**
  * Prints the current board state in console.
  *
- * @author George Evangelou - email: gevangelou@hotmail.com
+ * @author Georgios Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
 public class BoardPrinter {

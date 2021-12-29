@@ -1,7 +1,7 @@
 package chess.constants;
 
 /**
- * @author George Evangelou - email: gevangelou@hotmail.com
+ * @author Georgios Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
 public class ValuesOfPieces {

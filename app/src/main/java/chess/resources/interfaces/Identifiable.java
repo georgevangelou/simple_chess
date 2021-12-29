@@ -3,7 +3,7 @@ package chess.resources.interfaces;
 import org.immutables.criteria.Criteria;
 
 /**
- * @author George Evangelou - email: gevangelou@hotmail.com
+ * @author Georgios Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
 public interface Identifiable {

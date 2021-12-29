@@ -10,7 +10,7 @@ import com.google.common.base.Preconditions;
 import java.util.List;
 
 /**
- * @author George Evangelou - email: gevangelou@hotmail.com
+ * @author Georgios Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-19
  */
 public final class Knight extends Piece {
