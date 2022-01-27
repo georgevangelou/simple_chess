@@ -3,5 +3,26 @@
  */
 package chess;
 
+import chess.execution.ChessGame;
+import chess.execution.ChessGameApp;
+import chess.players.PlayerType;
+import chess.visualization.console.BoardPrinter;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class AppTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppTest.class);
+
+    @Test
+    public void test_CvC() {
+        final ChessGame game = new ChessGame(PlayerType.computer, PlayerType.computer);
+        final BoardPrinter boardPrinter = new BoardPrinter(game);
+
+        while (!game.isFinished()) {
+            LOGGER.info(boardPrinter.printBoard());
+            game.nextPlayersTurn();
+        }
+        LOGGER.info("The game has ended.");
+    }
 }
