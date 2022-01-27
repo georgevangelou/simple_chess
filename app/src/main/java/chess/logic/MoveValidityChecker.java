@@ -18,19 +18,15 @@ import java.io.Serializable;
  */
 public class MoveValidityChecker implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(MoveValidityChecker.class);
-    private final ChessGame chessGame;
 
-    public MoveValidityChecker(final ChessGame chessGame) {
-        Preconditions.checkNotNull(chessGame);
-
-        this.chessGame = chessGame;
+    public MoveValidityChecker() {
     }
 
-    public boolean isMoveValid(final PieceToPoint2DMove move) {
+    public boolean isMoveValid(final ChessGame chessGame, final PieceToPoint2DMove move) {
         Preconditions.checkNotNull(move);
 
         // The following must be executed in this order
-        return (pointIsWithinReachOfPiece(move)
+        return (pointIsWithinReachOfPiece(chessGame, move)
 //                && pointIsIsNotOccupiedBySamePlayersPiece(move)
                 && new KingIsSafeChecker(false).willKingBeSafeAfterMove(chessGame, move)
         );
@@ -54,7 +50,7 @@ public class MoveValidityChecker implements Serializable {
      * @param pieceToPoint2DMove
      * @return true if the point chosen is within the list of points that the piece can reach ignoring collisions.
      */
-    private boolean pointIsWithinReachOfPiece(final PieceToPoint2DMove pieceToPoint2DMove) {
+    private boolean pointIsWithinReachOfPiece(final ChessGame chessGame, final PieceToPoint2DMove pieceToPoint2DMove) {
         Preconditions.checkNotNull(pieceToPoint2DMove);
 
         final Piece piece = pieceToPoint2DMove.getPiece();
@@ -68,16 +64,16 @@ public class MoveValidityChecker implements Serializable {
     }
 
 
-    private boolean pointIsIsNotOccupiedBySamePlayersPiece(final PieceToPoint2DMove pieceToPoint2DMove) {
+    private boolean pointIsIsNotOccupiedBySamePlayersPiece(final ChessGame chessGame, final PieceToPoint2DMove pieceToPoint2DMove) {
         Preconditions.checkNotNull(pieceToPoint2DMove);
 
-        final Player playerNow = this.chessGame.getPlayerNow();
+        final Player playerNow = chessGame.getPlayerNow();
         // TODO: The following Precondition can be removed
-        Preconditions.checkState(playerNow.getId().equals(this.chessGame.getPlayerOwningPiece(pieceToPoint2DMove.getPiece().getId()).getId()));
+        Preconditions.checkState(playerNow.getId().equals(chessGame.getPlayerOwningPiece(pieceToPoint2DMove.getPiece().getId()).getId()));
 
-        final Piece piece = this.chessGame.getBoard().getPiece(pieceToPoint2DMove.getTargetPoint());
+        final Piece piece = chessGame.getBoard().getPiece(pieceToPoint2DMove.getTargetPoint());
         if (piece != null) {
-            final Player otherPlayer = this.chessGame.getPlayerOwningPiece(piece.getId());
+            final Player otherPlayer = chessGame.getPlayerOwningPiece(piece.getId());
             if (playerNow == otherPlayer) {
                 LOGGER.warn("INVALID MOVE: Target occupied by the same player.");
             }

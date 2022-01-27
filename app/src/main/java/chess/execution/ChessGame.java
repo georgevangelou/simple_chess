@@ -35,8 +35,7 @@ public class ChessGame implements Serializable {
         Preconditions.checkNotNull(playerBlackType);
 
 
-        final MoveValidityCheckerSupplier moveValidityCheckerSupplier = new MoveValidityCheckerSupplier();
-        final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor = new HumanMoveReaderAndExecutor(moveValidityCheckerSupplier, this.board);
+        final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor = new HumanMoveReaderAndExecutor(this.board);
         playerWhite = playerWhiteType.equals(PlayerType.human) ?
                 new HumanPlayer(PlayerColor.white, humanMoveReaderAndExecutor) :
                 new ComputerPlayer(PlayerColor.white);
@@ -47,7 +46,6 @@ public class ChessGame implements Serializable {
 
         playerNow = playerWhite;
         this.board.fillBoardWithPieces(playerWhite, playerBlack);
-        moveValidityCheckerSupplier.setMoveValidityChecker(new MoveValidityChecker(this));
     }
 
 

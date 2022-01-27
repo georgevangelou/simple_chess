@@ -23,24 +23,20 @@ public class HumanMoveReaderAndExecutor implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(HumanMoveReaderAndExecutor.class);
     private final String DELIMITED = " ";
     private final ConsoleInputReader consoleInputReader;
-    private final Supplier<MoveValidityChecker> moveValidityCheckerSupplier;
     private final Board2D gameBoard;
 
 
     public HumanMoveReaderAndExecutor(
-            final Supplier<MoveValidityChecker> moveValidityCheckerSupplier,
             final Board2D gameBoard
     ) {
-        Preconditions.checkNotNull(moveValidityCheckerSupplier);
         Preconditions.checkNotNull(gameBoard);
 
         this.consoleInputReader = new ConsoleInputReader();
-        this.moveValidityCheckerSupplier = moveValidityCheckerSupplier;
         this.gameBoard = gameBoard;
     }
 
 
-    private PieceToPoint2DMove parseAndInspectMove(final String userInput, final Player player) {
+    private PieceToPoint2DMove parseAndInspectMove(final ChessGame chessGame, final String userInput, final Player player) {
         Preconditions.checkNotNull(userInput);
 
         if (!userInput.contains(DELIMITED)) {
@@ -78,7 +74,8 @@ public class HumanMoveReaderAndExecutor implements Serializable {
                 .setPiece(pieceChosen)
                 .build();
 
-        return this.moveValidityCheckerSupplier.get().isMoveValid(pieceToPoint2DMove) ? pieceToPoint2DMove : null;
+        final MoveValidityChecker moveValidityChecker = new MoveValidityChecker();
+        return moveValidityChecker.isMoveValid(chessGame, pieceToPoint2DMove) ? pieceToPoint2DMove : null;
     }
 
 
@@ -92,7 +89,7 @@ public class HumanMoveReaderAndExecutor implements Serializable {
             if (userInput.equalsIgnoreCase(HELP_COMMAND)) {
                 userAssistant.displayControls();
             } else {
-                pieceToPoint2DMove = this.parseAndInspectMove(userInput, player);
+                pieceToPoint2DMove = this.parseAndInspectMove(chessGame, userInput, player);
             }
         } while (pieceToPoint2DMove == null);
 

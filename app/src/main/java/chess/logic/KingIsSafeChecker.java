@@ -11,6 +11,7 @@ import org.apache.commons.lang.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -19,7 +20,7 @@ import java.util.Collection;
  * @author Georgios Evangelou - email: gevangelou@hotmail.com
  * Created on: 2021-05-26
  */
-public class KingIsSafeChecker {
+public class KingIsSafeChecker implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(KingIsSafeChecker.class);
     private final boolean isSilenced;
 
