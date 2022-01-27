@@ -23,7 +23,7 @@ public final class Knight extends Piece {
     public List<Point2D> getLawfulMoves(final ChessGame game) {
         Preconditions.checkNotNull(game);
 
-        final GammaAvailableMovesFinder movesFinder = new GammaAvailableMovesFinder(game, this);
-        return List.copyOf(movesFinder.getAvailableMoves());
+        final GammaAvailableMovesFinder movesFinder = new GammaAvailableMovesFinder(this);
+        return List.copyOf(movesFinder.getAvailableMoves(game));
     }
 }

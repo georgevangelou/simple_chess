@@ -16,12 +16,8 @@ import org.slf4j.LoggerFactory;
  */
 public class PieceDestroyer {
     private static final Logger LOGGER = LoggerFactory.getLogger(PieceDestroyer.class);
-    private final ChessGame chessGame;
 
-    public PieceDestroyer(final ChessGame chessGame) {
-        Preconditions.checkNotNull(chessGame);
-
-        this.chessGame = chessGame;
+    public PieceDestroyer() {
     }
 
     /**
@@ -30,14 +26,14 @@ public class PieceDestroyer {
      * @param pieceToPoint2DMove
      * @param isScenarioHypothetical if true, logging is silenced
      */
-    public long destroyPieceIfExistsInPosition(final PieceToPoint2DMove pieceToPoint2DMove, final boolean isScenarioHypothetical) {
+    public long destroyPieceIfExistsInPosition(final ChessGame chessGame, final PieceToPoint2DMove pieceToPoint2DMove, final boolean isScenarioHypothetical) {
         Preconditions.checkNotNull(pieceToPoint2DMove);
 
-        final Piece preexistingPiece = this.chessGame.getBoard().getPiece(pieceToPoint2DMove.getTargetPoint());
+        final Piece preexistingPiece = chessGame.getBoard().getPiece(pieceToPoint2DMove.getTargetPoint());
         if (preexistingPiece != null) {
-            this.chessGame.getBoard().removePiece(preexistingPiece.getId());
-            final Player playerWhosePieceWasTheKiller = this.chessGame.getPlayerOwningPiece(pieceToPoint2DMove.getPiece().getId());
-            final Player playerWhosePieceWasDestroyed = this.chessGame.getPlayerOwningPiece(preexistingPiece.getId());
+            chessGame.getBoard().removePiece(preexistingPiece.getId());
+            final Player playerWhosePieceWasTheKiller = chessGame.getPlayerOwningPiece(pieceToPoint2DMove.getPiece().getId());
+            final Player playerWhosePieceWasDestroyed = chessGame.getPlayerOwningPiece(preexistingPiece.getId());
             if (playerWhosePieceWasDestroyed == playerWhosePieceWasTheKiller) {
                 LOGGER.error("EXCEPTION: Tried to destroy piece of the same player.");
                 return -10000000;

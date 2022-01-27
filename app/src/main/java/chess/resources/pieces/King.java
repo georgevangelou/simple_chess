@@ -26,24 +26,24 @@ public final class King extends Piece {
     public List<Point2D> getLawfulMoves(final ChessGame game) {
         Preconditions.checkNotNull(game);
 
-        final HorizontallylAvailableMovesFinder leftMover = new HorizontallylAvailableMovesFinder(game, this, 1, HorizontallylAvailableMovesFinder.Direction.toLeft);
-        final HorizontallylAvailableMovesFinder rightMover = new HorizontallylAvailableMovesFinder(game, this, 1, HorizontallylAvailableMovesFinder.Direction.toRight);
-        final VerticallyAvailableMovesFinder downMover = new VerticallyAvailableMovesFinder(game, this, 1, VerticallyAvailableMovesFinder.Direction.toBottom);
-        final VerticallyAvailableMovesFinder upMover = new VerticallyAvailableMovesFinder(game, this, 1, VerticallyAvailableMovesFinder.Direction.toTop);
-        final DiagonallyAvailableMovesFinder topLeftMovesFinder = new DiagonallyAvailableMovesFinder(game, this, 1, DiagonallyAvailableMovesFinder.Direction.toTopLeft);
-        final DiagonallyAvailableMovesFinder topRightMovesFinder = new DiagonallyAvailableMovesFinder(game, this, 1, DiagonallyAvailableMovesFinder.Direction.toTopRight);
-        final DiagonallyAvailableMovesFinder bottomLeftMovesFinder = new DiagonallyAvailableMovesFinder(game, this, 1, DiagonallyAvailableMovesFinder.Direction.toBottomLeft);
-        final DiagonallyAvailableMovesFinder bottomRightMovesFinder = new DiagonallyAvailableMovesFinder(game, this, 1, DiagonallyAvailableMovesFinder.Direction.toBottomRight);
+        final HorizontallylAvailableMovesFinder leftMover = new HorizontallylAvailableMovesFinder(this, 1, HorizontallylAvailableMovesFinder.Direction.toLeft);
+        final HorizontallylAvailableMovesFinder rightMover = new HorizontallylAvailableMovesFinder(this, 1, HorizontallylAvailableMovesFinder.Direction.toRight);
+        final VerticallyAvailableMovesFinder downMover = new VerticallyAvailableMovesFinder(this, 1, VerticallyAvailableMovesFinder.Direction.toBottom);
+        final VerticallyAvailableMovesFinder upMover = new VerticallyAvailableMovesFinder(this, 1, VerticallyAvailableMovesFinder.Direction.toTop);
+        final DiagonallyAvailableMovesFinder topLeftMovesFinder = new DiagonallyAvailableMovesFinder(this, 1, DiagonallyAvailableMovesFinder.Direction.toTopLeft);
+        final DiagonallyAvailableMovesFinder topRightMovesFinder = new DiagonallyAvailableMovesFinder(this, 1, DiagonallyAvailableMovesFinder.Direction.toTopRight);
+        final DiagonallyAvailableMovesFinder bottomLeftMovesFinder = new DiagonallyAvailableMovesFinder(this, 1, DiagonallyAvailableMovesFinder.Direction.toBottomLeft);
+        final DiagonallyAvailableMovesFinder bottomRightMovesFinder = new DiagonallyAvailableMovesFinder(this, 1, DiagonallyAvailableMovesFinder.Direction.toBottomRight);
 
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        accessiblePositions.addAll(leftMover.getAvailableMoves());
-        accessiblePositions.addAll(rightMover.getAvailableMoves());
-        accessiblePositions.addAll(downMover.getAvailableMoves());
-        accessiblePositions.addAll(upMover.getAvailableMoves());
-        accessiblePositions.addAll(topLeftMovesFinder.getAvailableMoves());
-        accessiblePositions.addAll(topRightMovesFinder.getAvailableMoves());
-        accessiblePositions.addAll(bottomLeftMovesFinder.getAvailableMoves());
-        accessiblePositions.addAll(bottomRightMovesFinder.getAvailableMoves());
+        accessiblePositions.addAll(leftMover.getAvailableMoves(game));
+        accessiblePositions.addAll(rightMover.getAvailableMoves(game));
+        accessiblePositions.addAll(downMover.getAvailableMoves(game));
+        accessiblePositions.addAll(upMover.getAvailableMoves(game));
+        accessiblePositions.addAll(topLeftMovesFinder.getAvailableMoves(game));
+        accessiblePositions.addAll(topRightMovesFinder.getAvailableMoves(game));
+        accessiblePositions.addAll(bottomLeftMovesFinder.getAvailableMoves(game));
+        accessiblePositions.addAll(bottomRightMovesFinder.getAvailableMoves(game));
         return List.copyOf(accessiblePositions);
     }
 }

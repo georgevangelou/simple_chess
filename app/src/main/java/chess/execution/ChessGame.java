@@ -1,10 +1,12 @@
 package chess.execution;
 
 import chess.logic.KingIsSafeChecker;
+import chess.logic.MoveValidityChecker;
 import chess.players.*;
 import chess.resources.immutables.PieceToPoint2DMove;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;
+import chess.suppliers.MoveValidityCheckerSupplier;
 import chess.utilities.HumanMoveReaderAndExecutor;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
@@ -33,8 +35,8 @@ public class ChessGame implements Serializable {
 
         this.board = new Board2D();
 
-        // TODO: Passing 'this' as a parameter while 'this' is not initialized yet, is bad.
-        final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor = new HumanMoveReaderAndExecutor(this);
+        final MoveValidityCheckerSupplier moveValidityCheckerSupplier = new MoveValidityCheckerSupplier();
+        final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor = new HumanMoveReaderAndExecutor(moveValidityCheckerSupplier, this.board);
 
         playerWhite = playerWhiteType.equals(PlayerType.human) ?
                 new HumanPlayer(PlayerColor.white, humanMoveReaderAndExecutor) :
@@ -46,6 +48,7 @@ public class ChessGame implements Serializable {
 
         playerNow = playerWhite;
         this.board.fillBoardWithPieces(playerWhite, playerBlack);
+        moveValidityCheckerSupplier.setMoveValidityChecker(new MoveValidityChecker(this));
     }
 
 

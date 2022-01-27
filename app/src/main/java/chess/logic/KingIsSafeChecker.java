@@ -60,8 +60,8 @@ public class KingIsSafeChecker {
         // The following Precondition can be removed. It is jusy for double-checking.
         Preconditions.checkState(tempPlayerNow.getId().equals(tempChessGame.getPlayerOwningPiece(tempPieceWhichMayBeMoved.getId()).getId()));
 
-        final PieceDestroyer pieceDestroyer = new PieceDestroyer(tempChessGame);
-        pieceDestroyer.destroyPieceIfExistsInPosition(tempMove, true);
+        final PieceDestroyer pieceDestroyer = new PieceDestroyer();
+        pieceDestroyer.destroyPieceIfExistsInPosition(tempChessGame, tempMove, true);
         tempPieceWhichMayBeMoved.setPosition(tempMove.getTargetPoint());
         final boolean kingWillBeSafeAftermove = isKingSafe(tempChessGame, tempPlayerNow.getKing());
         if (!kingWillBeSafeAftermove && !this.isSilenced) {

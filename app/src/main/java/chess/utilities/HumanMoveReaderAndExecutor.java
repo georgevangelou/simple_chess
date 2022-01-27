@@ -7,7 +7,9 @@ import chess.players.Player;
 import chess.resources.immutables.PieceToPoint2DMove;
 import chess.resources.immutables.Point2D;
 import chess.resources.pieces.Piece;
+import chess.space.environment.Board2D;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,17 +22,21 @@ import java.io.Serializable;
 public class HumanMoveReaderAndExecutor implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(HumanMoveReaderAndExecutor.class);
     private final String DELIMITED = " ";
-    private final ChessGame chessGame;
     private final ConsoleInputReader consoleInputReader;
-    private final MoveValidityChecker moveValidityChecker;
+    private final Supplier<MoveValidityChecker> moveValidityCheckerSupplier;
+    private final Board2D gameBoard;
 
 
-    public HumanMoveReaderAndExecutor(final ChessGame chessGame) {
-        Preconditions.checkNotNull(chessGame);
+    public HumanMoveReaderAndExecutor(
+            final Supplier<MoveValidityChecker> moveValidityCheckerSupplier,
+            final Board2D gameBoard
+    ) {
+        Preconditions.checkNotNull(moveValidityCheckerSupplier);
+        Preconditions.checkNotNull(gameBoard);
 
-        this.chessGame = chessGame;
         this.consoleInputReader = new ConsoleInputReader();
-        this.moveValidityChecker = new MoveValidityChecker(chessGame);
+        this.moveValidityCheckerSupplier = moveValidityCheckerSupplier;
+        this.gameBoard = gameBoard;
     }
 
 
@@ -57,7 +63,7 @@ public class HumanMoveReaderAndExecutor implements Serializable {
         }
 
 
-        final Piece pieceChosen = this.chessGame.getBoard().getPiece(startPoint);
+        final Piece pieceChosen = this.gameBoard.getPiece(startPoint);
         if (pieceChosen == null) {
             LOGGER.warn("ERROR: No piece selected. Try again: ");
             return null;
@@ -72,11 +78,11 @@ public class HumanMoveReaderAndExecutor implements Serializable {
                 .setPiece(pieceChosen)
                 .build();
 
-        return this.moveValidityChecker.isMoveValid(pieceToPoint2DMove) ? pieceToPoint2DMove : null;
+        return this.moveValidityCheckerSupplier.get().isMoveValid(pieceToPoint2DMove) ? pieceToPoint2DMove : null;
     }
 
 
-    public long readExecuteMove(final Player player) {
+    public long readExecuteMove(final Player player, final ChessGame chessGame) {
         final UserAssistant userAssistant = new UserAssistant();
         PieceToPoint2DMove pieceToPoint2DMove = null;
         do {
@@ -90,8 +96,7 @@ public class HumanMoveReaderAndExecutor implements Serializable {
             }
         } while (pieceToPoint2DMove == null);
 
-        final PieceDestroyer pieceDestroyer = new PieceDestroyer(this.chessGame);
-        final long changeInPoints = pieceDestroyer.destroyPieceIfExistsInPosition(pieceToPoint2DMove, false);
+        final long changeInPoints = new PieceDestroyer().destroyPieceIfExistsInPosition(chessGame, pieceToPoint2DMove, false);
         pieceToPoint2DMove.getPiece().setPosition(pieceToPoint2DMove.getTargetPoint());
         return changeInPoints;
     }

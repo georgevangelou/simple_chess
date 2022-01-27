@@ -18,14 +18,14 @@ import java.util.List;
 public class GammaAvailableMovesFinder extends AvailableMovesFinder {
     private static final Logger LOGGER = LoggerFactory.getLogger(GammaAvailableMovesFinder.class);
 
-    public GammaAvailableMovesFinder(final ChessGame chessGame, final Piece piece) {
-        super(chessGame, piece, 1);
+    public GammaAvailableMovesFinder(final Piece piece) {
+        super(piece, 1);
         Preconditions.checkNotNull(piece);
     }
 
 
     @Override
-    public List<Point2D> getAvailableMoves() {
+    public List<Point2D> getAvailableMoves(final ChessGame chessGame) {
         final List<Point2D> availableMoves = new ArrayList<>();
 
         for (int x = -2; x <= 2; x++) {
@@ -37,12 +37,12 @@ public class GammaAvailableMovesFinder extends AvailableMovesFinder {
                         .setX(this.piece.getPosition().getX() + x)
                         .setY(this.piece.getPosition().getY() + y)
                         .build();
-                if (this.chessGame.getBoard().isWithinBoard(newPosition)) {
+                if (chessGame.getBoard().isWithinBoard(newPosition)) {
                     // Check if another piece is placed at the point currently under investigation.
-                    final Piece pieceAtTargetPosition = this.chessGame.getBoard().getPiece(newPosition);
+                    final Piece pieceAtTargetPosition = chessGame.getBoard().getPiece(newPosition);
                     if (pieceAtTargetPosition != null) {
-                        final Player playerOwningPieceTryingToMove = this.chessGame.getPlayerOwningPiece(this.piece.getId());
-                        final Player playerOwningPieceAtTargetPosition = this.chessGame.getPlayerOwningPiece(pieceAtTargetPosition.getId());
+                        final Player playerOwningPieceTryingToMove = chessGame.getPlayerOwningPiece(this.piece.getId());
+                        final Player playerOwningPieceAtTargetPosition = chessGame.getPlayerOwningPiece(pieceAtTargetPosition.getId());
 
                         // If position contains piece which is of the enemy player, it is lawful move.
                         if (!playerOwningPieceAtTargetPosition.getId().equals(playerOwningPieceTryingToMove.getId())) {

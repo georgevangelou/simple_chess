@@ -19,8 +19,8 @@ public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
     private static final Logger LOGGER = LoggerFactory.getLogger(VerticallyAvailableMovesFinder.class);
     private final Direction direction;
 
-    public VerticallyAvailableMovesFinder(final ChessGame chessGame, final Piece piece, final int maxSteps, final Direction direction) {
-        super(chessGame, piece, maxSteps);
+    public VerticallyAvailableMovesFinder(final Piece piece, final int maxSteps, final Direction direction) {
+        super(piece, maxSteps);
         Preconditions.checkNotNull(direction);
         Preconditions.checkNotNull(piece);
         this.direction = direction;
@@ -40,7 +40,7 @@ public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
 
 
     @Override
-    public List<Point2D> getAvailableMoves() {
+    public List<Point2D> getAvailableMoves(final ChessGame chessGame) {
         final List<Point2D> availableMoves = new ArrayList<>();
 
         final Point2D currentPosition = this.piece.getPosition();
@@ -51,12 +51,12 @@ public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
         // Find possible positions in the vertical pathway
         for (int i = firstStep; sign * i <= this.maxSteps; i += this.direction.movementModifier) {
             final Point2D newPosition = Point2D.from(currentPosition).setY(currentPosition.getY() + i).build();
-            if (this.chessGame.getBoard().isWithinBoard(newPosition)) {
-                final Piece pieceAtTargetPosition = this.chessGame.getBoard().getPiece(newPosition);
+            if (chessGame.getBoard().isWithinBoard(newPosition)) {
+                final Piece pieceAtTargetPosition = chessGame.getBoard().getPiece(newPosition);
                 // Check if another piece is placed at the point currently under investigation.
                 if (pieceAtTargetPosition != null) {
-                    final Player playerOwningPieceTryingToMove = this.chessGame.getPlayerOwningPiece(this.piece.getId());
-                    final Player playerOwningPieceAtTargetPosition = this.chessGame.getPlayerOwningPiece(pieceAtTargetPosition.getId());
+                    final Player playerOwningPieceTryingToMove = chessGame.getPlayerOwningPiece(this.piece.getId());
+                    final Player playerOwningPieceAtTargetPosition = chessGame.getPlayerOwningPiece(pieceAtTargetPosition.getId());
 
                     // If position contains piece which is of the enemy player, it is lawful move.
                     if (!playerOwningPieceAtTargetPosition.getId().equals(playerOwningPieceTryingToMove.getId())) {

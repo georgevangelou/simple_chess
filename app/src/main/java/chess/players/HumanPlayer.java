@@ -25,7 +25,7 @@ public class HumanPlayer extends Player {
     @Override
     public void play(final ChessGame chessGame) {
         Preconditions.checkNotNull(chessGame);
-        humanMoveReaderAndExecutor.readExecuteMove(this);
+        humanMoveReaderAndExecutor.readExecuteMove(this, chessGame);
     }
 
 

@@ -27,16 +27,16 @@ public final class Rook extends Piece {
     public List<Point2D> getLawfulMoves(final ChessGame game) {
         Preconditions.checkNotNull(game);
 
-        final HorizontallylAvailableMovesFinder leftMover = new HorizontallylAvailableMovesFinder(game, this, Board2D.LENGTH, HorizontallylAvailableMovesFinder.Direction.toLeft);
-        final HorizontallylAvailableMovesFinder rightMover = new HorizontallylAvailableMovesFinder(game, this, Board2D.LENGTH, HorizontallylAvailableMovesFinder.Direction.toRight);
-        final VerticallyAvailableMovesFinder downMover = new VerticallyAvailableMovesFinder(game, this, Board2D.LENGTH, VerticallyAvailableMovesFinder.Direction.toBottom);
-        final VerticallyAvailableMovesFinder upMover = new VerticallyAvailableMovesFinder(game, this, Board2D.LENGTH, VerticallyAvailableMovesFinder.Direction.toTop);
+        final HorizontallylAvailableMovesFinder leftMover = new HorizontallylAvailableMovesFinder(this, Board2D.LENGTH, HorizontallylAvailableMovesFinder.Direction.toLeft);
+        final HorizontallylAvailableMovesFinder rightMover = new HorizontallylAvailableMovesFinder(this, Board2D.LENGTH, HorizontallylAvailableMovesFinder.Direction.toRight);
+        final VerticallyAvailableMovesFinder downMover = new VerticallyAvailableMovesFinder(this, Board2D.LENGTH, VerticallyAvailableMovesFinder.Direction.toBottom);
+        final VerticallyAvailableMovesFinder upMover = new VerticallyAvailableMovesFinder(this, Board2D.LENGTH, VerticallyAvailableMovesFinder.Direction.toTop);
 
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        accessiblePositions.addAll(leftMover.getAvailableMoves());
-        accessiblePositions.addAll(rightMover.getAvailableMoves());
-        accessiblePositions.addAll(downMover.getAvailableMoves());
-        accessiblePositions.addAll(upMover.getAvailableMoves());
+        accessiblePositions.addAll(leftMover.getAvailableMoves(game));
+        accessiblePositions.addAll(rightMover.getAvailableMoves(game));
+        accessiblePositions.addAll(downMover.getAvailableMoves(game));
+        accessiblePositions.addAll(upMover.getAvailableMoves(game));
         return List.copyOf(accessiblePositions);
     }
 }

@@ -24,16 +24,16 @@ public final class Bishop extends Piece {
     public List<Point2D> getLawfulMoves(final ChessGame game) {
         Preconditions.checkNotNull(game);
 
-        final DiagonallyAvailableMovesFinder topLeftMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toTopLeft);
-        final DiagonallyAvailableMovesFinder topRightMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toTopRight);
-        final DiagonallyAvailableMovesFinder bottomLeftMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toBottomLeft);
-        final DiagonallyAvailableMovesFinder bottomRightMovesFinder = new DiagonallyAvailableMovesFinder(game, this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toBottomRight);
+        final DiagonallyAvailableMovesFinder topLeftMovesFinder = new DiagonallyAvailableMovesFinder(this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toTopLeft);
+        final DiagonallyAvailableMovesFinder topRightMovesFinder = new DiagonallyAvailableMovesFinder(this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toTopRight);
+        final DiagonallyAvailableMovesFinder bottomLeftMovesFinder = new DiagonallyAvailableMovesFinder(this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toBottomLeft);
+        final DiagonallyAvailableMovesFinder bottomRightMovesFinder = new DiagonallyAvailableMovesFinder(this, game.getBoard().getLength(), DiagonallyAvailableMovesFinder.Direction.toBottomRight);
 
         final List<Point2D> accessiblePositions = new ArrayList<>();
-        accessiblePositions.addAll(topLeftMovesFinder.getAvailableMoves());
-        accessiblePositions.addAll(topRightMovesFinder.getAvailableMoves());
-        accessiblePositions.addAll(bottomLeftMovesFinder.getAvailableMoves());
-        accessiblePositions.addAll(bottomRightMovesFinder.getAvailableMoves());
+        accessiblePositions.addAll(topLeftMovesFinder.getAvailableMoves(game));
+        accessiblePositions.addAll(topRightMovesFinder.getAvailableMoves(game));
+        accessiblePositions.addAll(bottomLeftMovesFinder.getAvailableMoves(game));
+        accessiblePositions.addAll(bottomRightMovesFinder.getAvailableMoves(game));
         return List.copyOf(accessiblePositions);
     }
 }
