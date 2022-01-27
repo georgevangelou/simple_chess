@@ -2,6 +2,7 @@ package chess.players;
 
 import chess.execution.ChessGame;
 import com.google.common.base.Preconditions;
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,7 @@ public class ComputerPlayer extends Player {
 
     public ComputerPlayer(final PlayerColor playerColor) {
         super(playerColor);
-        throw new RuntimeException("Computer Player not implemented yet.");
+        throw new NotImplementedException("Computer Player not implemented yet.");
     }
 
     @Override
