@@ -22,9 +22,10 @@ import java.io.Serializable;
  */
 public class ChessGame implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChessGame.class);
+    private final Board2D board = new Board2D();
+    private final KingIsSafeChecker kingIsSafeChecker = new KingIsSafeChecker(true);
     private final Player playerWhite;
     private final Player playerBlack;
-    private final Board2D board;
     private Player playerNow;
     private boolean isFinished = false;
 
@@ -33,11 +34,9 @@ public class ChessGame implements Serializable {
         Preconditions.checkNotNull(playerWhiteType);
         Preconditions.checkNotNull(playerBlackType);
 
-        this.board = new Board2D();
 
         final MoveValidityCheckerSupplier moveValidityCheckerSupplier = new MoveValidityCheckerSupplier();
         final HumanMoveReaderAndExecutor humanMoveReaderAndExecutor = new HumanMoveReaderAndExecutor(moveValidityCheckerSupplier, this.board);
-
         playerWhite = playerWhiteType.equals(PlayerType.human) ?
                 new HumanPlayer(PlayerColor.white, humanMoveReaderAndExecutor) :
                 new ComputerPlayer(PlayerColor.white);
@@ -60,7 +59,7 @@ public class ChessGame implements Serializable {
             LOGGER.warn("CHECK: The King of Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") is threatened!");
             boolean moveThatSavesKingExists = false;
             for (final PieceToPoint2DMove move : playerNow.getPossibleMoves(this)) {
-                if (new KingIsSafeChecker(true).willKingBeSafeAfterMove(this, move)) {
+                if (kingIsSafeChecker.willKingBeSafeAfterMove(this, move)) {
                     moveThatSavesKingExists = true;
                 }
             }

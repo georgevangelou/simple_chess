@@ -26,19 +26,6 @@ public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
         this.direction = direction;
     }
 
-
-    public enum Direction {
-        toTop(-1),
-        toBottom(1);
-
-        public final int movementModifier;
-
-        private Direction(final int movementModifier) {
-            this.movementModifier = movementModifier;
-        }
-    }
-
-
     @Override
     public List<Point2D> getAvailableMoves(final ChessGame chessGame) {
         final List<Point2D> availableMoves = new ArrayList<>();
@@ -71,5 +58,17 @@ public class VerticallyAvailableMovesFinder extends AvailableMovesFinder {
             }
         }
         return availableMoves;
+    }
+
+
+    public enum Direction {
+        toTop(-1),
+        toBottom(1);
+
+        public final int movementModifier;
+
+        private Direction(final int movementModifier) {
+            this.movementModifier = movementModifier;
+        }
     }
 }
