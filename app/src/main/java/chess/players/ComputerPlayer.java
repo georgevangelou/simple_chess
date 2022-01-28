@@ -1,6 +1,6 @@
 package chess.players;
 
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;

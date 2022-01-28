@@ -2,7 +2,8 @@ package chess.resources.pieces;
 
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
+import chess.players.Player;
 import chess.resources.immutables.Point2D;
 import chess.space.movement.DiagonallyAvailableMovesFinder;
 import com.google.common.base.Preconditions;
@@ -16,8 +17,8 @@ import java.util.List;
  */
 public final class Bishop extends Piece {
 
-    public Bishop(final Point2D position) {
-        super("Bishop", ValuesOfPieces.BISHOP, StringVisualRepresentationOfPieces.BISHOP, position);
+    public Bishop(final Player owner, final Point2D position) {
+        super("Bishop", owner, ValuesOfPieces.BISHOP, StringVisualRepresentationOfPieces.BISHOP, position);
     }
 
     @Override

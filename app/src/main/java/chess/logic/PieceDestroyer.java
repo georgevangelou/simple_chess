@@ -1,6 +1,6 @@
 package chess.logic;
 
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
 import chess.players.Player;
 import chess.resources.immutables.PieceToPoint2DMove;
 import chess.resources.immutables.Point2D;

@@ -1,12 +1,10 @@
-package chess.execution;
+package chess.game;
 
 import chess.logic.KingIsSafeChecker;
-import chess.logic.MoveValidityChecker;
 import chess.players.*;
 import chess.resources.immutables.PieceToPoint2DMove;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;
-import chess.suppliers.MoveValidityCheckerSupplier;
 import chess.utilities.HumanMoveReaderAndExecutor;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
@@ -52,7 +50,7 @@ public class ChessGame implements Serializable {
     public void nextPlayersTurn() {
         LOGGER.info("Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") now plays.");
 
-        if (!playerNow.isKingSafe(this)) {
+        if (!kingIsSafeChecker.isKingSafe(this, playerNow.getKing())) {
             // King is in check
             LOGGER.warn("CHECK: The King of Player " + playerNow.getPlayerColor() + " (" + playerNow.getType() + ") is threatened!");
             boolean moveThatSavesKingExists = false;

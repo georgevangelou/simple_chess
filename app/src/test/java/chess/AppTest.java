@@ -3,8 +3,7 @@
  */
 package chess;
 
-import chess.execution.ChessGame;
-import chess.execution.ChessGameApp;
+import chess.game.ChessGame;
 import chess.players.PlayerType;
 import chess.visualization.console.BoardPrinter;
 import org.junit.Test;

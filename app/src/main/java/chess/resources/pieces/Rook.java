@@ -2,7 +2,8 @@ package chess.resources.pieces;
 
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
+import chess.players.Player;
 import chess.resources.immutables.Point2D;
 import chess.space.environment.Board2D;
 import chess.space.movement.HorizontallylAvailableMovesFinder;
@@ -18,8 +19,8 @@ import java.util.List;
  */
 public final class Rook extends Piece {
 
-    public Rook(final Point2D position) {
-        super("Rook", ValuesOfPieces.ROOK, StringVisualRepresentationOfPieces.ROOK, position);
+    public Rook(final Player owner, final Point2D position) {
+        super("Rook", owner, ValuesOfPieces.ROOK, StringVisualRepresentationOfPieces.ROOK, position);
     }
 
 

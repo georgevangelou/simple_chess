@@ -2,7 +2,8 @@ package chess.resources.pieces;
 
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
+import chess.players.Player;
 import chess.resources.immutables.Point2D;
 import chess.space.movement.DiagonallyAvailableMovesFinder;
 import chess.space.movement.HorizontallylAvailableMovesFinder;
@@ -18,8 +19,8 @@ import java.util.List;
  */
 public final class King extends Piece {
 
-    public King(final Point2D position) {
-        super("King", ValuesOfPieces.KING, StringVisualRepresentationOfPieces.KING, position);
+    public King(final Player owner, final Point2D position) {
+        super("King", owner, ValuesOfPieces.KING, StringVisualRepresentationOfPieces.KING, position);
     }
 
     @Override

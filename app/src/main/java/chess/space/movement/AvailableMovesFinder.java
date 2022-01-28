@@ -1,8 +1,9 @@
 package chess.space.movement;
 
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
 import chess.resources.immutables.Point2D;
 import chess.resources.pieces.Piece;
+import chess.space.environment.Board2D;
 import com.google.common.base.Preconditions;
 
 import java.util.List;

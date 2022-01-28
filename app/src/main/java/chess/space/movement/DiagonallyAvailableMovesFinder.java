@@ -1,9 +1,10 @@
 package chess.space.movement;
 
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
 import chess.players.Player;
 import chess.resources.immutables.Point2D;
 import chess.resources.pieces.Piece;
+import chess.space.environment.Board2D;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ public class DiagonallyAvailableMovesFinder extends AvailableMovesFinder {
 
     @Override
     public List<Point2D> getAvailableMoves(final ChessGame chessGame) {
+        final Board2D board = chessGame.getBoard();
         final List<Point2D> availableMoves = new ArrayList<>();
 
         final Point2D currentPosition = this.piece.getPosition();
@@ -41,12 +43,12 @@ public class DiagonallyAvailableMovesFinder extends AvailableMovesFinder {
                     .setX(currentPosition.getX() + i * xSign)
                     .setY(currentPosition.getY() + i * ySign)
                     .build();
-            if (chessGame.getBoard().isWithinBoard(newPosition)) {
+            if (board.isWithinBoard(newPosition)) {
                 // Check if another piece is placed at the point currently under investigation.
-                final Piece pieceAtTargetPosition = chessGame.getBoard().getPiece(newPosition);
+                final Piece pieceAtTargetPosition = board.getPiece(newPosition);
                 if (pieceAtTargetPosition != null) {
-                    final Player playerOwningPieceTryingToMove = chessGame.getPlayerOwningPiece(this.piece.getId());
-                    final Player playerOwningPieceAtTargetPosition = chessGame.getPlayerOwningPiece(pieceAtTargetPosition.getId());
+                    final Player playerOwningPieceTryingToMove = this.piece.getOwner();
+                    final Player playerOwningPieceAtTargetPosition = pieceAtTargetPosition.getOwner();
 
                     // If position contains piece which is of the enemy player, it is lawful move.
                     if (!playerOwningPieceAtTargetPosition.getId().equals(playerOwningPieceTryingToMove.getId())) {

@@ -1,6 +1,6 @@
 package chess.players;
 
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
 import chess.utilities.HumanMoveReaderAndExecutor;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;

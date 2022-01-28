@@ -1,12 +1,13 @@
 package chess.logic;
 
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
 import chess.players.Player;
 import chess.resources.immutables.PieceToPoint2DMove;
 import chess.resources.immutables.Point2D;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;
 import com.google.common.base.Preconditions;
+import org.checkerframework.checker.units.qual.K;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,17 +19,22 @@ import java.io.Serializable;
  */
 public class MoveValidityChecker implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(MoveValidityChecker.class);
+    private final ChessGame chessGame;
+    private final KingIsSafeChecker kingIsSafeChecker = new KingIsSafeChecker(false);
 
-    public MoveValidityChecker() {
+
+    public MoveValidityChecker(final  ChessGame chessGame) {
+        this.chessGame = chessGame;
     }
 
-    public boolean isMoveValid(final ChessGame chessGame, final PieceToPoint2DMove move) {
+
+    public boolean isMoveValid(final PieceToPoint2DMove move) {
         Preconditions.checkNotNull(move);
 
         // The following must be executed in this order
-        return (pointIsWithinReachOfPiece(chessGame, move)
+        return (pointIsWithinReachOfPiece( move)
 //                && pointIsIsNotOccupiedBySamePlayersPiece(move)
-                && new KingIsSafeChecker(false).willKingBeSafeAfterMove(chessGame, move)
+                && kingIsSafeChecker.willKingBeSafeAfterMove(chessGame, move)
         );
     }
 
@@ -50,11 +56,11 @@ public class MoveValidityChecker implements Serializable {
      * @param pieceToPoint2DMove
      * @return true if the point chosen is within the list of points that the piece can reach ignoring collisions.
      */
-    private boolean pointIsWithinReachOfPiece(final ChessGame chessGame, final PieceToPoint2DMove pieceToPoint2DMove) {
+    private boolean pointIsWithinReachOfPiece(final PieceToPoint2DMove pieceToPoint2DMove) {
         Preconditions.checkNotNull(pieceToPoint2DMove);
 
         final Piece piece = pieceToPoint2DMove.getPiece();
-        for (final Point2D point2D : piece.getLawfulMoves(chessGame)) {
+        for (final Point2D point2D : piece.getLawfulMoves(this.chessGame)) {
             if (point2D.isEquivalent(pieceToPoint2DMove.getTargetPoint())) {
                 return true;
             }

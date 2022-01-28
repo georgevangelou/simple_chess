@@ -2,7 +2,8 @@ package chess.resources.pieces;
 
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
+import chess.players.Player;
 import chess.resources.immutables.Point2D;
 import chess.space.environment.Board2D;
 import chess.space.movement.DiagonallyAvailableMovesFinder;
@@ -19,8 +20,8 @@ import java.util.List;
  */
 public final class Queen extends Piece {
 
-    public Queen(final Point2D position) {
-        super("Queen", ValuesOfPieces.QUEEN, StringVisualRepresentationOfPieces.QUEEN, position);
+    public Queen(final Player owner, final Point2D position) {
+        super("Queen", owner, ValuesOfPieces.QUEEN, StringVisualRepresentationOfPieces.QUEEN, position);
     }
 
 

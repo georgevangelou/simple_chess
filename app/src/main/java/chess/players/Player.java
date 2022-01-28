@@ -1,7 +1,6 @@
 package chess.players;
 
-import chess.execution.ChessGame;
-import chess.logic.KingIsSafeChecker;
+import chess.game.ChessGame;
 import chess.resources.immutables.PieceToPoint2DMove;
 import chess.resources.immutables.Point2D;
 import chess.resources.interfaces.Identifiable;
@@ -33,7 +32,7 @@ public abstract class Player implements Identifiable, Serializable {
 
         this.id = IdAutogenerator.generateId();
         this.playerColor = playerColor;
-        final PlayerPiecesCreator playerPiecesCreator = new PlayerPiecesCreator(this.playerColor);
+        final PlayerPiecesCreator playerPiecesCreator = new PlayerPiecesCreator(this);
         this.pieces = playerPiecesCreator.getPieces();
         this.king = playerPiecesCreator.getKing();
     }
@@ -71,12 +70,6 @@ public abstract class Player implements Identifiable, Serializable {
 
     public King getKing() {
         return this.king;
-    }
-
-
-    public boolean isKingSafe(final ChessGame chessGame) {
-        Preconditions.checkNotNull(chessGame);
-        return new KingIsSafeChecker(true).isKingSafe(chessGame, this.king);
     }
 
 

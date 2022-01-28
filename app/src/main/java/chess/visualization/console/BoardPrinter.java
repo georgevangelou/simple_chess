@@ -1,6 +1,6 @@
 package chess.visualization.console;
 
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
 import chess.resources.pieces.Piece;
 
 /**

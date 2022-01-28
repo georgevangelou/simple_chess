@@ -1,5 +1,6 @@
 package chess.execution;
 
+import chess.game.ChessGame;
 import chess.players.PlayerType;
 import chess.visualization.console.BoardPrinter;
 import org.slf4j.Logger;

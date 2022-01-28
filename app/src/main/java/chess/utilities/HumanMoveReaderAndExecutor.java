@@ -1,6 +1,6 @@
 package chess.utilities;
 
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
 import chess.logic.MoveValidityChecker;
 import chess.logic.PieceDestroyer;
 import chess.players.Player;
@@ -9,7 +9,6 @@ import chess.resources.immutables.Point2D;
 import chess.resources.pieces.Piece;
 import chess.space.environment.Board2D;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,8 +73,8 @@ public class HumanMoveReaderAndExecutor implements Serializable {
                 .setPiece(pieceChosen)
                 .build();
 
-        final MoveValidityChecker moveValidityChecker = new MoveValidityChecker();
-        return moveValidityChecker.isMoveValid(chessGame, pieceToPoint2DMove) ? pieceToPoint2DMove : null;
+        final MoveValidityChecker moveValidityChecker = new MoveValidityChecker(chessGame);
+        return moveValidityChecker.isMoveValid(pieceToPoint2DMove) ? pieceToPoint2DMove : null;
     }
 
 

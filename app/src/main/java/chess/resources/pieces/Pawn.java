@@ -2,7 +2,7 @@ package chess.resources.pieces;
 
 import chess.constants.StringVisualRepresentationOfPieces;
 import chess.constants.ValuesOfPieces;
-import chess.execution.ChessGame;
+import chess.game.ChessGame;
 import chess.players.Player;
 import chess.players.PlayerColor;
 import chess.resources.immutables.Point2D;
@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
  */
 public final class Pawn extends Piece {
 
-    public Pawn(final Point2D position) {
-        super("Pawn", ValuesOfPieces.PAWN, StringVisualRepresentationOfPieces.PAWN, position);
+    public Pawn(final Player owner, final Point2D position) {
+        super("Pawn", owner, ValuesOfPieces.PAWN, StringVisualRepresentationOfPieces.PAWN, position);
     }
 
 
